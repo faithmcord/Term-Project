@@ -14,10 +14,18 @@
 #include "Includes.cpp"
 using namespace std;
 
-template<
 class Inventory:public map<int, Product::Product>{
-  private:
+    private:
 
-  public:
+
+    public:
+      //Product Addition
+      int createProduct(Product::Product);
+
+      //Product Removal
+      int deleteProduct(int ProductID);
+
+      //Shopping
+      Product::Product getProduct(int ProductID);
 
 }

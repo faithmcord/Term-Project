@@ -12,8 +12,10 @@
 ***********************/
 
 //library includes
+//https://en.cppreference.com/w/cpp/container/map
 #include <map>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
