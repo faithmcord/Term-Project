@@ -26,6 +26,12 @@ class Inventory:public map<int, Product::Product>{
     */
     string savePath;
 
+    /**
+     * @brief appends transaction to the end of a log file
+     */
+    void logTransaction();
+
+
     public:
 
     //abstract
@@ -74,13 +80,26 @@ class Inventory:public map<int, Product::Product>{
     }
 
     /**
+     * @brief checks for how much stock of a product is currently in possession
+     *
+     * @param productID identifying ID numbers of the product to be checked
+     *
+     * @return amount currently in stock
+     * @return -1 if invalid productID
+     */
+    int enoughInInventory (int productID) {
+        return 0;
+    }
+
+    /**
      * @brief decrements the amount of product held in inventory by the amount purchased
      *
-     * @param ProductID the identifying ID numbers of the product to be purchased
-     * @param amount    the quantity purchased
+     * @param productsPurchased number of items purchased in one transaction
+     * @param productID         array of identifying ID numbers of the product to be purchased
+     * @param amounts           array of corresponding quantities purchased
      * @return 0 on success
      */
-    int makePurchase(int ProductID, int amount) {
+    int makePurchase(int productsPurchased, int productID[], int amounts[]) {
         return 0;
     }
 };
