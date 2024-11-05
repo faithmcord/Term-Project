@@ -16,6 +16,9 @@
 #include <map>
 #include <iostream>
 #include <string>
+#include <regex>
+#include <unordered_set>
+#include <vector>
 
 using namespace std;
 
