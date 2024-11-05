@@ -19,11 +19,11 @@
 
 using namespace std;
 
-//file includes
-#include "Clientele.cpp"
-#include "Customer.cpp"
-#include "Inventory.cpp"
-#include "Main.cpp"
-#include "Menu.cpp"
-#include "Product.cpp"
+// //file includes
+// #include "Clientele.cpp"
+// #include "Inventory.cpp"
+// #include "Customer.cpp"
+// #include "Main.cpp"
+// #include "Menu.cpp"
+// #include "Product.cpp"
 
