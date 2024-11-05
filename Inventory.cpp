@@ -12,7 +12,6 @@
 ***********************/
 
 #include "Includes.cpp"
-using namespace std;
 
 class Inventory:public map<int, Product::Product>{
     private:
