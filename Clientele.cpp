@@ -14,5 +14,7 @@
 #include "Includes.cpp"
 
 class Clientele {
-  public:
+    private:
+
+    public:
 }
