@@ -13,6 +13,7 @@
 
 #include "Includes.cpp"
 
+//NOTE: Inventory.cpp and Clientele.cpp can be abstracted to one class
 
 /**
  * @class Clientele
@@ -24,7 +25,9 @@ class Clientele: public map<int, Customer::Customer> {
      * @brief the directory of the save file
      */
     string savePath;
+
 public:
+    //abstract
     /**
      * @brief constructor for Clientele
      *
@@ -32,11 +35,11 @@ public:
      *
      * @param loadFile file that previous state of object was captured in
      */
-    Clientele(const string &loadFile) {
+    explicit Clientele(const string &loadFile) {
         savePath = loadFile;
     }
 
-    /******************
+    /**
      * @brief Creates a new customer and stores it into the dictionary
      *
      * @pre userName is unique
@@ -61,6 +64,7 @@ public:
         return 9999999;
     }
 
+    //abstract
     /**
      * @brief deletes a customer of a specified UID
      *
@@ -73,8 +77,11 @@ public:
         return 0;
     }
 
+    //abstract
     /**
      * @brief  preforms a search through the dictionary for if a given customer exists
+     *
+     * @pre custID belongs to a customer that is currently registered
      *
      * @param custID the id of the Customer being searched for
      *
@@ -82,7 +89,35 @@ public:
      * @return -1 if customer cannot be found
      */
     int search(int custID) {
+        return 0;
+    }
 
+    /**
+     * @brief finds a customer in self and relays the amount of rewards points they have
+     *
+     * @pre custID belongs to a customer that is currently registered
+     *
+     * @param custID the id of the Customer that rewards are being retrieved
+     *
+     * @return the amount of rewards saved by the customer
+     * @return -1 if custID not found
+     */
+    int getCustomerRewards (int custID) {
+        return 100;
+    }
+
+    /**
+     * @brief adds or subtracts rewards to a specified customer's rewards bank
+     *
+     * @post if rewards will subtract to a negative amount, it will be set to 0
+     *
+     * @param custID the id of the Customer that rewards are being updated
+     * @param amount the amount of reward points to be added to the customer's rewards bank.
+     *                  If amount is negative, amount will be subtracted
+     *
+     * @return 0 on success
+     */
+    int updateCustomerRewards(int custID, int amount) {
         return 0;
     }
 
