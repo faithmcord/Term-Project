@@ -92,7 +92,7 @@ class Inventory:public map<int, Product::Product>{
      * @return amount currently in stock
      * @return -1 if invalid productID
      */
-    int isEnoughInInventory (int productID);
+    static int isEnoughInInventory (int productID);
 
     /**
      * @brief decrements the amount of product held in inventory by the amount purchased
