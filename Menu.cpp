@@ -12,6 +12,8 @@
 ***********************/
 
 #include "Includes.cpp"
+#include "Clientele.cpp"
+#include "Inventory.cpp"
 
 void displayMenu() {
     std::cout << "====== Customer Reward System Menu ======\n";
@@ -31,11 +33,11 @@ void handleMenuChoice(int choice) {
     switch (choice) {
         case 1:
             // Call the function to register a new customer
-            Customer::registerCustomer();
+            Clientele::registerCustomer();
             break;
         case 2:
             // Call the function to remove a customer
-            Customer::removeCustomer();
+            Clientele::removeCustomer();
             break;
         case 3:
             // Call the function to add a new product
@@ -51,7 +53,7 @@ void handleMenuChoice(int choice) {
             break;
         case 6:
             // Call the function to view a customer by ID
-            Customer::viewCustomerById();
+            Clientele::viewCustomerById();
             break;
         case 7:
             // Call the function to redeem rewards
