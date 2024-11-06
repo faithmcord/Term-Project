@@ -12,6 +12,7 @@
 ***********************/
 
 #include "Includes.cpp"
+#include "Customer.cpp"
 
 //NOTE: Inventory.cpp and Clientele.cpp can be abstracted to one class
 
@@ -35,9 +36,7 @@ public:
      *
      * @param loadFile file that previous state of object was captured in
      */
-    explicit Clientele(const string &loadFile) {
-        savePath = loadFile;
-    }
+    explicit Clientele(const string &loadFile);
 
     /**
      * @brief Creates a new customer and stores it into the dictionary
@@ -60,9 +59,7 @@ public:
      *          @returns -5 on invalid age
      *          @returns -7 on invalid creditCardInfo
      */
-    int registerCustomer(string userName, string firstName, string lastName, int age, string creditCardInfo) {
-        return 9999999;
-    }
+    int registerCustomer(string userName, string firstName, string lastName, int age, string creditCardInfo);
 
     //abstract
     /**
@@ -73,9 +70,7 @@ public:
      * @return 0 on successful deletion
      * @return -1 on customer not found
      */
-    int removeCustomer(int UID) {
-        return 0;
-    }
+    int removeCustomer(int UID);
 
     //abstract
     /**
@@ -88,9 +83,7 @@ public:
      * @return 0 if customer can be found
      * @return -1 if customer cannot be found
      */
-    int search(int custID) {
-        return 0;
-    }
+    int search(int custID);
 
     /**
      * @brief finds a customer in self and relays the amount of rewards points they have
@@ -102,9 +95,7 @@ public:
      * @return the amount of rewards saved by the customer
      * @return -1 if custID not found
      */
-    int getCustomerRewards (int custID) {
-        return 100;
-    }
+    int getCustomerRewards (int custID);
 
     /**
      * @brief adds or subtracts rewards to a specified customer's rewards bank
@@ -117,9 +108,7 @@ public:
      *
      * @return 0 on success
      */
-    int updateCustomerRewards(int custID, int amount) {
-        return 0;
-    }
+    int updateCustomerRewards(int custID, int amount);
 
     /**
      * @brief saves the current state of Clientele
@@ -127,7 +116,33 @@ public:
      * @post if save file is missing, it will be recreated
      * @return 0 on success
      */
-    int preserveState() {
-        return 0;
-    }
+    int preserveState();
 };
+
+Clientele::Clientele(const string &loadFile) {
+  savePath = loadFile;
+}
+
+int Clientele::registerCustomer(string userName, string firstName, string lastName, int age, string creditCardInfo) {
+  return 0;
+}
+
+int Clientele::removeCustomer(int UID) {
+  return 0;
+}
+
+int Clientele::search(int custID){
+  return 0;
+}
+
+int Clientele::getCustomerRewards(int custID) {
+ return 0;
+}
+
+int Clientele::updateCustomerRewards(int custID, int amount) {
+ return 0;
+}
+
+int Clientele::preserveState() {
+ return 0;
+}
