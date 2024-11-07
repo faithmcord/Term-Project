@@ -18,7 +18,6 @@
 
 /**
  * @class Clientele
- * @extends map
  * @brief a dictionary of all customers of the store indexed by their customer ID
  */
 class Clientele: public map<int, Customer::Customer> {
