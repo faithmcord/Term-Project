@@ -1,6 +1,6 @@
 /**********************
 *
-* File Name:    Utilities.cpp
+* File Name:    Utilities.h
 * Author(s):    Xander Palermo <ajp2s@missouristate.edu>
 * Description:  A container object that manages and preserves all loaded customers in memory
 *
@@ -10,6 +10,9 @@
 * Date:        8 November 2024
 *
 ***********************/
+
+#ifndef UTILITIES_H
+#define UTILITIES_H
 
 #include <fstream>
 
@@ -26,7 +29,7 @@ struct ShoppingCart {
 };
 
 class Utilities {
-  public:
+public:
 
     /***
     * @brief updates clientele and inventory atomically
@@ -37,6 +40,7 @@ class Utilities {
     static bool doesFileExist(const std::string& file);
 
 };
+
 
 template <typename Clientele, typename Inventory>
 int Utilities::makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID) {
@@ -53,3 +57,4 @@ bool Utilities::doesFileExist(const std::string& file) {
         return false;
 }
 
+#endif //UTILITIES_H
