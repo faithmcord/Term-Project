@@ -30,7 +30,7 @@ protected:
     /**
     * @brief the path to the file that the method .preserveState() calls
     */
-    string savePath;
+    std::string savePath;
 
     /**
     * @brief the data structure used to store all key:value pairs
@@ -176,7 +176,7 @@ void DataBase<item>::displayAll() {
     auto index = container.begin();
     auto end = container.end();
     if (index == end) {
-        cout << "NO ENTRIES EXIST" << END_CHAR;
+        std::cout << "NO ENTRIES EXIST" << END_CHAR;
     }
     else {
         while(index != end) {

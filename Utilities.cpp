@@ -11,10 +11,7 @@
 *
 ***********************/
 
-
-
 #include <fstream>
-
 
 const std::string REWARDS_CONFIG_PATH = "config.txt"; //store $ -> point conversion
 constexpr int MAX_CART_SIZE = 20;
@@ -34,17 +31,19 @@ class Utilities {
     /***
     * @brief updates clientele and inventory atomically
     */
+    template <typename Clientele, typename Inventory>
     static int makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID);
 
-    static bool doesFileExist(const string& file);
+    static bool doesFileExist(const std::string& file);
 
 };
 
+template <typename Clientele, typename Inventory>
 int Utilities::makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID) {
     return 0;
 }
 
-bool Utilities::doesFileExist(const string& file) {
+bool Utilities::doesFileExist(const std::string& file) {
     std::fstream fs;
     fs.open(file, std::ios::in);
     if (fs.is_open()) {
