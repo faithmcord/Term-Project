@@ -1,7 +1,7 @@
 /**********************
 *
 * File Name:    Inventory.cpp
-* Author(s):
+* Author(s):	Xander Palermo <ajp2s@missouristate.edu>
 * Description:
 *
 * Course:      CSC 455 - Software Quality Assurance
