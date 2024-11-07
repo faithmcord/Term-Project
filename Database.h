@@ -14,11 +14,11 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
+#include <cstdio>
+#include <iostream>
 #include <map>
 #include <string>
-#include <iostream>
-#include <cstdio>
-#include "Utilities.h"
+#include <Utilities.h>
 
 constexpr char END_CHAR = '\n';
 /**
@@ -52,6 +52,8 @@ public:
     * @param loadFile the path to the location that Database will load and save to
     */
     explicit Database(const std::string &loadFile);
+
+    Database();
 
     /**
     * @brief adds a new key:value pair to the database

@@ -13,14 +13,13 @@
 
 #include "Includes.cpp"
 #include "Customer.cpp"
-
-//NOTE: Inventory.cpp and Clientele.cpp can be abstracted to one class
+#include <Database.h>
 
 /**
  * @class Clientele
  * @brief a dictionary of all customers of the store indexed by their customer ID
  */
-class Clientele: public map<int, Customer::Customer> {
+class Clientele: public Database<Customer> {
     /**
      * @brief the directory of the save file
      */
