@@ -11,11 +11,13 @@
 *
 ***********************/
 
-#include "Clientele.cpp"
-#include "Inventory.cpp"
 
-string REWARDS_CONFIG_PATH = "config.txt"; //store $ -> point conversion
-const int MAX_CART_SIZE = 20;
+
+#include <fstream>
+
+
+const std::string REWARDS_CONFIG_PATH = "config.txt"; //store $ -> point conversion
+constexpr int MAX_CART_SIZE = 20;
 
 struct item {
     int productID;
@@ -32,8 +34,23 @@ class Utilities {
     /***
     * @brief updates clientele and inventory atomically
     */
-    int makeTransaction(Clientele clientele, Inventory inventory, int custID);
+    static int makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID);
 
-    bool doesFileExist(string file);
+    static bool doesFileExist(const string& file);
 
 };
+
+int Utilities::makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID) {
+    return 0;
+}
+
+bool Utilities::doesFileExist(const string& file) {
+    std::fstream fs;
+    fs.open(file, std::ios::in);
+    if (fs.is_open()) {
+        fs.close();
+        return true;
+    } else
+        return false;
+}
+

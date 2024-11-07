@@ -12,6 +12,8 @@
 ***********************/
 
 #include "Includes.cpp"
+#include "Product.cpp"
+#include "DataBase.cpp"
 
 //GLOBALS
 string DEFAULT_SAVE_PATH = 'products.txt';
@@ -104,7 +106,9 @@ class Inventory:public map<int, Product::Product>{
      */
     int makePurchase(int productsPurchased, int productID[], int amounts[]);
 
-    int redeemRewards()
+    int preserveState();
+
+    int redeemRewards();
 };
 
 
