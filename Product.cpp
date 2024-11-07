@@ -42,14 +42,14 @@ public:
      * @param productID The product ID to validate.
      * @return true if the product ID is valid, false otherwise.
      */
-    bool isValidProductID(const std::string& productID);
+    static bool isValidProductID(const std::string& productID);
 
     /**
      * @brief Checks if the quantity is a positive number.
      * @param quantity The quantity to validate.
      * @return true if the quantity is valid, false otherwise.
      */
-    bool isValidQuantity(int quantity);
+    static bool isValidQuantity(int quantity);
 
     /**
      * @brief Adds stock to the product's quantity.

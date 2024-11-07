@@ -24,14 +24,11 @@
  */
 class Inventory:public Database<Product>{
     /**
-    * @brief the directory of the save file
-    */
-    // string savePath;
-
-    /**
      * @brief the directory of the transaction log file
      */
-    string transactionLogPath;
+    std::string transactionLogPath;
+
+    static std::string generateProductID ();
 
     /**
      * @brief appends transaction to the end of a log file
@@ -40,11 +37,7 @@ class Inventory:public Database<Product>{
 
     public:
 
-    explicit Inventory();
-
-    explicit Inventory(const string &loadFile);
-
-    explicit Inventory(const string &loadFile, const string &transLogFile);
+    explicit Inventory(const std::string &loadFile);
 
     /**
      * @brief Creates a new product and stores it into the dictionary
@@ -61,7 +54,7 @@ class Inventory:public Database<Product>{
      *          @returns -2 on invalid price
      *          @returns -3 on invalid initialStock
      */
-    int createProduct(string productName, float price, int initialStock);
+    int createProduct(const std::string &productName, double price, int initialStock);
 
     //abstract
     /**
@@ -71,7 +64,7 @@ class Inventory:public Database<Product>{
      * @return 0 on successful deletion
      * @return -1 on product not found
      */
-    int removeProduct(int ProductID);
+    // int removeProduct(int ProductID);
 
     /**
      * @brief checks for how much stock of a product is currently in possession
@@ -81,7 +74,7 @@ class Inventory:public Database<Product>{
      * @return amount currently in stock
      * @return -1 if invalid productID
      */
-    int isEnoughInInventory (int productID);
+    int isEnoughInInventory (const std::string &productID);
 
     /**
      * @brief decrements the amount of product held in inventory by the amount purchased

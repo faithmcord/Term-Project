@@ -21,13 +21,14 @@
 #include <Utilities.h>
 
 constexpr char END_CHAR = '\n';
+
 /**
 * @class Database
 * @brief A container object that manages and preserves information as key:value pairs in memory
 *
 *       a wrapper class around std::map
 */
-template <typename T>
+template <typename item>
 class Database {
 protected:
     /**
@@ -38,7 +39,7 @@ protected:
     /**
     * @brief the data structure used to store all key:value pairs
     */
-    std::map<int, T> container;
+    std::map<std::string, item> container;
 
 public:
     /**
@@ -52,8 +53,6 @@ public:
     * @param loadFile the path to the location that Database will load and save to
     */
     explicit Database(const std::string &loadFile);
-
-    Database();
 
     /**
     * @brief adds a new key:value pair to the database
@@ -69,7 +68,7 @@ public:
     * @return 0 if the key:value was successfully added to the database
     * @return -1 if a key:value pair already exists in the database with that key
     */
-    virtual int addNew(T value);
+    virtual int addNew(item value);
 
     /**
      * @brief removes an existing key:value pair from the database
@@ -81,7 +80,7 @@ public:
      * @return 0 if the key:value pair was successfully deleted from the database
      * @return -1 if there does not exist a key:value pair does not exist at the specified location
      */
-    virtual int remove(int ID);
+    virtual int remove(const std::string &ID);
 
     /**
     * @brief checks if a key:value pair already exist in the database
@@ -91,7 +90,7 @@ public:
     * @return true if a key:value pair exist in the database
     * @return false if there is no key:value pair with the specified key
     */
-    virtual bool doesExist(int ID);
+    virtual bool doesExist(const std::string &ID);
 
     /**
     * @brief finds a key:value pair and prints its value to terminal
@@ -102,7 +101,7 @@ public:
     *
     * @return void
     */
-    void displayOne(int ID);
+    void displayOne(const std::string &ID);
 
     /**
     * @brief prints every key:value pair contained in the database to terminal
@@ -130,7 +129,7 @@ Database<item>::Database (const std::string &loadFile) {
 
 template<typename item>
 int Database<item>::addNew(item value) {
-    int ID = value.getID();
+    std::string ID = value.getID();
     auto index = container.find(ID);
     if (index != container.end()) { // T already exists
         return -1;
@@ -142,7 +141,7 @@ int Database<item>::addNew(item value) {
 }
 
 template<typename item>
-int Database<item>::remove(int ID) {
+int Database<item>::remove(const std::string &ID) {
     auto index = container.find(ID);
     if (index != container.end()) { // T already exists
         container.erase(ID);
@@ -153,7 +152,7 @@ int Database<item>::remove(int ID) {
 }
 
 template<typename item>
-bool Database<item>::doesExist(int ID) {
+bool Database<item>::doesExist(const std::string &ID) {
     auto index = container.find(ID);
     if (index != container.end()) { //T already exists
         return true;
@@ -163,7 +162,7 @@ bool Database<item>::doesExist(int ID) {
 }
 
 template<typename item>
-void Database<item>::displayOne(int ID) {
+void Database<item>::displayOne(const std::string &ID) {
     auto index = container.find(ID);
     auto end = container.end();
     if (index != end) {
