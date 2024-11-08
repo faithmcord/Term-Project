@@ -18,7 +18,8 @@
 #include <iostream>
 #include <map>
 #include <string>
-#include <Utilities.h>
+
+#include "Utilities.h"
 
 constexpr char END_CHAR = '\n';
 
@@ -28,18 +29,18 @@ constexpr char END_CHAR = '\n';
 *
 *       a wrapper class around std::map
 */
-template <typename item>
+template<typename item>
 class Database {
 protected:
     /**
     * @brief the path to the file that the method .preserveState() calls
     */
-    std::string savePath;
+    std::string savePath{};
 
     /**
     * @brief the data structure used to store all key:value pairs
     */
-    std::map<std::string, item> container;
+    std::map<std::string, item> container{};
 
 public:
     /**
@@ -122,8 +123,8 @@ public:
     virtual void preserveState();
 };
 
-template <typename item>
-Database<item>::Database (const std::string &loadFile) {
+template<typename item>
+Database<item>::Database(const std::string &loadFile) {
     savePath = loadFile;
 }
 
@@ -131,11 +132,11 @@ template<typename item>
 int Database<item>::addNew(item value) {
     std::string ID = value.getID();
     auto index = container.find(ID);
-    if (index != container.end()) { // T already exists
+    if (index != container.end()) {
+        // T already exists
         return -1;
-    }
-    else {
-        container.emplace(ID,value);
+    } else {
+        container.emplace(ID, value);
         return 0;
     }
 }
@@ -143,21 +144,21 @@ int Database<item>::addNew(item value) {
 template<typename item>
 int Database<item>::remove(const std::string &ID) {
     auto index = container.find(ID);
-    if (index != container.end()) { // T already exists
+    if (index != container.end()) {
+        // T already exists
         container.erase(ID);
         return 0;
-    }
-    else
+    } else
         return -1;
 }
 
 template<typename item>
 bool Database<item>::doesExist(const std::string &ID) {
     auto index = container.find(ID);
-    if (index != container.end()) { //T already exists
+    if (index != container.end()) {
+        //T already exists
         return true;
-    }
-    else
+    } else
         return false;
 }
 
@@ -166,10 +167,9 @@ void Database<item>::displayOne(const std::string &ID) {
     auto index = container.find(ID);
     auto end = container.end();
     if (index != end) {
-        std::string output = index -> second.toString();
+        std::string output = index->second.toString();
         std::cout << output << END_CHAR;
-    }
-    else {
+    } else {
         std::cout << "NO ENTRY EXISTS" << END_CHAR;
     }
 }
@@ -181,10 +181,9 @@ void Database<item>::displayAll() {
     auto end = container.end();
     if (index == end) {
         std::cout << "NO ENTRIES EXIST" << END_CHAR;
-    }
-    else {
-        while(index != end) {
-            std::string output = index -> second.toString();
+    } else {
+        while (index != end) {
+            std::string output = index->second.toString();
             std::cout << output << END_CHAR;
             ++index;
         }
@@ -197,15 +196,14 @@ void Database<item>::preserveState() {
     std::fstream saveFile;
     if (fileExists) {
         std::remove(savePath.c_str());
-        saveFile.open(savePath,std::ios::out);
-    }
-    else {
+        saveFile.open(savePath, std::ios::out);
+    } else {
         saveFile.open(savePath, std::ios::out);
     }
     auto index = container.begin();
     auto end = container.end();
-    while(index != end) {
-        std::string output = index -> second.toString();
+    while (index != end) {
+        std::string output = index->second.toString();
         saveFile << output << END_CHAR;
         ++index;
     }

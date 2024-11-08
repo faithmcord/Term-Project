@@ -13,6 +13,11 @@
 
 #include "Includes.cpp"
 
+const std::string USER_NAME_ERROR = "Invalid or duplicate username.";
+const std::string NAME_ERROR = "Invalid name.";
+const std::string AGE_ERROR = "Invalid age.";
+const std::string CREDIT_CARD_ERROR = "Invalid or duplicate credit card.";
+
 /**
  * @class Customer
  * @brief Manages customer details and provides customer registration service.
@@ -48,35 +53,35 @@ public:
      * @brief Generates a unique User ID.
      * @return The generated User ID in format CustID followed by 10 digits.
      */
-    std::string generateUserID();
+    static std::string generateUserID();
 
     /**
      * @brief Checks if the username format is valid.
      * @param username The username to validate.
      * @return true if the username is valid, false otherwise.
      */
-    bool isValidUsername(const std::string& username);
+    static bool isValidUsername(const std::string& username);
 
     /**
      * @brief Checks if the name format is valid.
      * @param name The name (first or last) to validate.
      * @return true if the name is valid, false otherwise.
      */
-    bool isValidName(const std::string& name);
+    static bool isValidName(const std::string& name);
 
     /**
      * @brief Checks if the age is within the valid range.
      * @param age The age to validate.
      * @return true if the age is valid, false otherwise.
      */
-    bool isValidAge(int age);
+    static bool isValidAge(int age);
 
     /**
      * @brief Checks if the credit card number format is valid.
      * @param card The credit card number to validate.
      * @return true if the credit card number is valid, false otherwise.
      */
-    bool isValidCreditCard(const std::string& card);
+    static bool isValidCreditCard(const std::string& card);
 
     /**
      * @brief Adds reward points to the customer's account.
@@ -99,19 +104,19 @@ Customer::Customer(const std::string& username, const std::string& firstName,
 {
     if (!isValidUsername(username) || usernames.count(username))
     {
-        throw std::invalid_argument("Invalid or duplicate username.");
+        throw std::invalid_argument(USER_NAME_ERROR);
     }
     if (!isValidName(firstName) || !isValidName(lastName))
     {
-        throw std::invalid_argument("Invalid name.");
+        throw std::invalid_argument(NAME_ERROR);
     }
     if (!isValidAge(age))
     {
-        throw std::invalid_argument("Invalid age.");
+        throw std::invalid_argument(AGE_ERROR);
     }
     if (!isValidCreditCard(creditCard) || creditCards.count(creditCard))
     {
-        throw std::invalid_argument("Invalid or duplicate credit card.");
+        throw std::invalid_argument(CREDIT_CARD_ERROR);
     }
 
     this->username = username;

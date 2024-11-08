@@ -11,14 +11,14 @@
 *
 ***********************/
 
-#include <Inventory.h>
+#include "Inventory.h"
 #include <random>
 
 //GLOBAL VARIABLES
-const string DEFAULT_SAVE_PATH = "products.txt";
-const string DEFAULT_TRANSACTION_LOG_PATH = "transactions.txt";
+const std::string DEFAULT_SAVE_PATH = "products.txt";
+const std::string DEFAULT_TRANSACTION_LOG_PATH = "transactions.txt";
 
-Inventory::Inventory(const string &loadFile) : Database<Product> (loadFile) {
+Inventory::Inventory(const std::string &loadFile) : Database<Product> (loadFile) {
     savePath = loadFile;
     transactionLogPath = DEFAULT_TRANSACTION_LOG_PATH;
 }
@@ -57,20 +57,19 @@ int Inventory::createProduct(const std::string &productName, double price, int i
     while (Inventory::doesExist(productID) || productID.empty()) {
         productID = generateProductID();
     }
-    Product newProduct = Product(productID, productName, price, initialStock);
+    const Product newProduct = Product(productID, productName, price, initialStock);
     Inventory::addNew(newProduct);
     return 0;
 }
 
 int Inventory::isEnoughInInventory(const std::string &productID) {
     // locate product being queried
-    auto index = container.find(productID);
+    const auto index = container.find(productID);
     if (index == container.end()) { // product does not exist
         return -1;
     }
     else {                          // product exists; return amount available
-        int amountInStock;
-        amountInStock = index -> second.getQuantity();
+        int amountInStock = index->second.getQuantity();
         return amountInStock;
     }
 }
