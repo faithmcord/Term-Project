@@ -1,7 +1,7 @@
 /**********************
 *
 * File Name:    Inventory.cpp
-* Author(s):
+* Author(s):    Xander Palermo <ajp2s@missouristate.edu>
 * Description:
 *
 * Course:      CSC 455 - Software Quality Assurance
@@ -11,95 +11,77 @@
 *
 ***********************/
 
-#include "Includes.cpp"
+#include "Inventory.h"
+#include <random>
 
-//NOTE: Inventory.cpp and Clientele.cpp can be abstracted to one class
+//GLOBAL VARIABLES
+const std::string DEFAULT_SAVE_PATH = "products.txt";
+const std::string DEFAULT_TRANSACTION_LOG_PATH = "transactions.txt";
 
-/**
- * @class Inventory
- * @extends map
- * @brief a dictionary of all customers of the store indexed by their customer ID
- */
-class Inventory:public map<int, Product::Product>{
-    /**
-    * @brief the directory of the save file
-    */
-    string savePath;
+Inventory::Inventory(const std::string &loadFile) : Database<Product> (loadFile) {
+    savePath = loadFile;
+    transactionLogPath = DEFAULT_TRANSACTION_LOG_PATH;
+}
 
-    /**
-     * @brief appends transaction to the end of a log file
-     */
-    void logTransaction();
+std::string Inventory::generateProductID() {
+    // Init rand num generator to create ID
+    std::random_device random_device;
+    std::mt19937 gen(random_device());
+    std::uniform_int_distribution<> dis(10000,99999);
+
+    int generatedNum = dis(gen);
+
+    // Concat new product ID
+    std::string classifierID = "Prod";
+    std::string numberID = std::to_string(generatedNum);
+    std::string newID = classifierID + numberID;
+
+    return newID;
+}
 
 
-    public:
+std::string Inventory::createProduct(const std::string &productName, double price, int initialStock) {
+    //TODO:
+    //isProductNameValid
+        //return -1
+    //isProductPrice Valid
+        //return -2
+    // bool validInitialStock = Product::isValidQuantity(initialStock);
+    // if (!validInitialStock) {
+    //     return -3;
+    // }
+    // else {
+    //     // do nothing
+    // }
+    // std::string productID;
+    // while (Inventory::doesExist(productID) || productID.empty()) {
+    //     productID = generateProductID();
+    // }
+    // const Product newProduct = Product(productID, productName, price, initialStock);
+    // Inventory::addNew(newProduct);
 
-    //abstract
-    explicit Inventory(const string &loadFile) {
-        savePath = loadFile;
+    const Product newProduct = Product(productName, price, initialStock);
+    Inventory::addNew(newProduct);
+    std::string prodID = newProduct.getProductID();
+    return prodID;
+}
+
+int Inventory::isEnoughInInventory(const std::string &productID) {
+    // locate product being queried
+    const auto index = container.find(productID);
+    if (index == container.end()) { // product does not exist
+        return -1;
     }
-
-    /**
-     * @brief Creates a new product and stores it into the dictionary
-     *
-     * @pre productName < 30 characters long
-     * @pre price is a positive amount
-     * @pre price contains only 2 decimal places
-     *
-     * @param productName   a description of the product
-     * @param price         the cost to purchase the product
-     * @param initialStock  the number of product currently possessed in the inventory
-     * @return the product ID of the newly added product
-     *          @returns -1 on invalid productName
-     *          @returns -2 on invalid price
-     *          @returns -3 on invalid initialStock
-     */
-    int createProduct(string productName, float price, int initialStock) {
-        return 9999999;
+    else {                          // product exists; return amount available
+        const int amountInStock = index->second.getQuantity();
+        return amountInStock;
     }
+}
 
-    //abstract
-    /**
-     * @brief deletes a product of the specified product ID
-     *
-     * @param ProductID the identifying ID numbers of the product to be deleted
-     * @return 0 on successful deletion
-     * @return -1 on product not found
-     */
-    int removeProduct(int ProductID) {
-        return 0;
-    }
+int Inventory::makePurchase(int productsPurchased, int productID[], int amounts[]) {
+    return -999;
+}
 
-    //abstract
-    /**
-     * @brief displays a list of all products available
-     * @returns nothing
-     */
-    void display() {
-        printf("product listing...");
-    }
-
-    /**
-     * @brief checks for how much stock of a product is currently in possession
-     *
-     * @param productID identifying ID numbers of the product to be checked
-     *
-     * @return amount currently in stock
-     * @return -1 if invalid productID
-     */
-    int enoughInInventory (int productID) {
-        return 0;
-    }
-
-    /**
-     * @brief decrements the amount of product held in inventory by the amount purchased
-     *
-     * @param productsPurchased number of items purchased in one transaction
-     * @param productID         array of identifying ID numbers of the product to be purchased
-     * @param amounts           array of corresponding quantities purchased
-     * @return 0 on success
-     */
-    int makePurchase(int productsPurchased, int productID[], int amounts[]) {
-        return 0;
-    }
-};
+int Inventory::redeemRewards() {
+    return -999;
+}
