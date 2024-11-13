@@ -14,7 +14,7 @@
 #ifndef CLIENTELE_H
 #define CLIENTELE_H
 
-#include "src/main/Customer.cpp"
+#include "include/Customer.h"
 #include "Database.h"
 
 std::string DEFAULT_CLIENTELE_SAVE_PATH = "customers.txt";
@@ -27,7 +27,7 @@ class Clientele final : public Database<Customer> {
     /**
      * @brief the directory of the save file
      */
-    string savePath;
+    std::string savePath;
 
 public:
     //abstract
@@ -57,8 +57,8 @@ public:
      *
      * @throws std::invalid_argument if validation fails
      */
-    std::string registerCustomer(const string &userName, const string &firstName, const string &lastName, int age,
-                                 const string &creditCardInfo);
+    std::string registerCustomer(const std::string &userName, const std::string &firstName, const std::string &lastName, int age,
+                                 const std::string &creditCardInfo);
 
     /**
      * @brief finds a customer in self and relays the amount of rewards points they have
@@ -89,5 +89,62 @@ public:
     void save() override;
     void load() override;
 };
+
+/**********************
+*
+* File Name:    Clientele.cpp
+* Author(s):    Xander Palermo <ajp2s@missouristate.edu>
+* Description:  A container object that manages and preserves all loaded customers in memory
+*
+* Course:      CSC 455 - Software Quality Assurance
+* Instructor:  Mohammed Belkhouche
+* Project:     Term Project
+* Date:        8 November 2024
+*
+***********************/
+
+#include "include/Clientele.h"
+#include "include/Customer.h"
+
+inline std::string Clientele::registerCustomer(const std::string &userName, const std::string &firstName, const std::string &lastName,
+                                               const int age, const std::string &creditCardInfo) {
+ const Customer newCustomer = Customer(userName, firstName, lastName, age, creditCardInfo);
+ this -> addNew(newCustomer);
+ std::string custID = newCustomer.getID();
+ return custID;
+}
+
+inline int Clientele::getCustomerRewards(const std::string &custID) {
+ const auto index = container.find(custID);
+ const auto end = container.end();
+ if (index == end) { // customer does not exist
+  return -1;
+ }
+ else {
+  const int reward = index -> second.getRewardPoints();
+  return reward;
+ }
+}
+
+inline int Clientele::updateCustomerRewards(const std::string &custID, const int amount) {
+ const auto index = container.find(custID);
+ const auto end = container.end();
+ if (index == end) {
+  return -1;
+ }
+ else {
+  index -> second.addRewardPoints(amount);
+  return 0;
+ }
+}
+
+inline void Clientele::save() {
+ return;
+}
+
+inline void Clientele::load() {
+ return;
+}
+
 
 #endif //CLIENTELE_H

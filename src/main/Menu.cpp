@@ -11,8 +11,9 @@
 *
 ***********************/
 
-#include "Clientele.cpp"
-#include "Inventory.cpp"
+#include "include/Clientele.h"
+#include "include/Inventory.h"
+#include <iostream>
 
 void displayMenu() {
     std::cout << "====== Customer Reward System Menu ======\n";
