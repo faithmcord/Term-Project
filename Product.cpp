@@ -52,9 +52,9 @@ public:
     static bool isValidQuantity(int quantity);
 
     /**
-     * @brief Checks if the quantity is a positive number.
-     * @param quantity The quantity to validate.
-     * @return true if the quantity is valid, false otherwise.
+     * @brief Checks if the product ID already exists.
+     * @param productID The product ID to validate.
+     * @return true if the product ID is doesn't exist, false otherwise.
      */
     static bool isValidProductID(std::string productID);
 
@@ -118,9 +118,9 @@ bool Product::isValidQuantity(int quantity) {
 
 bool Product::isValidProductID(std::string productID) {
     if (productIDs.find(productID) != productIDs.end()) {
-        return true;
-    } else {
         return false;
+    } else {
+        return true;
     }
 }
 
