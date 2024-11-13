@@ -99,10 +99,10 @@ Product::Product(const std::string& name, double price, int quantity)
         throw std::invalid_argument("Invalid price or quantity.");
     }
 
-    this->productID = productID;
     this->name = name;
     this->price = price;
     this->quantity = quantity;
+    this->productID = Product::generateProductID();
 
     productIDs.insert(productID);
 }
