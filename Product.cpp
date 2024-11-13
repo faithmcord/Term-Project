@@ -24,7 +24,8 @@ private:
     double price;                  /**< Price of the product */
     int quantity;                  /**< Number of product items available in store */
 
-    static std::unordered_set<std::string> productIDs; /**< Set of existing product IDs to ensure uniqueness */
+    static std::unordered_set<std::string> productIDs;  /**< Set of existing product IDs to ensure uniqueness */
+    static int productCount;                            /**< Count of users to generate unique product ID */
 
 public:
     /**
@@ -49,6 +50,13 @@ public:
      * @return true if the quantity is valid, false otherwise.
      */
     static bool isValidQuantity(int quantity);
+
+    /**
+     * @brief Checks if the quantity is a positive number.
+     * @param quantity The quantity to validate.
+     * @return true if the quantity is valid, false otherwise.
+     */
+    static bool isValidProductID(std::string productID);
 
     /**
      * @brief Adds stock to the product's quantity.
@@ -80,7 +88,7 @@ public:
 // Initialize static variable
 std::unordered_set<std::string> Product::productIDs;
 
-Product::Product(const std::string& productID, const std::string& name, double price, int quantity)
+Product::Product(const std::string& name, double price, int quantity)
 {
     if (!isValidProductID(productID) || productIDs.count(productID))
     {
@@ -101,11 +109,19 @@ Product::Product(const std::string& productID, const std::string& name, double p
 
 std::string Product::generateProductID() {
     productCount++;
-    return "Prod" + std::to_string(10000 + userCount);
+    return "Prod" + std::to_string(10000 + productCount);
 }
 
 bool Product::isValidQuantity(int quantity) {
     return quantity > 0;
+}
+
+bool Product::isValidProductID(std::string productID) {
+    if (productIDs.find(productID) != productIDs.end()) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void Product::addStock(int quantity) {
