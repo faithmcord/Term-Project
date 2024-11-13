@@ -35,14 +35,13 @@ public:
      * @param quantity The quantity of the product in stock.
      * @throws std::invalid_argument if validation fails.
      */
-    Product(const std::string& productID, const std::string& name, double price, int quantity);
+    Product(const std::string& name, double price, int quantity);
 
     /**
-     * @brief Checks if the product ID format is valid.
-     * @param productID The product ID to validate.
-     * @return true if the product ID is valid, false otherwise.
+     * @brief Generates a unique User ID.
+     * @return The generated User ID in format Prod followed by 5 digits.
      */
-    static bool isValidProductID(const std::string& productID);
+    static std::string generateProductID();
 
     /**
      * @brief Checks if the quantity is a positive number.
@@ -100,8 +99,9 @@ Product::Product(const std::string& productID, const std::string& name, double p
     productIDs.insert(productID);
 }
 
-bool Product::isValidProductID(const std::string& productID) {
-    return std::regex_match(productID, std::regex("^Prod\\d{5}$"));
+std::string Product::generateProductID() {
+    productCount++;
+    return "Prod" + std::to_string(10000 + userCount);
 }
 
 bool Product::isValidQuantity(int quantity) {
