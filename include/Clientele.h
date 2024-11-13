@@ -14,8 +14,7 @@
 #ifndef CLIENTELE_H
 #define CLIENTELE_H
 
-#include "Includes.cpp"
-#include "Customer.cpp"
+#include "src/main/Customer.cpp"
 #include "Database.h"
 
 std::string DEFAULT_CLIENTELE_SAVE_PATH = "customers.txt";
@@ -86,6 +85,9 @@ public:
      * @return -1 if customer does not exist
      */
     int updateCustomerRewards(const std::string &custID, int amount);
+
+    void save() override;
+    void load() override;
 };
 
 #endif //CLIENTELE_H

@@ -1,17 +1,9 @@
-/**********************
-*
-* File Name:    Customer.cpp
-* Author(s):    Faith Cordsiemon <fmc778s@missouristate.edu>
-* Description:  An object class defining a customer.
-*
-* Course:      CSC 455 - Software Quality Assurance
-* Instructor:  Mohammed Belkhouche
-* Project:     Term Project
-* Date:        8 November 2024
-*
-***********************/
+//
+// Created by Xander Palermo on 11/13/24.
+//
 
-#include "Includes.cpp"
+#ifndef CUSTOMER_H
+#define CUSTOMER_H
 
 const std::string USER_NAME_ERROR = "Invalid or duplicate username.";
 const std::string NAME_ERROR = "Invalid name.";
@@ -53,119 +45,56 @@ public:
      * @brief Generates a unique User ID.
      * @return The generated User ID in format CustID followed by 10 digits.
      */
-    static std::string generateUserID();
+    inline static std::string generateUserID();
 
     /**
      * @brief Checks if the username format is valid.
      * @param username The username to validate.
      * @return true if the username is valid, false otherwise.
      */
-    static bool isValidUsername(const std::string& username);
+    inline static bool isValidUsername(const std::string& username);
 
     /**
      * @brief Checks if the name format is valid.
      * @param name The name (first or last) to validate.
      * @return true if the name is valid, false otherwise.
      */
-    static bool isValidName(const std::string& name);
+    inline static bool isValidName(const std::string& name);
 
     /**
      * @brief Checks if the age is within the valid range.
      * @param age The age to validate.
      * @return true if the age is valid, false otherwise.
      */
-    static bool isValidAge(int age);
+    inline static bool isValidAge(int age);
 
     /**
      * @brief Checks if the credit card number format is valid.
      * @param card The credit card number to validate.
      * @return true if the credit card number is valid, false otherwise.
      */
-    static bool isValidCreditCard(const std::string& card);
+    inline static bool isValidCreditCard(const std::string& card);
 
     /**
      * @brief Adds reward points to the customer's account.
      * @param points The points to add, must be positive.
      */
-    void addRewardPoints(int points);
+    inline void addRewardPoints(int points);
 
     // Accessors
-    std::string getID() const { 
+    std::string getID() const {
         return userID; }
-    int getRewardPoints() const { 
+    int getRewardPoints() const {
         return rewardPoints; }
     std::string toString() const {
-        std::string customer = 
-        "Customer ID: " + userID + "/n" + 
-        "Username: " + username + "/n" + 
-        "Name: " + firstName + " " + lastName + "/n" + 
-        "Age: " + std::to_string(age) + "/n" + 
+        std::string customer =
+        "Customer ID: " + userID + "/n" +
+        "Username: " + username + "/n" +
+        "Name: " + firstName + " " + lastName + "/n" +
+        "Age: " + std::to_string(age) + "/n" +
         "Credit Card Number: " + creditCard;
         return customer;
     }
 };
 
-// Initialize static variables
-std::unordered_set<std::string> Customer::usernames;
-std::unordered_set<std::string> Customer::creditCards;
-int Customer::userCount = 0;
-
-Customer::Customer(const std::string& username, const std::string& firstName,
-                   const std::string& lastName, int age, const std::string& creditCard)
-{
-    if (!isValidUsername(username) || usernames.count(username))
-    {
-        throw std::invalid_argument(USER_NAME_ERROR);
-    }
-    if (!isValidName(firstName) || !isValidName(lastName))
-    {
-        throw std::invalid_argument(NAME_ERROR);
-    }
-    if (!isValidAge(age))
-    {
-        throw std::invalid_argument(AGE_ERROR);
-    }
-    if (!isValidCreditCard(creditCard) || creditCards.count(creditCard))
-    {
-        throw std::invalid_argument(CREDIT_CARD_ERROR);
-    }
-
-    this->username = username;
-    this->firstName = firstName;
-    this->lastName = lastName;
-    this->age = age;
-    this->creditCard = creditCard;
-    this->rewardPoints = 0;
-    this->userID = generateUserID();
-
-    usernames.insert(username);
-    creditCards.insert(creditCard);
-}
-
-std::string Customer::generateUserID() {
-    userCount++;
-    return "CustID" + std::to_string(1000000000 + userCount);
-}
-
-bool Customer::isValidUsername(const std::string& username) {
-    return std::regex_match(username, std::regex("^U\\d{1,3}[a-zA-Z]{7,}$"));
-}
-
-bool Customer::isValidName(const std::string& name) {
-    return name.size() <= 12 && std::regex_match(name, std::regex("^[a-zA-Z]+$"));
-}
-
-bool Customer::isValidAge(int age) {
-    return age >= 18 && age <= 100;
-}
-
-bool Customer::isValidCreditCard(const std::string& card) {
-    return std::regex_match(card, std::regex("^[1-9]\\d{3}-\\d{4}-\\d{4}$"));
-}
-
-void Customer::addRewardPoints(int points) {
-    if (points > 0)
-    {
-        rewardPoints += points;
-    }
-}
+#endif //CUSTOMER_H

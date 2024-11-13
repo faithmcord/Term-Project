@@ -11,7 +11,6 @@
 *
 ***********************/
 
-#include "Includes.cpp"
 #include "Clientele.cpp"
 #include "Inventory.cpp"
 
@@ -33,31 +32,31 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
     switch (choice) {
         case 1:
             // Call the function to register a new customer
-            clientele.registerCustomer();
+            // clientele.registerCustomer();
             break;
         case 2:
             // Call the function to remove a customer
-            clientele.remove();
+            // clientele.remove();
             break;
         case 3:
             // Call the function to add a new product
-            inventory.createProduct();
+            // inventory.createProduct();
             break;
         case 4:
             // Call the function to remove a product
-            inventory.remove();
+            // inventory.remove();
             break;
         case 5:
             // Call the function for shopping
-            Transaction::shopping();
+            // Transaction::shopping();
             break;
         case 6:
             // Call the function to view a customer by ID
-            clientele.displayOne();
+            // clientele.displayOne();
             break;
         case 7:
             // Call the function to redeem rewards
-            Transaction::redeemRewards();
+            // Transaction::redeemRewards();
             break;
         case 8:
             std::cout << "Exiting the program. Goodbye!";
@@ -69,6 +68,7 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
 
 int main() {
     int choice;
+    // Product::productCount = 0;
     Inventory inventory = Inventory(DEFAULT_INVENTORY_SAVE_PATH);
     Clientele clientele = Clientele(DEFAULT_CLIENTELE_SAVE_PATH);
     do {

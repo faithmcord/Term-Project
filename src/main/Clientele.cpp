@@ -11,9 +11,9 @@
 *
 ***********************/
 
-#include "Clientele.h"
+#include "include/Clientele.h"
 
-#include "Inventory.h"
+#include "include/Inventory.h"
 
 std::string Clientele::registerCustomer(const string &userName, const string &firstName, const string &lastName,
                                         const int age, const string &creditCardInfo) {
@@ -47,5 +47,10 @@ int Clientele::updateCustomerRewards(const std::string &custID, const int amount
     }
 }
 
+void Clientele::save() {
+    return;
+}
 
-
+void Clientele::load() {
+    return;
+}

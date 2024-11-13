@@ -14,8 +14,7 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include "Includes.cpp"
-#include "Product.cpp"
+#include "src/main/Product.cpp"
 #include "Database.h"
 
 /**
