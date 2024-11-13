@@ -12,7 +12,6 @@ add_executable(Term_Project
         src/main/Menu.cpp
         include/Inventory.h
         include/Clientele.h
-        src/main/Utilities.cpp
         include/Customer.h
         include/Product.h)
 

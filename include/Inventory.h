@@ -113,26 +113,7 @@ inline std::string Inventory::generateProductID() {
 
 
 inline std::string Inventory::createProduct(const std::string &productName, double price, int initialStock) {
-    //TODO:
-    //isProductNameValid
-        //return -1
-    //isProductPrice Valid
-        //return -2
-    // bool validInitialStock = Product::isValidQuantity(initialStock);
-    // if (!validInitialStock) {
-    //     return -3;
-    // }
-    // else {
-    //     // do nothing
-    // }
-    // std::string productID;
-    // while (Inventory::doesExist(productID) || productID.empty()) {
-    //     productID = generateProductID();
-    // }
-    // const Product newProduct = Product(productID, productName, price, initialStock);
-    // Inventory::addNew(newProduct);
-
-    const Product newProduct = Product(productName, price, initialStock);
+    const Product newProduct =  Product(productName, price, initialStock);
     this -> addNew(newProduct);
     std::string prodID = newProduct.getID();
     return prodID;

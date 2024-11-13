@@ -70,13 +70,6 @@ build CMakeFiles/Term_Project.dir/src/main/Menu.cpp.o: CXX_COMPILER__Term_Projec
   OBJECT_DIR = CMakeFiles/Term_Project.dir
   OBJECT_FILE_DIR = CMakeFiles/Term_Project.dir/src/main
 
-build CMakeFiles/Term_Project.dir/src/main/Utilities.cpp.o: CXX_COMPILER__Term_Project_unscanned_Debug /Users/cinnamon/Documents/Class/CSC455-Quality/Term-Project/src/main/Utilities.cpp || cmake_object_order_depends_target_Term_Project
-  DEP_FILE = CMakeFiles/Term_Project.dir/src/main/Utilities.cpp.o.d
-  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk -fcolor-diagnostics
-  INCLUDES = -I/Users/cinnamon/Documents/Class/CSC455-Quality/Term-Project/.
-  OBJECT_DIR = CMakeFiles/Term_Project.dir
-  OBJECT_FILE_DIR = CMakeFiles/Term_Project.dir/src/main
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Term_Project
@@ -85,7 +78,7 @@ build CMakeFiles/Term_Project.dir/src/main/Utilities.cpp.o: CXX_COMPILER__Term_P
 #############################################
 # Link the executable Term_Project
 
-build Term_Project: CXX_EXECUTABLE_LINKER__Term_Project_Debug CMakeFiles/Term_Project.dir/src/main/Includes.cpp.o CMakeFiles/Term_Project.dir/src/main/Main.cpp.o CMakeFiles/Term_Project.dir/src/main/Menu.cpp.o CMakeFiles/Term_Project.dir/src/main/Utilities.cpp.o
+build Term_Project: CXX_EXECUTABLE_LINKER__Term_Project_Debug CMakeFiles/Term_Project.dir/src/main/Includes.cpp.o CMakeFiles/Term_Project.dir/src/main/Main.cpp.o CMakeFiles/Term_Project.dir/src/main/Menu.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk
   OBJECT_DIR = CMakeFiles/Term_Project.dir
   POST_BUILD = :

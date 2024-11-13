@@ -63,12 +63,12 @@ public:
     *
     * @pre the value parameter has a .getID method
     *
-    * @param value the item to be put into the database (referenced to by its key, its ID)
+    * @param object the item to be put into the database (referenced to by its key, its ID)
     *
     * @return 0 if the key:value was successfully added to the database
     * @return -1 if a key:value pair already exists in the database with that key
     */
-    int addNew(item value);
+    int addNew(item object);
 
     /**
      * @brief removes an existing key:value pair from the database
@@ -137,14 +137,14 @@ Database<item>::Database(const std::string &loadFile) {
 }
 
 template<typename item>
-int Database<item>::addNew(item value) {
-    std::string ID = value.getID();
+int Database<item>::addNew(item object) {
+    std::string ID = object.getID();
     auto index = container.find(ID);
     if (index != container.end()) {
         // T already exists
         return -1;
     } else {
-        container.emplace(ID, value);
+        container.emplace(ID, object);
         return 0;
     }
 }
