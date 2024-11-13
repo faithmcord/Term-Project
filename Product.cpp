@@ -70,7 +70,7 @@ public:
      */
     void removeStock(int quantity);
 
-    // Accessors
+    // Accessorsn
     std::string getID() const { 
         return productID; }
     int getQuantity() const { 

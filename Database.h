@@ -119,8 +119,15 @@ public:
     *
     * @return void
     */
-    virtual void save() = 0;
+    virtual void save();
 
+    /**
+     * @brief loads the previous instance of the database from its last saved use
+     *
+     * Only has to be called once upon initialization
+     *
+     * @return void
+     */
     virtual void load() = 0;
 };
 
@@ -157,7 +164,7 @@ template<typename item>
 bool Database<item>::doesExist(const std::string &ID) {
     auto index = container.find(ID);
     if (index != container.end()) {
-        //T already exists
+        //item already exists
         return true;
     } else
         return false;

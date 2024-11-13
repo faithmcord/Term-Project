@@ -61,7 +61,7 @@ std::string Inventory::createProduct(const std::string &productName, double pric
     // Inventory::addNew(newProduct);
 
     const Product newProduct = Product(productName, price, initialStock);
-    Inventory::addNew(newProduct);
+    this -> addNew(newProduct);
     std::string prodID = newProduct.getID();
     return prodID;
 }
@@ -77,6 +77,81 @@ int Inventory::isEnoughInInventory(const std::string &productID) {
         return amountInStock;
     }
 }
+
+void Inventory::save() {
+    // const bool fileExists = Utilities::doesFileExist(savePath);
+    std::fstream saveFile;
+    // if (fileExists) {
+    //     std::remove(savePath.c_str());
+    //     saveFile.open(savePath, std::ios::out);
+    // } else {
+    //     saveFile.open(savePath, std::ios::out);
+    // }
+    saveFile.open(savePath, std::ios::out);
+    int indexNumber = 0;
+    auto indexPointer = container.begin();
+    const auto end = container.end();
+    while (indexPointer != end) {
+        std::string output = "Customer " + to_string(++indexNumber) + '\n';
+        output += indexPointer->second.toString();
+        saveFile << output << '\n';
+        ++indexPointer;
+    }
+    saveFile.close();
+}
+
+void Inventory::load() {
+    bool fileExists = Utilities::doesFileExist(savePath);
+    if (!fileExists) {
+        // nothing to load
+        return;
+    }
+    else {
+        /* Do nothing */
+    }
+
+    // Init
+    std::ifstream saveFile;
+    saveFile.open(savePath);
+    std::string _line , nameString, priceString, quantityString;
+    std::regex pattern(" [^\\n]*\\n");
+
+    // Colors text Red lol
+    std::string errorColorMod = "\033[1;31m";
+    std::string defaultColorMod = "\033[1;39m";
+
+    // Until Empty Line
+    while (getline(saveFile, _line)) {
+        if (getline(saveFile, _line) &&
+            getline(saveFile, nameString) &&
+            getline(saveFile, priceString) &&
+            getline(saveFile, quantityString) ) {
+
+            std::regex_search(priceString, priceString, pattern);
+            std::regex_search(quantityString, quantityString, pattern);
+            std::regex_search(nameString, nameString, pattern);
+
+            try {
+                this -> createProduct(nameString, stod(priceString), stoi(quantityString));
+            } catch (std::invalid_argument &invalid_argument) {
+                std::cout << errorColorMod << "Load file problem encountered. All products might not be loaded. Please review Products.txt\n"
+                             "Reference:\t" << invalid_argument.what() << defaultColorMod << '\n';
+                continue;
+            } catch (std::out_of_range &out_of_range) {
+                std::cout << errorColorMod << "Load file problem encountered. All products might not be loaded. Please review Products.txt\n"
+                             "Reference:\t" << out_of_range.what() << defaultColorMod << '\n';
+                continue;
+            }
+        } else {
+            std::cout << errorColorMod << "Load file problem encountered. All Products might not be loaded. Please review Products.txt\n"
+                                          "Reference:\t Last product in Products.txt missing information!!" << defaultColorMod << '\n';
+            break;
+        }
+    }
+    saveFile.close();
+}
+
+
 
 int Inventory::makePurchase(int productsPurchased, int productID[], int amounts[]) {
     return -999;

@@ -56,16 +56,6 @@ class Inventory final :public Database<Product>{
      */
     std::string createProduct(const std::string &productName, double price, int initialStock);
 
-    //abstract
-    /**
-     * @brief deletes a product of the specified product ID
-     *
-     * @param ProductID the identifying ID numbers of the product to be deleted
-     * @return 0 on successful deletion
-     * @return -1 on product not found
-     */
-    // int removeProduct(int ProductID);
-
     /**
      * @brief checks for how much stock of a product is currently in possession
      *
@@ -74,7 +64,11 @@ class Inventory final :public Database<Product>{
      * @return amount currently in stock
      * @return -1 if invalid productID
      */
-    int isEnoughInInventory (const std::string &productID);
+     int isEnoughInInventory (const std::string &productID);
+
+     void save() override;
+
+     void load() override;
 
     /**
      * @brief decrements the amount of product held in inventory by the amount purchased
