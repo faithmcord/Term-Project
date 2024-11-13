@@ -21,7 +21,6 @@
 
 #include "Utilities.h"
 
-constexpr char END_CHAR = '\n';
 
 /**
 * @class Database
@@ -168,9 +167,9 @@ void Database<item>::displayOne(const std::string &ID) {
     auto end = container.end();
     if (index != end) {
         std::string output = index->second.toString();
-        std::cout << output << END_CHAR;
+        std::cout << output << '\n';
     } else {
-        std::cout << "NO ENTRY EXISTS" << END_CHAR;
+        std::cout << "NO ENTRY EXISTS" << '\n';
     }
 }
 
@@ -180,11 +179,11 @@ void Database<item>::displayAll() {
     auto index = container.begin();
     auto end = container.end();
     if (index == end) {
-        std::cout << "NO ENTRIES EXIST" << END_CHAR;
+        std::cout << "NO ENTRIES EXIST" << '\n';
     } else {
         while (index != end) {
             std::string output = index->second.toString();
-            std::cout << output << END_CHAR;
+            std::cout << output << '\n';
             ++index;
         }
     }
@@ -204,7 +203,7 @@ void Database<item>::preserveState() {
     auto end = container.end();
     while (index != end) {
         std::string output = index->second.toString();
-        saveFile << output << END_CHAR;
+        saveFile << output << '\n';
         ++index;
     }
     saveFile.close();

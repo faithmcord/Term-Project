@@ -15,7 +15,7 @@
 #include <random>
 
 //GLOBAL VARIABLES
-const std::string DEFAULT_SAVE_PATH = "products.txt";
+const std::string DEFAULT_INVENTORY_SAVE_PATH = "products.txt";
 const std::string DEFAULT_TRANSACTION_LOG_PATH = "transactions.txt";
 
 Inventory::Inventory(const std::string &loadFile) : Database<Product> (loadFile) {

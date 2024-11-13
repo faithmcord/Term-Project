@@ -18,6 +18,8 @@
 #include "Customer.cpp"
 #include "Database.h"
 
+std::string DEFAULT_CLIENTELE_SAVE_PATH = "customers.txt";
+
 /**
  * @class Clientele
  * @brief a dictionary of all customers of the store indexed by their customer ID

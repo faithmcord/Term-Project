@@ -29,23 +29,23 @@ void displayMenu() {
     std::cout << "Enter your choice: ";
 }
 
-void handleMenuChoice(int choice) {
+void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
     switch (choice) {
         case 1:
             // Call the function to register a new customer
-            Clientele::registerCustomer();
+            clientele.registerCustomer();
             break;
         case 2:
             // Call the function to remove a customer
-            Clientele::remove();
+            clientele.remove();
             break;
         case 3:
             // Call the function to add a new product
-            Product::createProduct();
+            inventory.createProduct();
             break;
         case 4:
             // Call the function to remove a product
-            Product::remove();
+            inventory.remove();
             break;
         case 5:
             // Call the function for shopping
@@ -53,7 +53,7 @@ void handleMenuChoice(int choice) {
             break;
         case 6:
             // Call the function to view a customer by ID
-            Clientele::displayOne();
+            clientele.displayOne();
             break;
         case 7:
             // Call the function to redeem rewards
@@ -69,10 +69,12 @@ void handleMenuChoice(int choice) {
 
 int main() {
     int choice;
+    Inventory inventory = Inventory(DEFAULT_INVENTORY_SAVE_PATH);
+    Clientele clientele = Clientele(DEFAULT_CLIENTELE_SAVE_PATH);
     do {
         displayMenu();
         std::cin >> choice;
-        handleMenuChoice(choice);
+        handleMenuChoice(choice, clientele, inventory);
     } while (choice != 8);  // 8 is the exit condition
 
     return 0;
