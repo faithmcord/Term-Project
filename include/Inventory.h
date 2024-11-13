@@ -181,7 +181,7 @@ inline void Inventory::load() {
      saveFile.open(savePath);
      // char buffer [BUFFER_SIZE];
      std::string _line, nameString, priceString, quantityString;
-     std::regex pattern(" [^\\n]*\\n");
+     // std::regex pattern(" [^\\n]*\\n");
 
      // Colors text Red lol
      std::string errorColorMod = "\033[1;31m";
