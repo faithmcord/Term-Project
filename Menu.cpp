@@ -37,15 +37,15 @@ void handleMenuChoice(int choice) {
             break;
         case 2:
             // Call the function to remove a customer
-            Clientele::removeCustomer();
+            Clientele::remove();
             break;
         case 3:
             // Call the function to add a new product
-            Product::addProduct();
+            Product::createProduct();
             break;
         case 4:
             // Call the function to remove a product
-            Product::removeProduct();
+            Product::remove();
             break;
         case 5:
             // Call the function for shopping
@@ -53,7 +53,7 @@ void handleMenuChoice(int choice) {
             break;
         case 6:
             // Call the function to view a customer by ID
-            Clientele::viewCustomerById();
+            Clientele::displayOne();
             break;
         case 7:
             // Call the function to redeem rewards

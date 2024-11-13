@@ -62,7 +62,7 @@ std::string Inventory::createProduct(const std::string &productName, double pric
 
     const Product newProduct = Product(productName, price, initialStock);
     Inventory::addNew(newProduct);
-    std::string prodID = newProduct.getProductID();
+    std::string prodID = newProduct.getID();
     return prodID;
 }
 
