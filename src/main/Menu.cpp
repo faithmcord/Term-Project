@@ -33,8 +33,33 @@ void displayMenu() {
 void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
     switch (choice) {
         case 1: {  // Register New Customer
+            std::string userName, firstName, lastName, creditCardInfo;
+            int age;
+            
             std::cout << "\n--- Register New Customer ---\n";
-            clientele.registerCustomer();  // Make sure this function handles input and validation
+            
+            std::cout << "Enter Username: ";
+            std::cin >> userName;
+            
+            std::cout << "Enter First Name: ";
+            std::cin >> firstName;
+            
+            std::cout << "Enter Last Name: ";
+            std::cin >> lastName;
+            
+            std::cout << "Enter Age: ";
+            std::cin >> age;
+            
+            std::cout << "Enter Credit Card Number (xxxx-xxxx-xxxx format): ";
+            std::cin >> creditCardInfo;
+            
+            try {
+                // Call registerCustomer with the collected information
+                std::string custID = clientele.registerCustomer(userName, firstName, lastName, age, creditCardInfo);
+                std::cout << "Customer registered successfully with ID: " << custID << "\n";
+            } catch (const std::invalid_argument &e) {
+                std::cout << "Error registering customer: " << e.what() << "\n";
+            }
             break;
         }
         case 2: {  // Remove Customer
@@ -45,8 +70,29 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
             break;
         }
         case 3: {  // Add Product
+            std::string productName;
+            double price;
+            int initialStock;
+
             std::cout << "\n--- Add New Product ---\n";
-            inventory.createProduct();  // Function to handle input for product details and validation
+            std::cout << "Enter Product Name: ";
+            std::cin.ignore();  // To clear the newline from previous input
+            std::getline(std::cin, productName);
+            
+            std::cout << "Enter Product Price: ";
+            std::cin >> price;
+            
+            std::cout << "Enter Initial Stock Quantity: ";
+            std::cin >> initialStock;
+
+            // Check if product price and stock are valid
+            if (price <= 0) {
+                std::cout << "Invalid price. Price must be a positive number.\n";
+                break;
+            }
+            if (initialStock < 0) {
+                std::cout << "Invalid stock. Stock cannot be negative.\n";
+               
             break;
         }
         case 4: {  // Remove Product
