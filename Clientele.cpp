@@ -19,7 +19,7 @@ std::string Clientele::registerCustomer(const string &userName, const string &fi
                                         const int age, const string &creditCardInfo) {
     const Customer newCustomer = Customer(userName, firstName, lastName, age, creditCardInfo);
     Clientele::addNew(newCustomer);
-    std::string custID = newCustomer.getUserID();
+    std::string custID = newCustomer.getID();
     return custID;
 }
 

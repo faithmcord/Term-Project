@@ -68,7 +68,7 @@ public:
     * @return 0 if the key:value was successfully added to the database
     * @return -1 if a key:value pair already exists in the database with that key
     */
-    virtual int addNew(item value);
+    int addNew(item value);
 
     /**
      * @brief removes an existing key:value pair from the database
@@ -80,7 +80,7 @@ public:
      * @return 0 if the key:value pair was successfully deleted from the database
      * @return -1 if there does not exist a key:value pair does not exist at the specified location
      */
-    virtual int remove(const std::string &ID);
+     int remove(const std::string &ID);
 
     /**
     * @brief checks if a key:value pair already exist in the database
@@ -90,7 +90,7 @@ public:
     * @return true if a key:value pair exist in the database
     * @return false if there is no key:value pair with the specified key
     */
-    virtual bool doesExist(const std::string &ID);
+    bool doesExist(const std::string &ID);
 
     /**
     * @brief finds a key:value pair and prints its value to terminal
@@ -119,7 +119,9 @@ public:
     *
     * @return void
     */
-    virtual void preserveState();
+    virtual void save() = 0;
+
+    virtual void load() = 0;
 };
 
 template<typename item>
@@ -190,7 +192,7 @@ void Database<item>::displayAll() {
 }
 
 template<typename item>
-void Database<item>::preserveState() {
+void Database<item>::save() {
     bool fileExists = Utilities::doesFileExist(savePath);
     std::fstream saveFile;
     if (fileExists) {

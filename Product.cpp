@@ -75,7 +75,7 @@ public:
         return productID; }
     int getQuantity() const { 
         return quantity; }
-    std::string viewProduct() const {
+    std::string toString() const {
         std::string product = 
         "Product ID: " + productID + "/n" + 
         "Name: " + name + "/n" + 

@@ -22,7 +22,7 @@
  * @class Inventory
  * @brief a dictionary of all customers of the store indexed by their customer ID
  */
-class Inventory:public Database<Product>{
+class Inventory final :public Database<Product>{
     /**
      * @brief the directory of the transaction log file
      */

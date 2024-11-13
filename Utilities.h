@@ -41,16 +41,4 @@ public:
 
 };
 
-
-
-// bool Utilities::doesFileExist(const std::string& file) {
-//     std::fstream fs;
-//     fs.open(file, std::ios::in);
-//     if (fs.is_open()) {
-//         fs.close();
-//         return true;
-//     } else
-//         return false;
-// }
-
 #endif //UTILITIES_H
