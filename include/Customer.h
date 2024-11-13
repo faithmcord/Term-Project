@@ -1,13 +1,23 @@
-//
-// Created by Xander Palermo on 11/13/24.
-//
+/**********************
+*
+* File Name:    Customer.h
+* Author(s):    Faith Cordsiemon <fmc778s@missouristate.edu>
+* Description:  An object class defining a customer.
+*
+* Course:      CSC 455 - Software Quality Assurance
+* Instructor:  Mohammed Belkhouche
+* Project:     Term Project
+* Date:        8 November 2024
+*
+***********************/
+
+#ifndef CUSTOMER_H
+#define CUSTOMER_H
 
 #include <regex>
 #include <string>
 #include <unordered_set>
 
-#ifndef CUSTOMER_H
-#define CUSTOMER_H
 
 const std::string USER_NAME_ERROR = "Invalid or duplicate username.";
 const std::string NAME_ERROR = "Invalid name.";
@@ -101,21 +111,6 @@ public:
     }
 };
 
-/**********************
-*
-* File Name:    Customer.cpp
-* Author(s):    Faith Cordsiemon <fmc778s@missouristate.edu>
-* Description:  An object class defining a customer.
-*
-* Course:      CSC 455 - Software Quality Assurance
-* Instructor:  Mohammed Belkhouche
-* Project:     Term Project
-* Date:        8 November 2024
-*
-***********************/
-
-// #include "Includes.cpp"
-// #include "include/Customer.h"
 
 // Initialize static variables
 std::unordered_set<std::string> Customer::usernames;

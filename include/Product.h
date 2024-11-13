@@ -1,6 +1,15 @@
-//
-// Created by Xander Palermo on 11/13/24.
-//
+/**********************
+*
+* File Name:    Product.h
+* Author(s):    Faith Cordsiemon <fmc778s@missouristate.edu>
+* Description:  An object class defining a product.
+*
+* Course:      CSC 455 - Software Quality Assurance
+* Instructor:  Mohammed Belkhouche
+* Project:     Term Project
+* Date:        8 November 2024
+*
+***********************/
 
 #ifndef PRODUCT_H
 #define PRODUCT_H
@@ -82,21 +91,6 @@ public:
     }
 };
 
-/**********************
-*
-* File Name:    Product.cpp
-* Author(s):    Faith Cordsiemon <fmc778s@missouristate.edu>
-* Description:  An object class defining a product.
-*
-* Course:      CSC 455 - Software Quality Assurance
-* Instructor:  Mohammed Belkhouche
-* Project:     Term Project
-* Date:        8 November 2024
-*
-***********************/
-
-// #include "Includes.cpp"
-// #include "include/Product.h"
 
 // Initialize static variable
 std::unordered_set<std::string> Product::productIDs;

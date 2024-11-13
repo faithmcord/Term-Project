@@ -1,7 +1,7 @@
 /**********************
 *
 * File Name:    Inventory.h
-* Author(s):	   Xander Palermo <ajp2s@missouristate.edu>
+* Author(s):	Xander Palermo <ajp2s@missouristate.edu>
 * Description:
 *
 * Course:      CSC 455 - Software Quality Assurance
@@ -17,6 +17,11 @@
 #include "include/Product.h"
 #include "Database.h"
 #include <random>
+
+
+//GLOBAL VARIABLES
+const std::string DEFAULT_INVENTORY_SAVE_PATH = "resources/products.txt";
+const std::string DEFAULT_TRANSACTION_LOG_PATH = "resources/transactions.txt";
 
 /**
  * @class Inventory
@@ -83,23 +88,6 @@ class Inventory final :public Database<Product>{
     int redeemRewards();
 };
 
-/**********************
-*
-* File Name:    Inventory.cpp
-* Author(s):    Xander Palermo <ajp2s@missouristate.edu>
-* Description:
-*
-* Course:      CSC 455 - Software Quality Assurance
-* Instructor:  Mohammed Belkhouche
-* Project:     Term Project
-* Date:        8 November 2024
-*
-***********************/
-
-
-//GLOBAL VARIABLES
-const std::string DEFAULT_INVENTORY_SAVE_PATH = "resources/products.txt";
-const std::string DEFAULT_TRANSACTION_LOG_PATH = "resources/transactions.txt";
 
 inline Inventory::Inventory(const std::string &loadFile) : Database<Product> (loadFile) {
     savePath = loadFile;

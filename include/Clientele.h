@@ -90,21 +90,6 @@ public:
     void load() override;
 };
 
-/**********************
-*
-* File Name:    Clientele.cpp
-* Author(s):    Xander Palermo <ajp2s@missouristate.edu>
-* Description:  A container object that manages and preserves all loaded customers in memory
-*
-* Course:      CSC 455 - Software Quality Assurance
-* Instructor:  Mohammed Belkhouche
-* Project:     Term Project
-* Date:        8 November 2024
-*
-***********************/
-
-#include "include/Clientele.h"
-#include "include/Customer.h"
 
 inline std::string Clientele::registerCustomer(const std::string &userName, const std::string &firstName, const std::string &lastName,
                                                const int age, const std::string &creditCardInfo) {
