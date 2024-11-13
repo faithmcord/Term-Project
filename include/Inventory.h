@@ -2,7 +2,7 @@
 *
 * File Name:    Inventory.h
 * Author(s):	Xander Palermo <ajp2s@missouristate.edu>
-* Description:
+* Description:  A container object that manages and preserves all loaded Products in memory
 *
 * Course:      CSC 455 - Software Quality Assurance
 * Instructor:  Mohammed Belkhouche
@@ -20,6 +20,7 @@
 
 
 //GLOBAL VARIABLES
+constexpr int BUFFER_SIZE = 40;
 const std::string DEFAULT_INVENTORY_SAVE_PATH = "resources/products.txt";
 const std::string DEFAULT_TRANSACTION_LOG_PATH = "resources/transactions.txt";
 
@@ -150,54 +151,75 @@ inline int Inventory::isEnoughInInventory(const std::string &productID) {
 }
 
 inline void Inventory::save() {
-    return;
-//     // const bool fileExists = Utilities::doesFileExist(savePath);
-//     std::fstream saveFile;
-//     // if (fileExists) {
-//     //     std::remove(savePath.c_str());
-//     //     saveFile.open(savePath, std::ios::out);
-//     // } else {
-//     //     saveFile.open(savePath, std::ios::out);
-//     // }
-//     saveFile.open(savePath, std::ios::out);
-//     int indexNumber = 0;
-//     auto indexPointer = container.begin();
-//     const auto end = container.end();
-//     while (indexPointer != end) {
-//         std::string output = "Customer " + to_string(++indexNumber) + '\n';
-//         output += indexPointer->second.toString();
-//         saveFile << output << '\n';
-//         ++indexPointer;
-//     }
-//     saveFile.close();
-// }
-//
-// void Inventory::load() {
-//     bool fileExists = Utilities::doesFileExist(savePath);
-//     if (!fileExists) {
-//         // nothing to load
-//         return;
-//     }
-//     else {
-//         /* Do nothing */
-//     }
-//
-//     // Init
-//     std::ifstream saveFile;
-//     saveFile.open(savePath);
-//     std::string _line , nameString, priceString, quantityString;
-//     std::regex pattern(" [^\\n]*\\n");
-//
-//     // Colors text Red lol
-//     std::string errorColorMod = "\033[1;31m";
-//     std::string defaultColorMod = "\033[1;39m";
-//
-//     // Until Empty Line
-//     while (getline(saveFile, _line)) {
-//         if (getline(saveFile, _line) &&
-//             getline(saveFile, nameString) &&
-//             getline(saveFile, priceString) &&
-//             getline(saveFile, quantityString) ) {
+     std::fstream saveFile;
+     saveFile.open(savePath, std::ios::out);
+     int indexNumber = 0;
+     auto indexPointer = container.begin();
+     const auto end = container.end();
+     while (indexPointer != end) {
+         saveFile << "Customer " << ++indexNumber << '\n';
+         std::string output;
+         output += indexPointer->second.toString();
+         saveFile << output << '\n';
+         ++indexPointer;
+     }
+     saveFile.close();
+}
+
+inline void Inventory::load() {
+     bool fileExists = Utilities::doesFileExist(savePath);
+     if (!fileExists) {
+         // nothing to load
+         return;
+     }
+     else {
+         /* Do nothing */
+     }
+
+     // Init
+     std::ifstream saveFile;
+     saveFile.open(savePath);
+     // char buffer [BUFFER_SIZE];
+     std::string _line, nameString, priceString, quantityString;
+     std::regex pattern(" [^\\n]*\\n");
+
+     // Colors text Red lol
+     std::string errorColorMod = "\033[1;31m";
+     std::string defaultColorMod = "\033[1;39m";
+
+    while (true) {
+        // do { saveFile.getline(buffer,BUFFER_SIZE, '\n'); } while (buffer[0] == '\0');
+        // saveFile.getline(buffer,BUFFER_SIZE, '\n');
+        // saveFile.getline(buffer,BUFFER_SIZE, '\n');
+        // nameString = buffer;
+        // saveFile.getline(buffer,BUFFER_SIZE, '\n');
+        // priceString = buffer;
+        // saveFile.getline(buffer,BUFFER_SIZE, '\n');
+        // quantityString = buffer;
+
+        // Information not needed for the constructor (Index and ID)
+        std::getline (saveFile, _line);
+        std::getline (saveFile, _line);
+
+        std::getline (saveFile, nameString);
+        std::getline (saveFile, priceString);
+        std::getline (saveFile, quantityString);
+
+        nameString.erase(0,6);
+        priceString.erase(0,7);
+        quantityString.erase(0,10);
+
+        break;
+    }
+
+
+
+     // Until Empty Line
+     // while (getline(saveFile, _line)) {
+     //     if (getline(saveFile, _line) &&
+     //         getline(saveFile, nameString) &&
+     //         getline(saveFile, priceString) &&
+     //         getline(saveFile, quantityString) ) {
 //
 //             std::regex_search(priceString, priceString, pattern);
 //             std::regex_search(quantityString, quantityString, pattern);
@@ -220,12 +242,10 @@ inline void Inventory::save() {
 //             break;
 //         }
 //     }
-//     saveFile.close();
+     saveFile.close();
 }
 
-inline void Inventory::load() {
-    return;
-}
+
 
 
 inline int Inventory::makePurchase(int productsPurchased, int productID[], int amounts[]) {
