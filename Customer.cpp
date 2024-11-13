@@ -90,8 +90,19 @@ public:
     void addRewardPoints(int points);
 
     // Accessors
-    std::string getUserID() const { return userID; }
-    int getRewardPoints() const { return rewardPoints; }
+    std::string getID() const { 
+        return userID; }
+    int getRewardPoints() const { 
+        return rewardPoints; }
+    std::string viewCustomer() const {
+        std::string customer = 
+        "Customer ID: " + userID + "/n" + 
+        "Username: " + username + "/n" + 
+        "Name: " + firstName + " " + lastName + "/n" + 
+        "Age: " + std::to_string(age) + "/n" + 
+        "Credit Card Number: " + creditCard;
+        return customer;
+    }
 };
 
 // Initialize static variables

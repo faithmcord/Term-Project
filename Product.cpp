@@ -64,8 +64,18 @@ public:
     void removeStock(int quantity);
 
     // Accessors
-    std::string getProductID() const { return productID; }
-    int getQuantity() const { return quantity; }
+    std::string getID() const { 
+        return productID; }
+    int getQuantity() const { 
+        return quantity; }
+    std::string viewProduct() const {
+        std::string product = 
+        "Product ID: " + productID + "/n" + 
+        "Name: " + name + "/n" + 
+        "Price: " + std::to_string(price) + "/n" + 
+        "Quantity: " + std::to_string(quantity);
+        return product;
+    }
 };
 
 // Initialize static variable
