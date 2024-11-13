@@ -22,7 +22,7 @@
  * @class Clientele
  * @brief a dictionary of all customers of the store indexed by their customer ID
  */
-class Clientele: public Database<Customer> {
+class Clientele final : public Database<Customer> {
     /**
      * @brief the directory of the save file
      */

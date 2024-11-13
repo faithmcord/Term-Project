@@ -49,12 +49,12 @@ class Inventory:public Database<Product>{
      * @param productName   a description of the product
      * @param price         the cost to purchase the product
      * @param initialStock  the number of product currently possessed in the inventory
+     *
      * @return the product ID of the newly added product
-     *          @returns -1 on invalid productName
-     *          @returns -2 on invalid price
-     *          @returns -3 on invalid initialStock
+     *
+     * @throws std::invalid_argument if validation fails
      */
-    int createProduct(const std::string &productName, double price, int initialStock);
+    std::string createProduct(const std::string &productName, double price, int initialStock);
 
     //abstract
     /**

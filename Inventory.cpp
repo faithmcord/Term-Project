@@ -40,26 +40,30 @@ std::string Inventory::generateProductID() {
 }
 
 
-int Inventory::createProduct(const std::string &productName, double price, int initialStock) {
+std::string Inventory::createProduct(const std::string &productName, double price, int initialStock) {
     //TODO:
     //isProductNameValid
         //return -1
     //isProductPrice Valid
         //return -2
-    bool validInitialStock = Product::isValidQuantity(initialStock);
-    if (!validInitialStock) {
-        return -3;
-    }
-    else {
-        // do nothing
-    }
-    std::string productID;
-    while (Inventory::doesExist(productID) || productID.empty()) {
-        productID = generateProductID();
-    }
-    const Product newProduct = Product(productID, productName, price, initialStock);
+    // bool validInitialStock = Product::isValidQuantity(initialStock);
+    // if (!validInitialStock) {
+    //     return -3;
+    // }
+    // else {
+    //     // do nothing
+    // }
+    // std::string productID;
+    // while (Inventory::doesExist(productID) || productID.empty()) {
+    //     productID = generateProductID();
+    // }
+    // const Product newProduct = Product(productID, productName, price, initialStock);
+    // Inventory::addNew(newProduct);
+
+    const Product newProduct = Product(productName, price, initialStock);
     Inventory::addNew(newProduct);
-    return 0;
+    std::string prodID = newProduct.getProductID();
+    return prodID;
 }
 
 int Inventory::isEnoughInInventory(const std::string &productID) {
@@ -69,7 +73,7 @@ int Inventory::isEnoughInInventory(const std::string &productID) {
         return -1;
     }
     else {                          // product exists; return amount available
-        int amountInStock = index->second.getQuantity();
+        const int amountInStock = index->second.getQuantity();
         return amountInStock;
     }
 }
