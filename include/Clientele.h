@@ -160,7 +160,7 @@ inline void Clientele::load() {
                         ageString, creditCardNumberString, rewardPointsString;
 
         std::getline ( saveFile, line );
-        if ( line == "\0" ) {
+        if ( line.empty() ) {
             break;
         } else {
             /* Do nothing */
@@ -174,13 +174,29 @@ inline void Clientele::load() {
         std::getline ( saveFile, rewardPointsString );
 
         // String Comprehension
+        userNameString.erase(0,10);
+        fullNameString.erase(0,6);
+        unsigned long split = fullNameString.find(' ');
+        firstNameString = fullNameString.substr(0,split-1);
+        lastNameString = fullNameString.substr(split+1, std::string::npos);
+        ageString.erase(0,5);
+        creditCardNumberString.erase(0,20);
+        rewardPointsString.erase(0,0);
+
+
 
         try {
             this -> registerCustomer(userNameString, firstNameString, lastNameString, std::stoi(ageString), creditCardNumberString );
         } catch ( std::invalid_argument &invalid_argument ) {
-            continue;
+            std::cout << errorColorMod << "Problem encountered while loading " << savePath << ": " << invalid_argument.what()
+                // << "Failed to load customer:\nUsername: " << userNameString << "\nFirst Name: " << firstNameString << "\nLast Name: " << lastNameString
+                // << "\nAge: " << ageString << "\nCredit Card Number: " << creditCardNumberString << "\nReward Points: " << rewardPointsString
+                << defaultColorMod << '\n';
         } catch ( std::out_of_range &out_of_range) {
-            continue;
+            std::cout << errorColorMod << "Problem encountered while loading " << savePath << ": " << out_of_range.what()
+                // << "Failed to load customer:\nUsername: " << userNameString << "\nFirst Name: " << firstNameString << "\nLast Name: " << lastNameString
+                // << "\nAge: " << ageString << "\nCredit Card Number: " << creditCardNumberString << "\nReward Points: " << rewardPointsString
+                << defaultColorMod << '\n';
         }
     }
     saveFile.close();
