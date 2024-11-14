@@ -7,8 +7,6 @@ include_directories(.)
 
 add_executable(Term_Project
         include/Database.h
-        src/main/Includes.cpp
-        src/main/Main.cpp
         src/main/Menu.cpp
         include/Inventory.h
         include/Clientele.h
