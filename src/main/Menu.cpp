@@ -41,7 +41,7 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
             std::string customerId;
             std::cout << "\nEnter Customer ID to remove: ";
             std::cin >> customerId;
-            clientele.removeCustomer(customerId);  // Assume this function verifies and deletes the customer
+            clientele.remove(customerId);  // Assume this function verifies and deletes the customer
             break;
         }
         case 3: {  // Add Product
@@ -53,7 +53,7 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
             std::string productId;
             std::cout << "\nEnter Product ID to remove: ";
             std::cin >> productId;
-            inventory.removeProduct(productId);  // Verify and remove the product from inventory
+            inventory.remove(productId);  // Verify and remove the product from inventory
             break;
         }
         case 5: {  // Shopping

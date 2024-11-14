@@ -72,6 +72,8 @@ class Inventory final :public Database<Product>{
      */
      int isEnoughInInventory (const std::string &productID);
 
+    int updateInventory (int amount);
+
      void save() override;
 
      void load() override;
@@ -84,9 +86,9 @@ class Inventory final :public Database<Product>{
      * @param amounts           array of corresponding quantities purchased
      * @return 0 on success
      */
-    int makePurchase(int productsPurchased, int productID[], int amounts[]);
-
-    int redeemRewards();
+    // int makePurchase(int productsPurchased, int productID[], int amounts[]);
+    //
+    // int redeemRewards();
 };
 
 
@@ -161,7 +163,6 @@ inline void Inventory::load() {
      std::ifstream saveFile;
      saveFile.open(savePath);
      // char buffer [BUFFER_SIZE];
-     std::string _line, nameString, priceString, quantityString;
      // std::regex pattern(" [^\\n]*\\n");
 
      // Colors text Red lol
@@ -169,18 +170,15 @@ inline void Inventory::load() {
      std::string defaultColorMod = "\033[1;39m";
 
     while (true) {
-        // do { saveFile.getline(buffer,BUFFER_SIZE, '\n'); } while (buffer[0] == '\0');
-        // saveFile.getline(buffer,BUFFER_SIZE, '\n');
-        // saveFile.getline(buffer,BUFFER_SIZE, '\n');
-        // nameString = buffer;
-        // saveFile.getline(buffer,BUFFER_SIZE, '\n');
-        // priceString = buffer;
-        // saveFile.getline(buffer,BUFFER_SIZE, '\n');
-        // quantityString = buffer;
+        std::string line, nameString, priceString, quantityString;
 
-        // Information not needed for the constructor (Index and ID)
-        std::getline (saveFile, _line);
-        std::getline (saveFile, _line);
+        std::getline (saveFile, line);
+        if ( line == "\0" ) {
+            break;
+        } else {
+            /* Do nothing */
+        }
+        std::getline (saveFile, line);
 
         std::getline (saveFile, nameString);
         std::getline (saveFile, priceString);
@@ -190,52 +188,28 @@ inline void Inventory::load() {
         priceString.erase(0,7);
         quantityString.erase(0,10);
 
-        break;
+        try {
+            this -> createProduct(nameString, stod(priceString), stoi(quantityString));
+        } catch ( std::invalid_argument &invalid_argument ) {
+            continue;
+        } catch ( std::out_of_range &out_of_range) {
+            continue;
+        }
+
     }
-
-
-
-     // Until Empty Line
-     // while (getline(saveFile, _line)) {
-     //     if (getline(saveFile, _line) &&
-     //         getline(saveFile, nameString) &&
-     //         getline(saveFile, priceString) &&
-     //         getline(saveFile, quantityString) ) {
-//
-//             std::regex_search(priceString, priceString, pattern);
-//             std::regex_search(quantityString, quantityString, pattern);
-//             std::regex_search(nameString, nameString, pattern);
-//
-//             try {
-//                 this -> createProduct(nameString, stod(priceString), stoi(quantityString));
-//             } catch (std::invalid_argument &invalid_argument) {
-//                 std::cout << errorColorMod << "Load file problem encountered. All products might not be loaded. Please review Products.txt\n"
-//                              "Reference:\t" << invalid_argument.what() << defaultColorMod << '\n';
-//                 continue;
-//             } catch (std::out_of_range &out_of_range) {
-//                 std::cout << errorColorMod << "Load file problem encountered. All products might not be loaded. Please review Products.txt\n"
-//                              "Reference:\t" << out_of_range.what() << defaultColorMod << '\n';
-//                 continue;
-//             }
-//         } else {
-//             std::cout << errorColorMod << "Load file problem encountered. All Products might not be loaded. Please review Products.txt\n"
-//                                           "Reference:\t Last product in Products.txt missing information!!" << defaultColorMod << '\n';
-//             break;
-//         }
-//     }
      saveFile.close();
 }
 
 
 
 
-inline int Inventory::makePurchase(int productsPurchased, int productID[], int amounts[]) {
-    return -999;
-}
-
-inline int Inventory::redeemRewards() {
-    return -999;
-}
+// inline int Inventory::makePurchase(int productsPurchased, int productID[], int amounts[]) {
+//     return -999;
+// }
+//
+// inline int Inventory::redeemRewards() {
+//     return -999;
+// }
 
 
 #endif //INVENTORY_H
