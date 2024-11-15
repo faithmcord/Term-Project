@@ -119,10 +119,71 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
             break;
         }
         case 7: {  // Redeem Rewards
-            std::cout << "\n--- Redeem Rewards ---\n";
-            Utilities::redeemRewards(clientele);  // Assume redeemRewards prompts for necessary info
+            while (true) {
+                std::cout << "\n--- Redeem Rewards ---\n";
+
+                std::cout << "\nEnter Customer ID to redeem rewards (or enter 0 to return to the main menu): ";
+                std::string customerId;
+                std::cin >> customerId;
+
+                if (customerId == "0") {
+                    std::cout << "Returning to the main menu...\n";
+                    break;  // Exit the outer loop to return to the main menu
+                }
+                
+                // Verify if the customer ID exists
+                if (clientele.getCustomerRewards(customerId) == -1) {
+                    std::cout << "Error: Invalid Customer ID. Please try again.\n";
+                    continue;  // Restart the loop to prompt for a new ID
+                }
+
+                // Retrieve the current reward points for the customer
+                int currentRewards = clientele.getCustomerRewards(customerId);
+
+                // Display current reward points
+                std::cout << "Customer " << customerId << " has " << currentRewards << " reward points.\n";
+
+                bool redeemed = false;
+                while (!redeemed) {
+                    // Prompt user for redemption amount
+                    std::cout << "\nEnter the number of points to redeem (or 0 to return to the main menu): ";
+                    int pointsToRedeem;
+                    std::cin >> pointsToRedeem;
+
+                    // Validate input
+                    if (std::cin.fail() || pointsToRedeem < 0) {
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        std::cout << "Invalid input. Please enter a valid number of points or 0 to return to the main menu.\n";
+                        continue;  // Restart the inner loop for valid input
+                    }
+
+                    if (pointsToRedeem == 0) {
+                        std::cout << "Returning to the main menu...\n";
+                        break;  // Exit the inner loop to return to the main menu
+                    }
+
+                    if (pointsToRedeem > currentRewards) {
+                        std::cout << "Error: Insufficient reward points. You only have " << currentRewards << " points.\n";
+                        continue;  // Restart the inner loop for a valid redemption amount
+                    }
+
+                    // Update the rewards
+                    int updateStatus = clientele.updateCustomerRewards(customerId, -pointsToRedeem);
+                    if (updateStatus == 0) {
+                        std::cout << "\nSuccessfully redeemed " << pointsToRedeem << " points! Remaining balance: "
+                                << (currentRewards - pointsToRedeem) << " points.\n";
+                        redeemed = true;  // Exit the inner loop after successful redemption
+                    } else {
+                        std::cout << "Error redeeming rewards. Please try again.\n";
+                    }
+                }
+
+                break;  // Exit the outer loop after completing the redemption process
+            }
             break;
         }
+
         case 8:
             std::cout << "\nExiting the program. Goodbye!\n";
             break;
