@@ -74,9 +74,9 @@ int Utilities::makeTransaction(const Clientele& clientele, const Inventory& inve
     }
 
     // Update Stock
-    //
-    //
-    //
+    int negQuantity;
+    negQuantity = -quantity;
+    inventory::updateInventory(productID, negQuantity);
 
     // Save Transaction to txt file
     //
