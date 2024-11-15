@@ -17,8 +17,9 @@
 #include "Inventory.h"
 #include "Clientele.h"
 #include "Rewards.h"
+#include "Utilities.h"
 
-const std::string REWARDS_CONFIG_PATH = "config.txt"; //store $ -> point conversion
+const std::string DEFAULT_REWARDS_CONFIG_PATH = "./resources/config.txt"; //store $ -> point conversion
 constexpr int MAX_CART_SIZE = 20;
 
 struct item {
@@ -30,19 +31,75 @@ struct ShoppingCart {
     item productsInCart[MAX_CART_SIZE];
 };
 
-static int transactionCount = 0;
-
 class Transaction {
     static int logTransaction(  );
+    static int applyRewards( double price, const std::string &custID, Clientele &clientele );
 
+    static int transactionCount;
+    static double dollarsIn;
+    static int pointsOut;
   public:
-      template <typename Clientele, typename Inventory>
-      static int makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID);
 
-      template <typename Clientele, typename Rewards>
-      static int redeemRewards(const Clientele& clientele, const Rewards& rewards, int custID);
+    static void loadConfig (const std::string &configPath);
+
+    static void saveConfig (const std::string &configPath);
+
+    static void setRewardsConversion (double in, int out);
+
+    template <typename Clientele, typename Inventory>
+    static int makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID);
+
+    template <typename Clientele, typename Rewards>
+    static int redeemRewards(const Clientele& clientele, const Rewards& rewards, int custID);
 
   };
+
+inline int Transaction::logTransaction () {
+    return 0;
+}
+
+inline int Transaction::applyRewards(double price, const std::string &custID, Clientele &clientele) {
+    double points = price / dollarsIn;
+    points = floor(points);
+    points *= pointsOut;
+    clientele.updateCustomerRewards(custID,static_cast<int>(points));
+    return 0;
+}
+
+inline void Transaction::loadConfig(const std::string &configPath) {
+    bool fileExists = Utilities::doesFileExist(configPath);
+    if (!fileExists) {
+        dollarsIn = 5;
+        pointsOut = 1;
+        transactionCount = 1;
+        return;
+    }
+    else {
+        /* Do nothing */
+    }
+
+    std::ifstream file;
+    file.open(configPath);
+    std::string buffer;
+    std::getline(file, buffer);
+    dollarsIn = std::stod(buffer);
+    std::getline(file, buffer);
+    pointsOut = std::stoi(buffer);
+    std::getline(file, buffer);
+    transactionCount = std::stoi(buffer);
+    file.close();
+}
+
+inline void Transaction::saveConfig(const std::string &configPath) {
+    std::fstream file;
+    file.open(configPath,std::ios::out);
+    file << dollarsIn << '\n' << pointsOut << '\n' << transactionCount;
+}
+
+inline void Transaction::setRewardsConversion(const double in, const int out) {
+    dollarsIn = in;
+    pointsOut = out;
+}
 
 template <typename Clientele, typename Inventory>
 int Transaction::makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID) {

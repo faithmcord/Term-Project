@@ -253,6 +253,11 @@ int main () {
     Inventory inventory(DEFAULT_INVENTORY_SAVE_PATH);
     Clientele clientele(DEFAULT_CLIENTELE_SAVE_PATH);
 
+    // resume last state
+    inventory.load();
+    clientele.load();
+    Transaction::loadConfig(DEFAULT_REWARDS_CONFIG_PATH);
+
     do {
         displayMenu();
         std::cin >> choice;
@@ -268,5 +273,9 @@ int main () {
         handleMenuChoice(choice, clientele, inventory);
     } while (choice != 8);  // 8 is the exit condition
 
+    // save state for next use
+    inventory.save();
+    clientele.save();
+    Transaction::saveConfig(DEFAULT_REWARDS_CONFIG_PATH);
     return 0;
 }
