@@ -11,6 +11,7 @@ add_executable(Term_Project
         include/Inventory.h
         include/Clientele.h
         include/Customer.h
-        include/Product.h)
+        include/Product.h
+        include/Transaction.h)
 
 add_subdirectory(google_tests)

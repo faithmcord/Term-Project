@@ -15,8 +15,9 @@
 #define INVENTORY_H
 
 #include "include/Product.h"
-#include "Database.h"
 #include <random>
+
+#include "Database.h"
 
 
 //GLOBAL VARIABLES

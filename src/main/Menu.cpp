@@ -16,6 +16,8 @@
 #include "include/Utilities.h"
 #include <iostream>
 
+#include "include/Transaction.h"
+
 void displayMenu() {
     std::cout << "\n====== Customer Reward System Menu ======\n";
     std::cout << "1. Register New Customer\n";
@@ -161,7 +163,7 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
         }
         case 5: {  // Shopping
             std::cout << "\n--- Shopping ---\n";
-            Utilities::shopping(clientele, inventory);  // Pass objects for transaction handling
+            Transaction::makeTransaction(clientele, inventory);  // Pass objects for transaction handling
             break;
         }
         case 6: {  // View Customer by ID
