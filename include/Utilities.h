@@ -95,6 +95,35 @@ int Utilities::makeTransaction(const Clientele& clientele, const Inventory& inve
     return 0;
 }
 
+template <typename Clientele, typename Rewards>
+int Utilities::redeemRewards(const Clientele& clientele, const Rewards& rewards, int custID) {
+    // Check if the client exists in the database
+    if (!clientele.doesExist(custID)) {
+        std::cout << "Client does not exist.\n";
+        return -1;
+    }
+
+    // Display all available products using the Database's displayAll function
+    std::cout << "Available products:\n";
+    rewards.displayAll();
+
+    // Prompt user to choose a product ID
+    std::string rewardID;
+    std::cout << "Enter the ID of the reward you wish to redeem: ";
+    std::cin >> rewardID;
+
+
+    // Save Transaction to txt file
+    //
+    //
+    //
+
+    // Final Statement
+    std::cout << "Transaction successful!\n";
+    return 0;
+}
+
+
 inline bool Utilities::doesFileExist(const std::string& file) {
     std::fstream fs;
     fs.open(file, std::ios::in);
