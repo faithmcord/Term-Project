@@ -14,7 +14,7 @@
 #ifndef CLIENTELE_H
 #define CLIENTELE_H
 
-#include "include/Customer.h"
+#include "Customer.h"
 #include "Database.h"
 
 std::string DEFAULT_CLIENTELE_SAVE_PATH = "./resources/customers.txt";

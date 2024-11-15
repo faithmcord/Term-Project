@@ -11,12 +11,12 @@
 *
 ***********************/
 
-#include "include/Clientele.h"
-#include "include/Inventory.h"
-#include "include/Utilities.h"
+#include "Clientele.h"
+#include "Inventory.h"
+#include "Utilities.h"
 #include <iostream>
 
-#include "include/Transaction.h"
+#include "Transaction.h"
 
 void displayMenu() {
     std::cout << "\n====== Customer Reward System Menu ======\n";

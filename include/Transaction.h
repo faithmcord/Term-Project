@@ -48,12 +48,17 @@ class Transaction {
     static void setRewardsConversion (double in, int out);
 
     template <typename Clientele, typename Inventory>
-    static int makeTransaction(const Clientele& clientele, const Inventory& inventory, const std::string &custID);
+    static int makeTransaction(Clientele& clientele,  Inventory& inventory, const std::string &custID);
 
     template <typename Clientele, typename Rewards>
-    static int redeemRewards(const Clientele& clientele, const Rewards& rewards, const std::string &custID);
+    static int redeemRewards( Clientele& clientele,  Rewards& rewards, const std::string &custID);
 
   };
+
+int Transaction::transactionCount = 0;
+double Transaction::dollarsIn = 0.0;
+int Transaction::pointsOut = 0;
+
 
 inline int Transaction::logTransaction (const std::string &savePath, const std::string &custID, const std::string &prodID, const double &price, const int pointsEarned) {
     std::fstream file;
@@ -79,7 +84,7 @@ inline int Transaction::applyRewards(double price, const std::string &custID, Cl
 inline void Transaction::loadConfig(const std::string &configPath) {
     bool fileExists = Utilities::doesFileExist(configPath);
     if (!fileExists) {
-        dollarsIn = 5;
+        dollarsIn = 5.0;
         pointsOut = 1;
         transactionCount = 1;
         return;
@@ -113,7 +118,7 @@ inline void Transaction::setRewardsConversion(const double in, const int out) {
 }
 
 template <typename Clientele, typename Inventory>
-int Transaction::makeTransaction(const Clientele& clientele, const Inventory& inventory, const std::string &custID) {
+int Transaction::makeTransaction( Clientele& clientele, Inventory& inventory, const std::string &custID) {
     // Check if the client exists in the database
     if (!clientele.doesExist(custID)) {
         std::cout << "Client does not exist.\n";
@@ -139,7 +144,7 @@ int Transaction::makeTransaction(const Clientele& clientele, const Inventory& in
     }
 
     // Check if there is enough stock for the requested quantity
-    if (!inventory.isEnoughInStock(productID, quantity)) {
+    if (!inventory.isEnoughInInventory(productID, quantity)) {
         std::cout << "Insufficient stock for product ID " << productID << ".\n";
         return -1;
     }
@@ -161,7 +166,7 @@ int Transaction::makeTransaction(const Clientele& clientele, const Inventory& in
 }
 
 template <typename Clientele, typename Rewards>
-int Transaction::redeemRewards(const Clientele& clientele, const Rewards& rewards, const std::string &custID) {
+int Transaction::redeemRewards( Clientele& clientele,  Rewards& rewards, const std::string &custID) {
     // Check if the client exists in the database
     if (!clientele.doesExist(custID)) {
         std::cout << "Client does not exist.\n";
