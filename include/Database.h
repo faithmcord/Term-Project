@@ -80,7 +80,7 @@ public:
      * @return 0 if the key:value pair was successfully deleted from the database
      * @return -1 if there does not exist a key:value pair does not exist at the specified location
      */
-     int remove(const std::string &ID);
+    virtual int remove(const std::string &ID);
 
     /**
     * @brief checks if a key:value pair already exist in the database
@@ -110,7 +110,7 @@ public:
     *
     * @return void
     */
-    void displayAll();
+    virtual void displayAll();
 
     /**
     * @brief saves the current state of the database to the file loaded from at time of construction

@@ -252,6 +252,7 @@ int main () {
     int choice;
     Inventory inventory(DEFAULT_INVENTORY_SAVE_PATH);
     Clientele clientele(DEFAULT_CLIENTELE_SAVE_PATH);
+
     do {
         displayMenu();
         std::cin >> choice;
