@@ -58,6 +58,12 @@ public:
         std::cout << "Enter the ID of the product you wish to purchase: ";
         std::cin >> productID;
 
+        //Check if product exists in the database
+        if (!inventory.doesExist(productID)) {
+            std::cout << "Product does not exist.\n";
+            return -1;
+        }
+
         // Ask for the quantity to purchase
         int quantity;
         std::cout << "Enter the quantity for product ID " << productID << ": ";
