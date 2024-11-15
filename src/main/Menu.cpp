@@ -162,8 +162,11 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
             break;
         }
         case 5: {  // Shopping
-            std::cout << "\n--- Shopping ---\n";
-            Transaction::makeTransaction(clientele, inventory);  // Pass objects for transaction handling
+            std::cout << "\n--- Shopping ---\n"
+                            << "Enter Customer ID: ";
+            std::string custID;
+            std::cin >> custID;
+            Transaction::makeTransaction(clientele, inventory, custID);  // Pass objects for transaction handling
             break;
         }
         case 6: {  // View Customer by ID

@@ -33,6 +33,7 @@ struct ShoppingCart {
 
 class Transaction {
     static int logTransaction( const std::string &savePath, const std::string &custID, const std::string &prodID, const double &price, int pointsEarned );
+    static int logRewardsUse( const std::string &savePath, const std::string &custID, const std::string &prodID, const int &rewardsSpent);
     static int applyRewards( double price, const std::string &custID, Clientele &clientele );
 
     static int transactionCount;
