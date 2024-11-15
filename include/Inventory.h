@@ -20,9 +20,9 @@
 
 
 //GLOBAL VARIABLES
-constexpr int BUFFER_SIZE = 40;
-const std::string DEFAULT_INVENTORY_SAVE_PATH = "resources/products.txt";
-const std::string DEFAULT_TRANSACTION_LOG_PATH = "resources/transactions.txt";
+// constexpr int BUFFER_SIZE = 40;
+const std::string DEFAULT_INVENTORY_SAVE_PATH = "./resources/products.txt";
+const std::string DEFAULT_TRANSACTION_LOG_PATH = "./resources/transactions.txt";
 
 /**
  * @class Inventory
@@ -72,7 +72,7 @@ class Inventory final :public Database<Product>{
      */
      int isEnoughInInventory (const std::string &productID);
 
-    int updateInventory (int amount);
+     int updateInventory (const std::string &productID, int amount);
 
      void save() override;
 
@@ -132,6 +132,11 @@ inline int Inventory::isEnoughInInventory(const std::string &productID) {
         return amountInStock;
     }
 }
+
+inline int Inventory::updateInventory(const std::string &productID, int amount) {
+    return 0;
+}
+
 
 inline void Inventory::save() {
      std::fstream saveFile;

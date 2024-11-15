@@ -106,7 +106,8 @@ public:
         "Username: " + username + "/n" +
         "Name: " + firstName + " " + lastName + "/n" +
         "Age: " + std::to_string(age) + "/n" +
-        "Credit Card Number: " + creditCard;
+        "Credit Card Number: " + creditCard + "/n" +
+        "Reward Points: " + std::to_string(rewardPoints);
         return customer;
     }
 };

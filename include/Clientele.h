@@ -17,7 +17,7 @@
 #include "include/Customer.h"
 #include "Database.h"
 
-std::string DEFAULT_CLIENTELE_SAVE_PATH = "customers.txt";
+std::string DEFAULT_CLIENTELE_SAVE_PATH = "./resources/customers.txt";
 
 /**
  * @class Clientele

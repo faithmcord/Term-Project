@@ -132,14 +132,14 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
     }
 }
 
-int main() {
+int main () {
     int choice;
     Inventory inventory(DEFAULT_INVENTORY_SAVE_PATH);
     Clientele clientele(DEFAULT_CLIENTELE_SAVE_PATH);
     do {
         displayMenu();
         std::cin >> choice;
-        
+
         // Validate input to ensure it is an integer
         if (std::cin.fail()) {
             std::cin.clear();  // Clear error flag
@@ -147,7 +147,7 @@ int main() {
             std::cout << "\nInvalid input. Please enter a number.\n";
             continue;
         }
-        
+
         handleMenuChoice(choice, clientele, inventory);
     } while (choice != 8);  // 8 is the exit condition
 
