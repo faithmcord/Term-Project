@@ -66,13 +66,45 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
             }
             break;
         }
+        
         case 2: {  // Remove Customer
-            std::string customerId;
-            std::cout << "\nEnter Customer ID to remove: ";
-            std::cin >> customerId;
-            clientele.remove(customerId);  // Assume this function verifies and deletes the customer
+            while (true) {
+                std::cout << "\nEnter Customer ID to remove (or enter 0 to return to the main menu): ";
+                std::string customerId;
+                std::cin >> customerId;
+
+                if (customerId == "0") {
+                    std::cout << "Returning to the main menu...\n";
+                    break;  // Exit the loop to return to the main menu
+                }
+
+                // Verify if the customer ID exists
+                if (clientele.getCustomerRewards(customerId) == -1) {
+                    std::cout << "Error: Invalid Customer ID. Please try again.\n";
+                    continue;  // Restart the loop to prompt for a valid ID
+                }
+
+                // Ask for confirmation
+                std::cout << "Are you sure you want to remove Customer ID " << customerId << "? (y/n): ";
+                char confirmation;
+                std::cin >> confirmation;
+
+                if (confirmation == 'y' || confirmation == 'Y') {
+                    // Remove the customer
+                    clientele.remove(customerId);
+                    std::cout << "Customer ID " << customerId << " has been successfully removed.\n";
+                    break;  // Exit the loop after successful removal
+                } else if (confirmation == 'n' || confirmation == 'N') {
+                    std::cout << "Removal canceled. Returning to the main menu...\n";
+                    break;  // Exit the loop without removing
+                } else {
+                    std::cout << "Invalid input. Returning to the main menu...\n";
+                    break;  // Exit the loop for unexpected input
+                }
+            }
             break;
         }
+
         case 3: {  // Add Product
             std::string productName;
             double price;
@@ -130,7 +162,7 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
                     std::cout << "Returning to the main menu...\n";
                     break;  // Exit the outer loop to return to the main menu
                 }
-                
+
                 // Verify if the customer ID exists
                 if (clientele.getCustomerRewards(customerId) == -1) {
                     std::cout << "Error: Invalid Customer ID. Please try again.\n";
