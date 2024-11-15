@@ -66,7 +66,7 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
             }
             break;
         }
-        
+
         case 2: {  // Remove Customer
             while (true) {
                 std::cout << "\nEnter Customer ID to remove (or enter 0 to return to the main menu): ";
@@ -114,10 +114,10 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
             std::cout << "Enter Product Name: ";
             std::cin.ignore();  // To clear the newline from previous input
             std::getline(std::cin, productName);
-            
+
             std::cout << "Enter Product Price: ";
             std::cin >> price;
-            
+
             std::cout << "Enter Initial Stock Quantity: ";
             std::cin >> initialStock;
 
@@ -128,9 +128,30 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
             }
             if (initialStock < 0) {
                 std::cout << "Invalid stock. Stock cannot be negative.\n";
+                break;
             }
-            break;
+
+            try {
+                // Add the new product to the inventory
+                std::string productID = inventory.createProduct(productName, price, initialStock);
+                std::cout << "Product added successfully with ID: " << productID << "\n";
+
+                // Save the updated inventory
+                inventory.save();
+                std::cout << "Product inventory updated successfully.\n";
+
+                // Return to the main menu
+                std::cout << "Returning to the main menu...\n";
+                break;
+            } catch (const std::invalid_argument &e) {
+                std::cout << "Error: " << e.what() << "\n";
+            } catch (const std::exception &e) {
+                std::cout << "Unexpected error: " << e.what() << "\n";
+            }
+
+            break;  // Ensure it exits the case if an error occurs
         }
+
         case 4: {  // Remove Product
             std::string productId;
             std::cout << "\nEnter Product ID to remove: ";
