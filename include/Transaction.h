@@ -16,6 +16,7 @@
 
 #include "Inventory.h"
 #include "Clientele.h"
+#include "Rewards.h"
 
 const std::string REWARDS_CONFIG_PATH = "config.txt"; //store $ -> point conversion
 constexpr int MAX_CART_SIZE = 20;
@@ -134,7 +135,8 @@ int Transaction::redeemRewards(const Clientele& clientele, const Rewards& reward
     }
 
     // Deduct rewards points
-    if (clientele.updateCustomerRewards(custID, -productCost) != 0) {
+    int amount = rewards.getRewardValue(rewardID) * -1;
+    if (clientele.updateCustomerRewards(custID, amount) != 0) {
         std::cout << "Failed to update customer rewards points.\n";
         return -1;
     }
