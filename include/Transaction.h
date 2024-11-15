@@ -32,7 +32,7 @@ struct ShoppingCart {
 };
 
 class Transaction {
-    static int logTransaction(  );
+    static int logTransaction( const std::string &savePath, const std::string &custID, const std::string &prodID, const double &price, int pointsEarned );
     static int applyRewards( double price, const std::string &custID, Clientele &clientele );
 
     static int transactionCount;
@@ -47,14 +47,23 @@ class Transaction {
     static void setRewardsConversion (double in, int out);
 
     template <typename Clientele, typename Inventory>
-    static int makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID);
+    static int makeTransaction(const Clientele& clientele, const Inventory& inventory, const std::string &custID);
 
     template <typename Clientele, typename Rewards>
-    static int redeemRewards(const Clientele& clientele, const Rewards& rewards, int custID);
+    static int redeemRewards(const Clientele& clientele, const Rewards& rewards, const std::string &custID);
 
   };
 
-inline int Transaction::logTransaction () {
+inline int Transaction::logTransaction (const std::string &savePath, const std::string &custID, const std::string &prodID, const double &price, const int pointsEarned) {
+    std::fstream file;
+    file.open(savePath, std::ios::app);
+    file << "Transaction " << transactionCount << ":\n";
+    file << "UserID: " << custID << '\n'
+        << "Product ID: " << prodID << '\n'
+        << "Price: " << price << '\n'
+        << "Rewards gained: " << pointsEarned << '\n';
+    ++transactionCount;
+    file.close();
     return 0;
 }
 
@@ -63,7 +72,7 @@ inline int Transaction::applyRewards(double price, const std::string &custID, Cl
     points = floor(points);
     points *= pointsOut;
     clientele.updateCustomerRewards(custID,static_cast<int>(points));
-    return 0;
+    return static_cast<int>(points);
 }
 
 inline void Transaction::loadConfig(const std::string &configPath) {
@@ -94,6 +103,7 @@ inline void Transaction::saveConfig(const std::string &configPath) {
     std::fstream file;
     file.open(configPath,std::ios::out);
     file << dollarsIn << '\n' << pointsOut << '\n' << transactionCount;
+    file.close();
 }
 
 inline void Transaction::setRewardsConversion(const double in, const int out) {
@@ -102,7 +112,7 @@ inline void Transaction::setRewardsConversion(const double in, const int out) {
 }
 
 template <typename Clientele, typename Inventory>
-int Transaction::makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID) {
+int Transaction::makeTransaction(const Clientele& clientele, const Inventory& inventory, const std::string &custID) {
     // Check if the client exists in the database
     if (!clientele.doesExist(custID)) {
         std::cout << "Client does not exist.\n";
@@ -136,12 +146,13 @@ int Transaction::makeTransaction(const Clientele& clientele, const Inventory& in
     // Update Stock
     int negQuantity;
     negQuantity = -quantity;
-    Inventory::updateInventory(productID, negQuantity);
+    inventory.updateInventory(productID, negQuantity);
 
-    // Save Transaction to txt file
-    //
-    //
-    //
+    // Save Transaction to txt file & Apply rewards to customer
+    double price = inventory.getPrice(productID);
+    int pointsEarned = applyRewards(price,custID,clientele);
+    logTransaction(DEFAULT_TRANSACTION_LOG_PATH, custID, productID, price, pointsEarned);
+
 
     // Final Statement
     std::cout << "Transaction successful!\n";
@@ -149,7 +160,7 @@ int Transaction::makeTransaction(const Clientele& clientele, const Inventory& in
 }
 
 template <typename Clientele, typename Rewards>
-int Transaction::redeemRewards(const Clientele& clientele, const Rewards& rewards, int custID) {
+int Transaction::redeemRewards(const Clientele& clientele, const Rewards& rewards, const std::string &custID) {
     // Check if the client exists in the database
     if (!clientele.doesExist(custID)) {
         std::cout << "Client does not exist.\n";
