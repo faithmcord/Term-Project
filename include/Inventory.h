@@ -20,9 +20,9 @@
 
 
 //GLOBAL VARIABLES
-constexpr int BUFFER_SIZE = 40;
-const std::string DEFAULT_INVENTORY_SAVE_PATH = "resources/products.txt";
-const std::string DEFAULT_TRANSACTION_LOG_PATH = "resources/transactions.txt";
+// constexpr int BUFFER_SIZE = 40;
+const std::string DEFAULT_INVENTORY_SAVE_PATH = "./resources/products.txt";
+const std::string DEFAULT_TRANSACTION_LOG_PATH = "./resources/transactions.txt";
 
 /**
  * @class Inventory

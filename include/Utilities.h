@@ -28,7 +28,12 @@ struct ShoppingCart {
     item productsInCart[MAX_CART_SIZE];
 };
 
+static int transactionCount = 0;
+
 class Utilities {
+
+    static int logTransaction(  );
+
 public:
 
     /***
@@ -38,6 +43,8 @@ public:
     static int makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID);
 
     static bool doesFileExist(const std::string& file);
+
+
 
 };
 
