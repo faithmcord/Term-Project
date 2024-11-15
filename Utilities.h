@@ -84,7 +84,7 @@ public:
         Product::removeStock(quantity);
 
         // Save Transaction to txt file
-        //
+        // 
         //
         //
 
