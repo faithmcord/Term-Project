@@ -81,6 +81,8 @@ public:
         return productID; }
     int getQuantity() const {
         return quantity; }
+    double getPrice() const {
+        return price; }
     std::string toString() const {
         std::string product =
         "Product ID: " + productID + "/n" +

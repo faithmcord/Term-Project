@@ -11,9 +11,9 @@
 *
 ***********************/
 
-#include "include/Clientele.h"
-#include "include/Inventory.h"
-#include "include/Utilities.h"
+#include "Clientele.h"
+#include "Inventory.h"
+#include "Utilities.h"
 #include <iostream>
 #include <limits>
 
@@ -25,6 +25,8 @@ void removeProduct(Inventory &inventory);
 void shopping(Clientele &clientele, Inventory &inventory);
 void viewCustomer(Clientele &clientele);
 void redeemRewards(Clientele &clientele);
+
+#include "Transaction.h"
 
 void displayMenu() {
     std::cout << "\n====== Customer Reward System Menu ======\n";
@@ -253,5 +255,9 @@ int main() {
         handleMenuChoice(choice, clientele, inventory);
     } while (choice != 8);
 
+    // save state for next use
+    inventory.save();
+    clientele.save();
+    Transaction::saveConfig(DEFAULT_REWARDS_CONFIG_PATH);
     return 0;
 }

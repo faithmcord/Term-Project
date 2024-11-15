@@ -14,9 +14,10 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include "include/Product.h"
-#include "Database.h"
+#include "Product.h"
 #include <random>
+
+#include "Database.h"
 
 
 //GLOBAL VARIABLES
@@ -28,7 +29,8 @@ const std::string DEFAULT_TRANSACTION_LOG_PATH = "./resources/transactions.txt";
  * @class Inventory
  * @brief a dictionary of all customers of the store indexed by their customer ID
  */
-class Inventory final :public Database<Product>{
+class Inventory :public Database<Product>{
+private:
     /**
      * @brief the directory of the transaction log file
      */
@@ -43,7 +45,7 @@ class Inventory final :public Database<Product>{
 
     public:
 
-    explicit Inventory(const std::string &loadFile);
+    Inventory(const std::string &loadFile);
 
     /**
      * @brief Creates a new product and stores it into the dictionary
@@ -62,6 +64,8 @@ class Inventory final :public Database<Product>{
      */
     std::string createProduct(const std::string &productName, double price, int initialStock);
 
+    bool isEnoughInInventory(const std::string &productID, int quantity);
+
     /**
      * @brief checks for how much stock of a product is currently in possession
      *
@@ -70,9 +74,11 @@ class Inventory final :public Database<Product>{
      * @return amount currently in stock
      * @return -1 if invalid productID
      */
-     int isEnoughInInventory (const std::string &productID);
+     bool isEnoughInInventory (const std::string &productID);
 
      int updateInventory (const std::string &productID, int amount);
+
+    double getPrice (const std::string &productID);
 
      void save() override;
 
@@ -121,20 +127,51 @@ inline std::string Inventory::createProduct(const std::string &productName, doub
     return prodID;
 }
 
-inline int Inventory::isEnoughInInventory(const std::string &productID) {
+inline bool Inventory::isEnoughInInventory(const std::string &productID, int quantity) {
     // locate product being queried
     const auto index = container.find(productID);
     if (index == container.end()) { // product does not exist
-        return -1;
+        return false;
     }
     else {                          // product exists; return amount available
         const int amountInStock = index->second.getQuantity();
-        return amountInStock;
+        if (amountInStock > quantity) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
 
 inline int Inventory::updateInventory(const std::string &productID, int amount) {
-    return 0;
+    const auto index = container.find(productID);
+    if (index == container.end()) {
+        return -1;
+    }
+    else {
+        if (amount > 0) {
+            index -> second.addStock(amount);
+        } else if (amount < 0) {
+            amount *= -1;
+            index -> second.removeStock(amount);
+        }
+        else {
+            /* Do nothing */
+        }
+        return 0;
+    }
+}
+
+inline double Inventory::getPrice(const std::string &productID) {
+    const auto index = container.find(productID);
+    if (index == container.end()) {
+        return -1;
+    }
+    else {
+        const double price = index -> second.getPrice();
+        return price;
+    }
 }
 
 
@@ -145,7 +182,7 @@ inline void Inventory::save() {
      auto indexPointer = container.begin();
      const auto end = container.end();
      while (indexPointer != end) {
-         saveFile << "Customer " << ++indexNumber << '\n';
+         saveFile << "Product " << ++indexNumber << ":\n";
          std::string output;
          output += indexPointer->second.toString();
          saveFile << output << '\n';
