@@ -49,20 +49,6 @@ cmake_ninja_workdir = /Users/cinnamon/Documents/Class/CSC455-Quality/Term-Projec
 
 build cmake_object_order_depends_target_Term_Project: phony || .
 
-build CMakeFiles/Term_Project.dir/src/main/Includes.cpp.o: CXX_COMPILER__Term_Project_unscanned_Debug /Users/cinnamon/Documents/Class/CSC455-Quality/Term-Project/src/main/Includes.cpp || cmake_object_order_depends_target_Term_Project
-  DEP_FILE = CMakeFiles/Term_Project.dir/src/main/Includes.cpp.o.d
-  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk -fcolor-diagnostics
-  INCLUDES = -I/Users/cinnamon/Documents/Class/CSC455-Quality/Term-Project/.
-  OBJECT_DIR = CMakeFiles/Term_Project.dir
-  OBJECT_FILE_DIR = CMakeFiles/Term_Project.dir/src/main
-
-build CMakeFiles/Term_Project.dir/src/main/Main.cpp.o: CXX_COMPILER__Term_Project_unscanned_Debug /Users/cinnamon/Documents/Class/CSC455-Quality/Term-Project/src/main/Main.cpp || cmake_object_order_depends_target_Term_Project
-  DEP_FILE = CMakeFiles/Term_Project.dir/src/main/Main.cpp.o.d
-  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk -fcolor-diagnostics
-  INCLUDES = -I/Users/cinnamon/Documents/Class/CSC455-Quality/Term-Project/.
-  OBJECT_DIR = CMakeFiles/Term_Project.dir
-  OBJECT_FILE_DIR = CMakeFiles/Term_Project.dir/src/main
-
 build CMakeFiles/Term_Project.dir/src/main/Menu.cpp.o: CXX_COMPILER__Term_Project_unscanned_Debug /Users/cinnamon/Documents/Class/CSC455-Quality/Term-Project/src/main/Menu.cpp || cmake_object_order_depends_target_Term_Project
   DEP_FILE = CMakeFiles/Term_Project.dir/src/main/Menu.cpp.o.d
   FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk -fcolor-diagnostics
@@ -78,7 +64,7 @@ build CMakeFiles/Term_Project.dir/src/main/Menu.cpp.o: CXX_COMPILER__Term_Projec
 #############################################
 # Link the executable Term_Project
 
-build Term_Project: CXX_EXECUTABLE_LINKER__Term_Project_Debug CMakeFiles/Term_Project.dir/src/main/Includes.cpp.o CMakeFiles/Term_Project.dir/src/main/Main.cpp.o CMakeFiles/Term_Project.dir/src/main/Menu.cpp.o
+build Term_Project: CXX_EXECUTABLE_LINKER__Term_Project_Debug CMakeFiles/Term_Project.dir/src/main/Menu.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk
   OBJECT_DIR = CMakeFiles/Term_Project.dir
   POST_BUILD = :
