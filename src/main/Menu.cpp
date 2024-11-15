@@ -192,8 +192,87 @@ void removeProduct(Inventory &inventory) {
 
 void shopping(Clientele &clientele, Inventory &inventory) {
     std::cout << "\n--- Shopping ---\n";
-    Utilities::shopping(clientele, inventory);
+
+    // Step 1: Prompt for customer username
+    std::cout << "Enter your username: ";
+    std::string username;
+    std::cin >> username;
+
+    // Step 2: Validate if the customer exists
+    std::string customerID;
+    bool customerFound = false;
+    for (const auto &entry : clientele.getContainer()) {
+        if (entry.second.getUsername() == username) {
+            customerID = entry.first;
+            customerFound = true;
+            break;
+        }
+    }
+
+    if (!customerFound) {
+        std::cout << "Error: Username not found. Returning to main menu...\n";
+        return;
+    }
+
+    // Step 3: List available products
+    std::cout << "\nAvailable Products:\n";
+    for (const auto &entry : inventory.getContainer()) {
+        const auto &product = entry.second;
+        std::cout << "ID: " << entry.first
+                  << " | Name: " << product.getName()
+                  << " | Price: $" << product.getPrice()
+                  << " | Stock: " << product.getQuantity() << "\n";
+    }
+
+    // Step 4: Prompt for product ID and quantity
+    std::cout << "\nEnter the Product ID of the item you want to purchase: ";
+    std::string productID;
+    std::cin >> productID;
+
+    const auto productIter = inventory.getContainer().find(productID);
+    if (productIter == inventory.getContainer().end()) {
+        std::cout << "Error: Invalid Product ID. Returning to main menu...\n";
+        return;
+    }
+
+    std::cout << "Enter the quantity to purchase: ";
+    int quantity;
+    std::cin >> quantity;
+
+    // Step 5: Check inventory stock
+    int stockAvailable = inventory.isEnoughInInventory(productID);
+    if (stockAvailable < quantity) {
+        std::cout << "Error: Not enough stock available. Returning to main menu...\n";
+        return;
+    }
+
+    // Step 6: Confirm purchase
+    const auto &product = productIter->second;
+    double totalCost = product.getPrice() * quantity;
+    std::cout << "\nPurchase Summary:\n";
+    std::cout << "Product: " << product.getName()
+              << "\nQuantity: " << quantity
+              << "\nTotal Cost: $" << totalCost << "\n";
+
+    std::cout << "Do you want to confirm this purchase? (yes/no): ";
+    std::string confirmation;
+    std::cin >> confirmation;
+
+    if (confirmation != "yes") {
+        std::cout << "Purchase canceled. Returning to main menu...\n";
+        return;
+    }
+
+    // Step 7: Process purchase
+    inventory.updateInventory(productID, -quantity);  // Decrease inventory by the quantity purchased
+    clientele.updateCustomerRewards(customerID, static_cast<int>(totalCost / 10));  // Add rewards points
+
+    std::cout << "Purchase successful! Rewards have been added to your account.\n";
+
+    // Step 8: Return to menu
+    std::cout << "Returning to main menu...\n";
 }
+
 
 void viewCustomer(Clientele &clientele) {
     std::string customerId;
