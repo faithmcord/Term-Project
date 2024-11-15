@@ -1,6 +1,6 @@
 IDIR = ./include
 SRC_DIRS  = ./src/main
-CC = g++-14
+CC = g++-13
 CFLAGS= -o
 
 TARGET_EXEC = final_project
