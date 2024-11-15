@@ -14,7 +14,7 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include "include/Product.h"
+#include "Product.h"
 #include <random>
 
 #include "Database.h"
@@ -64,6 +64,8 @@ private:
      */
     std::string createProduct(const std::string &productName, double price, int initialStock);
 
+    bool isEnoughInInventory(const std::string &productID, int quantity);
+
     /**
      * @brief checks for how much stock of a product is currently in possession
      *
@@ -72,7 +74,7 @@ private:
      * @return amount currently in stock
      * @return -1 if invalid productID
      */
-     int isEnoughInInventory (const std::string &productID);
+     bool isEnoughInInventory (const std::string &productID);
 
      int updateInventory (const std::string &productID, int amount);
 
@@ -125,15 +127,20 @@ inline std::string Inventory::createProduct(const std::string &productName, doub
     return prodID;
 }
 
-inline int Inventory::isEnoughInInventory(const std::string &productID) {
+inline bool Inventory::isEnoughInInventory(const std::string &productID, int quantity) {
     // locate product being queried
     const auto index = container.find(productID);
     if (index == container.end()) { // product does not exist
-        return -1;
+        return false;
     }
     else {                          // product exists; return amount available
         const int amountInStock = index->second.getQuantity();
-        return amountInStock;
+        if (amountInStock > quantity) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
 
