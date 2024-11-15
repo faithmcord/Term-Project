@@ -42,6 +42,9 @@ public:
     template <typename Clientele, typename Inventory>
     static int makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID);
 
+    template <typename Clientele, typename Rewards>
+    int Utilities::redeemRewards(const Clientele& clientele, const Rewards& rewards, int custID);
+
     static bool doesFileExist(const std::string& file);
 
 
@@ -94,6 +97,66 @@ int Utilities::makeTransaction(const Clientele& clientele, const Inventory& inve
     std::cout << "Transaction successful!\n";
     return 0;
 }
+
+template <typename Clientele, typename Rewards>
+int Utilities::redeemRewards(const Clientele& clientele, const Rewards& rewards, int custID) {
+    // Check if the client exists in the database
+    if (!clientele.doesExist(custID)) {
+        std::cout << "Client does not exist.\n";
+        return -1;
+    }
+
+    // Display all available products using the Database's displayAll function
+    std::cout << "Available products:\n";
+    rewards.displayAll();
+
+    // Prompt user to choose a product ID
+    std::string rewardID;
+    std::cout << "Enter the ID of the reward you wish to redeem: ";
+    std::cin >> rewardID;
+
+    // Verify reward exists
+    if (!rewards.doesExist(rewardID)) {
+        std::cout << "Reward selection does not exist.\n";
+        return -1;
+    }
+
+    // Retrieve the product's cost in rewards points
+    int rewardValue = rewards.getRewardValue(rewardID); // Hypothetical function to fetch reward point cost
+    if (rewardValue <= 0) {
+        std::cout << "Failed to retrieve product cost.\n";
+        return -1;
+    }
+
+    // Get the customer's current rewards points
+    int customerRewards = clientele.getCustomerRewards(custID);
+    if (customerRewards < 0) {
+        std::cout << "Failed to retrieve customer rewards points.\n";
+        return -1;
+    }
+
+    // Check if the customer has enough rewards points
+    if (customerRewards < rewardValue) {
+        std::cout << "You do not have enough rewards points to redeem this product.\n";
+        return -1;
+    }
+
+    // Deduct rewards points
+    if (clientele.updateCustomerRewards(custID, -productCost) != 0) {
+        std::cout << "Failed to update customer rewards points.\n";
+        return -1;
+    }
+
+    // Save Transaction to txt file NEEDS to be in less than 3 lines to stay in requirements
+    //
+    //
+    //
+
+    // Final Statement
+    std::cout << "Transaction successful!\n";
+    return 0;
+}
+
 
 inline bool Utilities::doesFileExist(const std::string& file) {
     std::fstream fs;
