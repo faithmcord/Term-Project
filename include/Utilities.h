@@ -43,6 +43,48 @@ public:
 
 template <typename Clientele, typename Inventory>
 int Utilities::makeTransaction(const Clientele& clientele, const Inventory& inventory, int custID) {
+    // Check if the client exists in the database
+    if (!clientele.doesExist(custID)) {
+        std::cout << "Client does not exist.\n";
+        return -1;
+    }
+
+    // Display all available products using the Database's displayAll function
+    std::cout << "Available products:\n";
+    inventory.displayAll();
+
+    // Prompt user to choose a product ID
+    std::string productID;
+    std::cout << "Enter the ID of the product you wish to purchase: ";
+    std::cin >> productID;
+
+    // Ask for the quantity to purchase
+    int quantity;
+    std::cout << "Enter the quantity for product ID " << productID << ": ";
+    std::cin >> quantity;
+    if (quantity <= 0) {
+        std::cout << "Invalid quantity.\n";
+        return -1;
+    }
+
+    // Check if there is enough stock for the requested quantity
+    if (!inventory.isEnoughInStock(productID, quantity)) {
+        std::cout << "Insufficient stock for product ID " << productID << ".\n";
+        return -1;
+    }
+
+    // Update Stock
+    //
+    //
+    //
+
+    // Save Transaction to txt file
+    //
+    //
+    //
+
+    // Final Statement
+    std::cout << "Transaction successful!\n";
     return 0;
 }
 
