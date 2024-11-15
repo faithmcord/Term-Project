@@ -80,9 +80,8 @@ public:
         }
 
         // Update Stock
-        //
-        //
-        //
+        // identify product
+        Product::removeStock(quantity);
 
         // Save Transaction to txt file
         //
