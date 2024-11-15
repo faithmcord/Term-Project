@@ -49,6 +49,10 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
             
             std::cout << "Enter Age: ";
             std::cin >> age;
+            if (age < 18 || age > 100) {
+                std::cout << "Invalid age. Age must be between 18 and 100.\n";
+                break;
+            }
             
             std::cout << "Enter Credit Card Number (xxxx-xxxx-xxxx format): ";
             std::cin >> creditCardInfo;
@@ -92,7 +96,7 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
             }
             if (initialStock < 0) {
                 std::cout << "Invalid stock. Stock cannot be negative.\n";
-               
+            }
             break;
         }
         case 4: {  // Remove Product
