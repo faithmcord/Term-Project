@@ -32,6 +32,12 @@ struct ShoppingCart {
     item productsInCart[MAX_CART_SIZE];
 };
 
+/**
+ * @class Transaction
+ * A utility class that handles performing atomic transactions between databases
+ *
+ * API can be interacted with statically without creating an object
+ */
 class Transaction {
 private:
     /**

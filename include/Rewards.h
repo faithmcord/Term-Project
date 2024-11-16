@@ -1,9 +1,18 @@
-//
-// Created by Xander Palermo on 11/14/24.
-//
-
+/**********************
+*
+* File Name:    Rewards.h
+* Author(s):    Xander Palermo <ajp2s@missouristate.edu>
+* Description:  A database that holds rewards that can be exchanged for reward points
+*
+* Course:      CSC 455 - Software Quality Assurance
+* Instructor:  Mohammed Belkhouche
+* Project:     Term Project
+* Date:        8 November 2024
+*
+***********************/
 #ifndef REWARDS_H
 #define REWARDS_H
+
 #include "Inventory.h"
 #include "Product.h"
 
@@ -11,23 +20,50 @@
 
 const std::string DEFAULT_REWARDS_SAVE_PATH = "./resources/rewards.txt";
 
+/**
+ * @class Rewards
+ *
+ * A database that holds rewards that can be exchanged for reward points
+ *
+ *      model is an extension of Inventory
+ */
 class Rewards final : public Inventory {
 private:
 
-    std::string savePath;
+    std::string savePath;    /** @brief the path to the file that the method .save() calls */
 
 public:
-
+    /**
+     * @brief default constructor for a Rewards Object
+     *
+     * @param loadFile the path to the file to be loaded from
+     */
     explicit Rewards(const std::string &loadFile);
 
-    ~Rewards() override = default;
-
+    /**
+     *
+     * @param rewardName
+     * @param price
+     * @param initialStock
+     * @return
+     */
     std::string createReward (const std::string &rewardName, int price, int initialStock);
 
+    /**
+     *
+     * @param rewardID
+     * @return
+     */
     int getRewardValue (const std::string &rewardID);
 
+    /**
+     *
+     */
     void displayAll() override;
 
+    /**
+     *
+     */
     void save() override;
 
   };

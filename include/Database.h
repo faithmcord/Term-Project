@@ -32,7 +32,7 @@ template<typename item>
 class Database {
 protected:
     /**
-    * @brief the path to the file that the method .preserveState() calls
+    * @brief the path to the file that the method .save() calls
     */
     std::string savePath{};
 
