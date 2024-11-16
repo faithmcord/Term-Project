@@ -166,6 +166,19 @@ inline int Transaction::logTransaction (const std::string &savePath, const std::
     return 0;
 }
 
+inline int Transaction::logRewardsUse(const std::string &savePath, const std::string &custID, const std::string &rewardID, const int &rewardsSpent) {
+    std::fstream file;
+    file.open(savePath, std::ios::app);
+    file << "Transaction " << transactionCount << ": \n";
+    file << "UserID: " << custID << 'n'
+        << "Product ID: " << rewardID << '\n'
+        << "Price: " << rewardsSpent << '\n';
+    ++transactionCount;
+    file.close();
+    return 0;
+}
+
+
 inline int Transaction::applyRewards(double price, const std::string &custID, Clientele &clientele) {
     double points = price / dollarsIn;
     points = floor(points);
@@ -180,12 +193,12 @@ inline bool Transaction::validateConversionRate() {
     }
     else { // An incorrect value was passed
         // THIS IS TEMPORARY HANDLING
+        // IMPLEMENTATION SHOULD CATCH THE FALSE RETURN
         dollarsIn = DEFAULT_DOLLARS_IN;
         pointsOut = DEFAULT_POINTS_OUT;
         return false;
     }
 }
-
 
 inline bool Transaction::loadConfig(const std::string &configPath) {
     bool fileExists = Utilities::doesFileExist(configPath);
