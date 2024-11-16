@@ -17,6 +17,8 @@
 #include <iostream>
 #include <limits>
 
+#include "Transaction.h"
+
 // Function prototypes
 void registerCustomer(Clientele &clientele);
 void removeCustomer(Clientele &clientele);
@@ -26,7 +28,6 @@ void shopping(Clientele &clientele, Inventory &inventory);
 void viewCustomer(Clientele &clientele);
 void redeemRewards(Clientele &clientele);
 
-#include "Transaction.h"
 
 void displayMenu() {
     std::cout << "\n====== Customer Reward System Menu ======\n";
@@ -319,6 +320,7 @@ int main() {
     int choice;
     Inventory inventory(DEFAULT_INVENTORY_SAVE_PATH);
     Clientele clientele(DEFAULT_CLIENTELE_SAVE_PATH);
+    Transaction::loadConfig(DEFAULT_REWARDS_CONFIG_PATH);
 
     do {
         displayMenu();

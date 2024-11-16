@@ -2,7 +2,7 @@
 *
 * File Name:    Utilities.h
 * Author(s):    Xander Palermo <ajp2s@missouristate.edu>
-* Description:  A container object that manages and preserves all loaded customers in memory
+* Description:  a utility class that holds etc. functions of use to the program
 *
 * Course:      CSC 455 - Software Quality Assurance
 * Instructor:  Mohammed Belkhouche
