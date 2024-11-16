@@ -41,11 +41,14 @@ public:
     explicit Rewards(const std::string &loadFile);
 
     /**
+     * Adds a new reward to the database identified by the reward ID
      *
-     * @param rewardName
-     * @param price
-     * @param initialStock
-     * @return
+     *  rewards use a product class
+     *
+     * @param rewardName The name of the reward to be added
+     * @param price The amount of points to be redeemed for the reward
+     * @param initialStock The amount of items of the reward in stock
+     * @return returns the ID of the new reward
      */
     std::string createReward (const std::string &rewardName, int price, int initialStock);
 
