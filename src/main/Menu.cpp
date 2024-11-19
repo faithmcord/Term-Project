@@ -12,10 +12,10 @@
 ***********************/
 
 // MAKE
-#include "Clientele.h"
-#include "Inventory.h"
-#include "Utilities.h"
-#include "Transaction.h"
+// #include "Clientele.h"
+// #include "Inventory.h"
+// #include "Utilities.h"
+// #include "Transaction.h"
 
 // CMAKE
 #include "include/Clientele.h"
@@ -33,7 +33,7 @@ void addProduct(Inventory &inventory);
 void removeProduct(Inventory &inventory);
 void shopping(Clientele &clientele, Inventory &inventory);
 void viewCustomer(Clientele &clientele);
-void redeemRewards(Clientele &clientele);
+void redeemRewards(Clientele &clientele, Rewards &rewards);
 
 
 void displayMenu() {
@@ -50,7 +50,7 @@ void displayMenu() {
     std::cout << "Enter your choice (1-8): ";
 }
 
-void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
+void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory, Rewards &rewards) {
     switch (choice) {
         case 1:
             registerCustomer(clientele);
@@ -71,7 +71,7 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory) {
             viewCustomer(clientele);
             break;
         case 7:
-            redeemRewards(clientele);
+            redeemRewards(clientele, rewards);
             break;
         case 8:
             std::cout << "\nExiting the program. Goodbye!\n";
@@ -285,11 +285,19 @@ void redeemRewards(Clientele &clientele, Rewards &rewards) {
 }
 
 int main() {
+    // Create objects
     int choice;
     Inventory inventory(DEFAULT_INVENTORY_SAVE_PATH);
     Clientele clientele(DEFAULT_CLIENTELE_SAVE_PATH);
+    Rewards rewards(DEFAULT_REWARDS_SAVE_PATH);
+
+    // Load data into objects
+    inventory.load();
+    clientele.load();
+    rewards.load();
     Transaction::loadConfig(DEFAULT_REWARDS_CONFIG_PATH);
 
+    // Initiate GUI
     do {
         displayMenu();
         std::cin >> choice;
@@ -301,12 +309,13 @@ int main() {
             continue;
         }
 
-        handleMenuChoice(choice, clientele, inventory);
+        handleMenuChoice(choice, clientele, inventory, rewards);
     } while (choice != 8);
 
     // save state for next use
     inventory.save();
     clientele.save();
+    rewards.save();
     Transaction::saveConfig(DEFAULT_REWARDS_CONFIG_PATH);
     return 0;
 }

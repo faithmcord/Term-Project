@@ -58,3 +58,6 @@
 1187	1321	1732058923645368737	google_tests/ClienteleTests	d4b28f8b34e91907
 7	1507	1732059439052176840	google_tests/CMakeFiles/ClienteleTests.dir/unit_tests/ClienteleTest.cpp.o	d6f4a0949c16ca1c
 1507	1657	1732059440552032056	google_tests/ClienteleTests	d4b28f8b34e91907
+4	1270	1732060105656818891	CMakeFiles/Term_Project.dir/src/main/Menu.cpp.o	850332ebf742fe98
+7	1008	1732060392192802497	CMakeFiles/Term_Project.dir/src/main/Menu.cpp.o	850332ebf742fe98
+1008	1114	1732060393194528414	Term_Project	cc494bbfab25bbfc
