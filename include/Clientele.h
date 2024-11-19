@@ -134,12 +134,13 @@ inline std::string Clientele::findUser(const std::string &username) {
     else {
         /* Do nothing */
     }
-    const auto index = container.begin();
+    auto index = container.begin();
     const auto end = container.end();
     while (index != end) {
         if (index -> second.getUsername() == username) {
             return index -> first;
         }
+        ++index;
     }
     return "";
 }
