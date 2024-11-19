@@ -11,15 +11,20 @@
 *
 ***********************/
 
+// MAKE
 #include "Clientele.h"
 #include "Inventory.h"
 #include "Utilities.h"
-#include <iostream>
-#include <limits>
-
 #include "Transaction.h"
+
+// CMAKE
 #include "include/Clientele.h"
 #include "include/Inventory.h"
+#include "include/Utilities.h"
+#include "include/Transaction.h"
+
+#include <iostream>
+#include <limits>
 
 // Function prototypes
 void registerCustomer(Clientele &clientele);
