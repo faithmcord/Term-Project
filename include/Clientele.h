@@ -17,7 +17,7 @@
 #include "Customer.h"
 #include "Database.h"
 
-std::string DEFAULT_CLIENTELE_SAVE_PATH = "./resources/customers.txt";
+std::string DEFAULT_CLIENTELE_SAVE_PATH = "customers.txt";
 
 /**
  * @class Clientele
@@ -155,48 +155,50 @@ inline void Clientele::load() {
     std::string errorColorMod = "\033[1;31m";
     std::string defaultColorMod = "\033[1;39m";
 
-    while ( true ) {
+    while (true) {
         std::string line, userNameString, fullNameString, firstNameString, lastNameString,
-                        ageString, creditCardNumberString, rewardPointsString;
+                ageString, creditCardNumberString, rewardPointsString;
 
-        std::getline ( saveFile, line );
-        if ( line.empty() ) {
+        std::getline(saveFile, line);
+        if (line.empty()) {
             break;
         } else {
             /* Do nothing */
         }
-        std::getline ( saveFile, line );
+        std::getline(saveFile, line);
 
-        std::getline ( saveFile, userNameString );
-        std::getline ( saveFile, fullNameString);
-        std::getline ( saveFile, ageString);
-        std::getline ( saveFile, creditCardNumberString );
-        std::getline ( saveFile, rewardPointsString );
+        std::getline(saveFile, userNameString);
+        std::getline(saveFile, fullNameString);
+        std::getline(saveFile, ageString);
+        std::getline(saveFile, creditCardNumberString);
+        std::getline(saveFile, rewardPointsString);
 
         // String Comprehension
-        userNameString.erase(0,10);
-        fullNameString.erase(0,6);
+        userNameString.erase(0, 10);
+        fullNameString.erase(0, 6);
         unsigned long split = fullNameString.find(' ');
-        firstNameString = fullNameString.substr(0,split-1);
-        lastNameString = fullNameString.substr(split+1, std::string::npos);
-        ageString.erase(0,5);
-        creditCardNumberString.erase(0,20);
-        rewardPointsString.erase(0,0);
-
+        firstNameString = fullNameString.substr(0, split - 1);
+        lastNameString = fullNameString.substr(split + 1, std::string::npos);
+        ageString.erase(0, 5);
+        creditCardNumberString.erase(0, 20);
+        rewardPointsString.erase(0, 0);
 
 
         try {
-            this -> registerCustomer(userNameString, firstNameString, lastNameString, std::stoi(ageString), creditCardNumberString );
-        } catch ( std::invalid_argument &invalid_argument ) {
-            std::cout << errorColorMod << "Problem encountered while loading " << savePath << ": " << invalid_argument.what()
-                // << "Failed to load customer:\nUsername: " << userNameString << "\nFirst Name: " << firstNameString << "\nLast Name: " << lastNameString
-                // << "\nAge: " << ageString << "\nCredit Card Number: " << creditCardNumberString << "\nReward Points: " << rewardPointsString
-                << defaultColorMod << '\n';
-        } catch ( std::out_of_range &out_of_range) {
-            std::cout << errorColorMod << "Problem encountered while loading " << savePath << ": " << out_of_range.what()
-                // << "Failed to load customer:\nUsername: " << userNameString << "\nFirst Name: " << firstNameString << "\nLast Name: " << lastNameString
-                // << "\nAge: " << ageString << "\nCredit Card Number: " << creditCardNumberString << "\nReward Points: " << rewardPointsString
-                << defaultColorMod << '\n';
+            this->registerCustomer(userNameString, firstNameString, lastNameString, std::stoi(ageString),
+                                   creditCardNumberString);
+        } catch (std::invalid_argument &invalid_argument) {
+            std::cout << errorColorMod << "Problem encountered while loading " << savePath << ": " << invalid_argument.
+                    what()
+                    // << "Failed to load customer:\nUsername: " << userNameString << "\nFirst Name: " << firstNameString << "\nLast Name: " << lastNameString
+                    // << "\nAge: " << ageString << "\nCredit Card Number: " << creditCardNumberString << "\nReward Points: " << rewardPointsString
+                    << defaultColorMod << '\n';
+        } catch (std::out_of_range &out_of_range) {
+            std::cout << errorColorMod << "Problem encountered while loading " << savePath << ": " << out_of_range.
+                    what()
+                    // << "Failed to load customer:\nUsername: " << userNameString << "\nFirst Name: " << firstNameString << "\nLast Name: " << lastNameString
+                    // << "\nAge: " << ageString << "\nCredit Card Number: " << creditCardNumberString << "\nReward Points: " << rewardPointsString
+                    << defaultColorMod << '\n';
         }
     }
     saveFile.close();

@@ -1,8 +1,9 @@
 /**********************
 *
 * File Name:    Transactions.h
-* Author(s):
-* Description:  A container object that manages and preserves all loaded customers in memory
+* Author(s):    Faith Cordsiemon <fmc778s@missouristate.edu>
+*               Xander Palermo <ajp2s@missouristate.edu>
+* Description:  A utility class that handles performing atomic transactions between databases
 *
 * Course:      CSC 455 - Software Quality Assurance
 * Instructor:  Mohammed Belkhouche
@@ -19,7 +20,7 @@
 #include "Rewards.h"
 #include "Utilities.h"
 
-const std::string DEFAULT_REWARDS_CONFIG_PATH = "./resources/config.txt"; //store $ -> point conversion
+const std::string DEFAULT_REWARDS_CONFIG_PATH = "./resources/config.txt"; //store $ -> point conversion and transactionCount
 constexpr int MAX_CART_SIZE = 20;
 
 struct item {
@@ -31,21 +32,116 @@ struct ShoppingCart {
     item productsInCart[MAX_CART_SIZE];
 };
 
+/**
+ * @class Transaction
+ * A utility class that handles performing atomic transactions between databases
+ *
+ * API can be interacted with statically without creating an object
+ */
 class Transaction {
+private:
+    /**
+     * Logs a product purchase transaction information into a log file for record keeping
+     *
+     * The transaction ID is derived from a global variable saved in line 3 of the loaded config file
+     *
+     * The Transaction ID is shared between Products and Reward Transactions
+     *
+     * @pre a config file has been loaded
+     *
+     * @param savePath the location of the log file to be appended to
+     * @param custID the ID of the customer initiating the transaction
+     * @param prodID the ID of the product being purchased
+     * @param price the total of the item being purchased
+     * @param pointsEarned the number of points awarded to the customer upon finishing the transaction
+     * @return 0 on success of logging
+     */
     static int logTransaction( const std::string &savePath, const std::string &custID, const std::string &prodID, const double &price, int pointsEarned );
-    static int logRewardsUse( const std::string &savePath, const std::string &custID, const std::string &prodID, const int &rewardsSpent);
+
+    /**
+     * Logs a rewards use transaction into a log file for record keeping
+     *
+     * The transaction ID is derived from a global variable saved in line 3 of the loaded config file
+     *
+     * The Transaction ID is shared between Products and Reward Transactions
+     *
+     * @pre a config file has been loaded
+     *
+     * @param savePath the location of the log file to be appended to
+     * @param custID the ID of the customer initiating the transaction
+     * @param rewardID the ID of the reward being purchased
+     * @param rewardsSpent the number of rewards points spent upon finishing the transaction
+     * @return
+     */
+    static int logRewardsUse( const std::string &savePath, const std::string &custID, const std::string &rewardID, const int &rewardsSpent);
+
+    /**
+     * Accesses a specific customer in the clientele database and administers reward points to them
+     * from a transaction of a specified price
+     *
+     * Conversion rate of price to points is defined in line 1 and 2 of the config file loaded
+     * Can be overridden by calling setRewardsConversion() and permanently changed by saveConfig()
+     *
+     * @pre a config file has been loaded
+     *
+     * @param price the total of the purchase awarding rewards to the customer
+     * @param custID the ID of the customer who made the transaction
+     * @param clientele the database of customers that contains the information of the customer
+     * @return  the number of rewards applied to the account that was calculated
+     */
     static int applyRewards( double price, const std::string &custID, Clientele &clientele );
 
-    static int transactionCount;
-    static double dollarsIn;
-    static int pointsOut;
-  public:
+    /**
+     * Ensures that the conversion rate from dollars:points is non-zero and non-negative
+     *
+     * @post if the conditions above are met, the conversion rate is reset to its default rate
+     * @return true if the conversion rate is valid, otherwise false.
+     */
+    static bool validateConversionRate ();
 
-    static void loadConfig (const std::string &configPath);
+    static const double DEFAULT_DOLLARS_IN;     /* Automatically set value of dollars into points for dollars if there is an issue with loading */
+    static const int DEFAULT_POINTS_OUT;        /* Automatically set value of dollars into points for points if there is an issue with loading */
 
+    static int transactionCount;    /* The ID value given to the next transaction to occur */
+    static double dollarsIn;        /* a part of the dollars:point ratio, describes the dollar amount */
+    static int pointsOut;           /* a part of the dollar:point ratio, describes the rewards amount */
+
+public:
+    /**
+     * Loads a config file to set transactionCount, and the dollar:point conversion rate for the next session
+     *
+     * @pre a file exists
+     *
+     * @post if no config file could be found, loads values to default amounts
+     *
+     * @param configPath the path to the file that contains information regarding the prestated variables
+     *
+     * @return true if values were successfully loaded, false if values were set to default
+     */
+    static bool loadConfig (const std::string &configPath);
+
+    /**
+     * Saves values of transactionCount, and the dollar:point conversion rate from a previous session
+     *
+     * @post if a file already existed in that path, it will be replaced
+     *
+     * @param configPath the path to the file to save the updated config
+     */
     static void saveConfig (const std::string &configPath);
 
-    static void setRewardsConversion (double in, int out);
+    /**
+     * Set the conversion rate of dollars to points
+     *
+     * Example (in = 2, out=3) the conversion rate will be for every 2 dollars spent
+     *                              a customer will be rewarded with 3 points
+     *
+     * @pre the parameters are non-negative and non-zero for the conversion rate
+     *
+     * @param in how many dollars go into the ratio to points
+     * @param out how many reward points come out of dollars spent
+     * @return True if the provided arguments are a valid conversion, otherwise false
+     */
+    static bool setRewardsConversion (double in, int out);
 
     template <typename Clientele, typename Inventory>
     static int makeTransaction(Clientele& clientele,  Inventory& inventory, const std::string &custID);
@@ -55,10 +151,13 @@ class Transaction {
 
   };
 
-int Transaction::transactionCount = 0;
-double Transaction::dollarsIn = 0.0;
-int Transaction::pointsOut = 0;
+// Set Static Variables
+const double Transaction::DEFAULT_DOLLARS_IN = 5.0;
+const int Transaction::DEFAULT_POINTS_OUT = 1;
 
+int Transaction::transactionCount = 1;
+double Transaction::dollarsIn = DEFAULT_DOLLARS_IN;
+int Transaction::pointsOut = DEFAULT_POINTS_OUT;
 
 inline int Transaction::logTransaction (const std::string &savePath, const std::string &custID, const std::string &prodID, const double &price, const int pointsEarned) {
     std::fstream file;
@@ -73,6 +172,19 @@ inline int Transaction::logTransaction (const std::string &savePath, const std::
     return 0;
 }
 
+inline int Transaction::logRewardsUse(const std::string &savePath, const std::string &custID, const std::string &rewardID, const int &rewardsSpent) {
+    std::fstream file;
+    file.open(savePath, std::ios::app);
+    file << "Transaction " << transactionCount << ": \n";
+    file << "UserID: " << custID << 'n'
+        << "Product ID: " << rewardID << '\n'
+        << "Price: " << rewardsSpent << '\n';
+    ++transactionCount;
+    file.close();
+    return 0;
+}
+
+
 inline int Transaction::applyRewards(double price, const std::string &custID, Clientele &clientele) {
     double points = price / dollarsIn;
     points = floor(points);
@@ -81,13 +193,26 @@ inline int Transaction::applyRewards(double price, const std::string &custID, Cl
     return static_cast<int>(points);
 }
 
-inline void Transaction::loadConfig(const std::string &configPath) {
+inline bool Transaction::validateConversionRate() {
+    if (dollarsIn > 0 && pointsOut > 0) {
+        return true;
+    }
+    else { // An incorrect value was passed
+        // THIS IS TEMPORARY HANDLING
+        // IMPLEMENTATION SHOULD CATCH THE FALSE RETURN
+        dollarsIn = DEFAULT_DOLLARS_IN;
+        pointsOut = DEFAULT_POINTS_OUT;
+        return false;
+    }
+}
+
+inline bool Transaction::loadConfig(const std::string &configPath) {
     bool fileExists = Utilities::doesFileExist(configPath);
     if (!fileExists) {
-        dollarsIn = 5.0;
-        pointsOut = 1;
+        dollarsIn = DEFAULT_DOLLARS_IN;
+        pointsOut = DEFAULT_POINTS_OUT;
         transactionCount = 1;
-        return;
+        return false;
     }
     else {
         /* Do nothing */
@@ -103,6 +228,7 @@ inline void Transaction::loadConfig(const std::string &configPath) {
     std::getline(file, buffer);
     transactionCount = std::stoi(buffer);
     file.close();
+    return validateConversionRate();
 }
 
 inline void Transaction::saveConfig(const std::string &configPath) {
@@ -112,9 +238,10 @@ inline void Transaction::saveConfig(const std::string &configPath) {
     file.close();
 }
 
-inline void Transaction::setRewardsConversion(const double in, const int out) {
+inline bool Transaction::setRewardsConversion(const double in, const int out) {
     dollarsIn = in;
     pointsOut = out;
+    return validateConversionRate();
 }
 
 template <typename Clientele, typename Inventory>

@@ -2,7 +2,7 @@
 *
 * File Name:    Utilities.h
 * Author(s):    Xander Palermo <ajp2s@missouristate.edu>
-* Description:  A container object that manages and preserves all loaded customers in memory
+* Description:  a utility class that holds etc. functions of use to the program
 *
 * Course:      CSC 455 - Software Quality Assurance
 * Instructor:  Mohammed Belkhouche
@@ -20,13 +20,14 @@ class Utilities {
 public:
     /***
     * @brief updates clientele and inventory atomically
+    *
+    * @param file the file to check
+    * @return if the file does exist, returns true, if it does not, returns false
     */
-    static bool doesFileExist(const std::string& file);
-
-
+    static bool doesFileExist(const std::string &file);
 };
 
-inline bool Utilities::doesFileExist(const std::string& file) {
+inline bool Utilities::doesFileExist(const std::string &file) {
     std::fstream fs;
     fs.open(file, std::ios::in);
     if (fs.is_open()) {

@@ -21,7 +21,6 @@
 
 #include "Utilities.h"
 
-
 /**
 * @class Database
 * @brief A container object that manages and preserves information as key:value pairs in memory
@@ -32,7 +31,7 @@ template<typename item>
 class Database {
 protected:
     /**
-    * @brief the path to the file that the method .preserveState() calls
+    * @brief the path to the file that the method .save() calls
     */
     std::string savePath{};
 
@@ -113,6 +112,18 @@ public:
     virtual void displayAll();
 
     /**
+     * clears the container object
+     */
+    virtual void clear();
+
+    /**
+     * Checks the container object to see if it has any contents
+     *
+     * @return if the container object is empty, returns true; if otherwise, false
+     */
+    bool empty();
+
+    /**
     * @brief saves the current state of the database to the file loaded from at time of construction
     *
     * this action will delete an existing file from loadtime, so a new one will be made in its place
@@ -175,7 +186,7 @@ void Database<item>::displayOne(const std::string &ID) {
     auto index = container.find(ID);
     auto end = container.end();
     if (index != end) {
-        std::string output = index->second.toString();
+        const std::string output = index->second.toString();
         std::cout << output << '\n';
     } else {
         std::cout << "NO ENTRY EXISTS" << '\n';
@@ -199,8 +210,18 @@ void Database<item>::displayAll() {
 }
 
 template<typename item>
+void Database<item>::clear() {
+    container.clear();
+}
+
+template<typename item>
+bool Database<item>::empty() {
+    return container.empty();
+}
+
+template<typename item>
 void Database<item>::save() {
-    bool fileExists = Utilities::doesFileExist(savePath);
+    const bool fileExists = Utilities::doesFileExist(savePath);
     std::fstream saveFile;
     if (fileExists) {
         std::remove(savePath.c_str());

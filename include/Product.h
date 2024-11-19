@@ -17,8 +17,6 @@
 #include <string>
 #include <unordered_set>
 
-int productCount = 0;
-
 /**
  * @class Product
  * @brief Manages product details for inventory.
@@ -85,11 +83,17 @@ public:
         return price; }
     std::string toString() const {
         std::string product =
-        "Product ID: " + productID + "/n" +
-        "Name: " + name + "/n" +
-        "Price: " + std::to_string(price) + "/n" +
+        "Product ID: " + productID + "\n" +
+        "Name: " + name + "\n" +
+        "Price: " + std::to_string(price) + "\n" +
         "Quantity: " + std::to_string(quantity);
         return product;
+    }
+
+    // Setters
+    static void clear() {
+        productCount = 0;
+        productIDs.clear();
     }
 };
 
@@ -107,6 +111,9 @@ Product::Product(const std::string& name, double price, int quantity)
     if (price < 0.0 || !isValidQuantity(quantity))
     {
         throw std::invalid_argument("Invalid price or quantity.");
+    }
+    if (name.empty()) {
+        throw std::invalid_argument("Invalid name.");
     }
 
     this->name = name;
