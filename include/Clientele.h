@@ -128,6 +128,12 @@ inline int Clientele::updateCustomerRewards(const std::string &custID, const int
 }
 
 inline std::string Clientele::findUser(const std::string &username) {
+    if (!Customer::isValidUsername(username)) {
+        return "";
+    }
+    else {
+        /* Do nothing */
+    }
     const auto index = container.begin();
     const auto end = container.end();
     while (index != end) {

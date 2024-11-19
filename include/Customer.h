@@ -159,7 +159,7 @@ std::string Customer::generateUserID() {
 }
 
 bool Customer::isValidUsername(const std::string& username) {
-    return std::regex_match(username, std::regex("^U\\d{1,3}[a-zA-Z]{7,}$"));
+    return std::regex_match(username, std::regex("U\\d{3}[a-z,A-Z]{6}"));
 }
 
 bool Customer::isValidName(const std::string& name) {

@@ -40,7 +40,7 @@ TEST_F(InventoryTest, newProduct) {
 
     // REJECT IMPOSSIBLE PRODUCTS
     EXPECT_THROW(inventory -> createProduct("INVALID PRODUCT", -1, 0);, std::invalid_argument);
-    // EXPECT_THROW(inventory -> createProduct("", 12.34, 9999);, std::invalid_argument);
+    EXPECT_THROW(inventory -> createProduct("", 12.34, 9999);, std::invalid_argument);
     EXPECT_THROW(inventory -> createProduct("INVALID PRODUCT", 12.34, -1);, std::invalid_argument);
 }
 
