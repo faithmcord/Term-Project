@@ -214,65 +214,19 @@ void shopping(Clientele &clientele, Inventory &inventory) {
         return;
     }
 
-    // Step 3: List available products
-    std::cout << "\nAvailable Products:\n";
-    for (const auto &entry : inventory.getContainer()) {
-        const auto &product = entry.second;
-        std::cout << "ID: " << entry.first
-                  << " | Name: " << product.getName()
-                  << " | Price: $" << product.getPrice()
-                  << " | Stock: " << product.getQuantity() << "\n";
+    // Step 3: Call makeTransaction to handle the actual shopping and reward point update
+    // This will handle product selection, validation, stock checks, and reward point application
+    int result = Transaction::makeTransaction(clientele, inventory, customerID);
+
+    if (result == 0) {
+        std::cout << "Purchase successful! Rewards have been added to your account.\n";
+    } else {
+        std::cout << "Purchase failed. Returning to main menu...\n";
     }
 
-    // Step 4: Prompt for product ID and quantity
-    std::cout << "\nEnter the Product ID of the item you want to purchase: ";
-    std::string productID;
-    std::cin >> productID;
-
-    const auto productIter = inventory.getContainer().find(productID);
-    if (productIter == inventory.getContainer().end()) {
-        std::cout << "Error: Invalid Product ID. Returning to main menu...\n";
-        return;
-    }
-
-    std::cout << "Enter the quantity to purchase: ";
-    int quantity;
-    std::cin >> quantity;
-
-    // Step 5: Check inventory stock
-    int stockAvailable = inventory.isEnoughInInventory(productID);
-    if (stockAvailable < quantity) {
-        std::cout << "Error: Not enough stock available. Returning to main menu...\n";
-        return;
-    }
-
-    // Step 6: Confirm purchase
-    const auto &product = productIter->second;
-    double totalCost = product.getPrice() * quantity;
-    std::cout << "\nPurchase Summary:\n";
-    std::cout << "Product: " << product.getName()
-              << "\nQuantity: " << quantity
-              << "\nTotal Cost: $" << totalCost << "\n";
-
-    std::cout << "Do you want to confirm this purchase? (yes/no): ";
-    std::string confirmation;
-    std::cin >> confirmation;
-
-    if (confirmation != "yes") {
-        std::cout << "Purchase canceled. Returning to main menu...\n";
-        return;
-    }
-
-    // Step 7: Process purchase
-    inventory.updateInventory(productID, -quantity);  // Decrease inventory by the quantity purchased
-    clientele.updateCustomerRewards(customerID, static_cast<int>(totalCost / 10));  // Add rewards points
-
-    std::cout << "Purchase successful! Rewards have been added to your account.\n";
-
-    // Step 8: Return to menu
+    // Step 4: Return to menu
     std::cout << "Returning to main menu...\n";
 }
-
 
 void viewCustomer(Clientele &clientele) {
     std::string customerId;
@@ -281,38 +235,41 @@ void viewCustomer(Clientele &clientele) {
     clientele.displayOne(customerId);
 }
 
-void redeemRewards(Clientele &clientele) {
-    while (true) {
-        std::cout << "\n--- Redeem Rewards ---\n";
-        std::cout << "Enter Customer ID to redeem rewards (or enter 0 to return to the main menu): ";
-        std::string customerId;
-        std::cin >> customerId;
+void redeemRewards(Clientele &clientele, Rewards &rewards) {
+    std::cout << "\n--- Redeem Rewards ---\n";
 
-        if (customerId == "0") {
-            std::cout << "Returning to the main menu...\n";
+    // Step 1: Prompt for customer username
+    std::cout << "Enter your username: ";
+    std::string username;
+    std::cin >> username;
+
+    // Step 2: Validate if the customer exists
+    std::string customerID;
+    bool customerFound = false;
+    for (const auto &entry : clientele.getContainer()) {
+        if (entry.second.getUsername() == username) {
+            customerID = entry.first;
+            customerFound = true;
             break;
         }
-
-        int currentRewards = clientele.getCustomerRewards(customerId);
-        if (currentRewards == -1) {
-            std::cout << "Invalid Customer ID. Please try again.\n";
-            continue;
-        }
-
-        std::cout << "Customer has " << currentRewards << " points.\n";
-        std::cout << "Enter points to redeem: ";
-        int pointsToRedeem;
-        std::cin >> pointsToRedeem;
-
-        if (pointsToRedeem > currentRewards) {
-            std::cout << "Not enough points.\n";
-            continue;
-        }
-
-        clientele.updateCustomerRewards(customerId, -pointsToRedeem);
-        std::cout << "Redeemed successfully.\n";
-        break;
     }
+
+    if (!customerFound) {
+        std::cout << "Error: Username not found. Returning to main menu...\n";
+        return;
+    }
+
+    // Step 3: Call redeemRewards to handle the reward redemption logic
+    int result = Transaction::redeemRewards(clientele, rewards, customerID);
+
+    if (result == 0) {
+        std::cout << "Reward redemption successful!\n";
+    } else {
+        std::cout << "Reward redemption failed. Returning to main menu...\n";
+    }
+
+    // Step 4: Return to menu
+    std::cout << "Returning to main menu...\n";
 }
 
 int main() {
