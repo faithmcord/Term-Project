@@ -112,6 +112,10 @@ public:
     */
     virtual void displayAll();
 
+    virtual void clear();
+
+    bool empty();
+
     /**
     * @brief saves the current state of the database to the file loaded from at time of construction
     *
@@ -197,6 +201,18 @@ void Database<item>::displayAll() {
         }
     }
 }
+
+template<typename item>
+void Database<item>::clear() {
+    container.clear();
+}
+
+template<typename item>
+bool Database<item>::empty() {
+    return container.empty();
+}
+
+
 
 template<typename item>
 void Database<item>::save() {

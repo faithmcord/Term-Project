@@ -22,7 +22,7 @@
 
 //GLOBAL VARIABLES
 // constexpr int BUFFER_SIZE = 40;
-const std::string DEFAULT_INVENTORY_SAVE_PATH = "./resources/products.txt";
+const std::string DEFAULT_INVENTORY_SAVE_PATH = "products.txt";
 const std::string DEFAULT_TRANSACTION_LOG_PATH = "./resources/transactions.txt";
 
 /**
@@ -45,7 +45,7 @@ private:
 
     public:
 
-    Inventory(const std::string &loadFile);
+    explicit Inventory(const std::string &loadFile);
 
     /**
      * @brief Creates a new product and stores it into the dictionary
@@ -78,7 +78,9 @@ private:
 
      int updateInventory (const std::string &productID, int amount);
 
-    double getPrice (const std::string &productID);
+     double getPrice (const std::string &productID);
+
+     void clear() override;
 
      void save() override;
 
@@ -172,6 +174,11 @@ inline double Inventory::getPrice(const std::string &productID) {
         const double price = index -> second.getPrice();
         return price;
     }
+}
+
+inline void Inventory::clear() {
+    Product::clear();
+    container.clear();
 }
 
 

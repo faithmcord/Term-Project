@@ -18,6 +18,8 @@
 #include <limits>
 
 #include "Transaction.h"
+#include "include/Clientele.h"
+#include "include/Inventory.h"
 
 // Function prototypes
 void registerCustomer(Clientele &clientele);
