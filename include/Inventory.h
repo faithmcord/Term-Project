@@ -21,30 +21,21 @@
 
 
 //GLOBAL VARIABLES
-// constexpr int BUFFER_SIZE = 40;
 const std::string DEFAULT_INVENTORY_SAVE_PATH = "products.txt";
-const std::string DEFAULT_TRANSACTION_LOG_PATH = "./resources/transactions.txt";
+const std::string DEFAULT_TRANSACTION_LOG_PATH = "transactions.txt";
 
 /**
  * @class Inventory
  * @brief a dictionary of all customers of the store indexed by their customer ID
  */
-class Inventory :public Database<Product>{
+class Inventory : public Database<Product> {
 private:
     /**
      * @brief the directory of the transaction log file
      */
     std::string transactionLogPath;
 
-    static std::string generateProductID ();
-
-    /**
-     * @brief appends transaction to the end of a log file
-     */
-    void logTransaction();
-
-    public:
-
+public:
     explicit Inventory(const std::string &loadFile);
 
     /**
@@ -64,6 +55,15 @@ private:
      */
     std::string createProduct(const std::string &productName, double price, int initialStock);
 
+    /**
+     * Checks if there is enough of a product in the inventory to fulfil a request of a specified amount
+     *
+     * Performs a greater than or equal to operation
+     *
+     * @param productID identifying ID numbers of the product to be checked
+     * @param quantity the minimum amount being referenced to
+     * @return if the amount of product is greater than quantity, returns true; otherwise false
+     */
     bool isEnoughInInventory(const std::string &productID, int quantity);
 
     /**
@@ -74,57 +74,55 @@ private:
      * @return amount currently in stock
      * @return -1 if invalid productID
      */
-     bool isEnoughInInventory (const std::string &productID);
-
-     int updateInventory (const std::string &productID, int amount);
-
-     double getPrice (const std::string &productID);
-
-     void clear() override;
-
-     void save() override;
-
-     void load() override;
+    bool isEnoughInInventory(const std::string &productID);
 
     /**
-     * @brief decrements the amount of product held in inventory by the amount purchased
+     * Will change the amount of product in inventory by adding or subtracting a stated amount
      *
-     * @param productsPurchased number of items purchased in one transaction
-     * @param productID         array of identifying ID numbers of the product to be purchased
-     * @param amounts           array of corresponding quantities purchased
-     * @return 0 on success
+     * if the amount is positive, it will be added to inventory amount (simulating a restock);
+     * if the amount is negative, it will be subtracted from the inventory amount (simulating a purchase)
+     *
+     * @param productID identifying ID number of the product being edited
+     * @param amount the amount being added or subtracted from inventory
+     * @return
      */
-    // int makePurchase(int productsPurchased, int productID[], int amounts[]);
-    //
-    // int redeemRewards();
+    int updateInventory(const std::string &productID, int amount);
+
+    /**
+     * Attempts to find a specified product inventory and return its set price
+     *
+     * @pre product exists
+     *
+     * @param productID identifying ID numbers of the product to be checked
+     * @return the price of the product being checked; if the product does not exist, returns -1.0
+     */
+    double getPrice(const std::string &productID);
+
+    /**
+     * Clears the inventory object and resets the product ID maker
+     */
+    void clear() override;
+
+    /**
+     * Saves the current state of the inventory to the savePath set upon creation of the object
+     */
+    void save() override;
+
+    /**
+     * Loads the previous state of an inventory from the savePath set upon creation of the object
+     */
+    void load() override;
 };
 
 
-inline Inventory::Inventory(const std::string &loadFile) : Database<Product> (loadFile) {
+inline Inventory::Inventory(const std::string &loadFile) : Database<Product>(loadFile) {
     savePath = loadFile;
     transactionLogPath = DEFAULT_TRANSACTION_LOG_PATH;
 }
 
-inline std::string Inventory::generateProductID() {
-    // Init rand num generator to create ID
-    std::random_device random_device;
-    std::mt19937 gen(random_device());
-    std::uniform_int_distribution<> dis(10000,99999);
-
-    int generatedNum = dis(gen);
-
-    // Concat new product ID
-    std::string classifierID = "Prod";
-    std::string numberID = std::to_string(generatedNum);
-    std::string newID = classifierID + numberID;
-
-    return newID;
-}
-
-
 inline std::string Inventory::createProduct(const std::string &productName, double price, int initialStock) {
-    const Product newProduct =  Product(productName, price, initialStock);
-    this -> addNew(newProduct);
+    const Product newProduct = Product(productName, price, initialStock);
+    this->addNew(newProduct);
     std::string prodID = newProduct.getID();
     return prodID;
 }
@@ -132,46 +130,50 @@ inline std::string Inventory::createProduct(const std::string &productName, doub
 inline bool Inventory::isEnoughInInventory(const std::string &productID, int quantity) {
     // locate product being queried
     const auto index = container.find(productID);
-    if (index == container.end()) { // product does not exist
+    if (index == container.end()) {
+        // product does not exist
         return false;
-    }
-    else {                          // product exists; return amount available
+    } else {
+        // product exists; return amount available
         const int amountInStock = index->second.getQuantity();
-        if (amountInStock > quantity) {
+        if (amountInStock >= quantity) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 }
 
 inline int Inventory::updateInventory(const std::string &productID, int amount) {
+    // locate the product being queried
     const auto index = container.find(productID);
     if (index == container.end()) {
+        // product does not exist
         return -1;
-    }
-    else {
+    } else {
         if (amount > 0) {
-            index -> second.addStock(amount);
+            // add to inventory amount
+            index->second.addStock(amount);
         } else if (amount < 0) {
+            // subtract from inventory amount
             amount *= -1;
-            index -> second.removeStock(amount);
-        }
-        else {
-            /* Do nothing */
+            index->second.removeStock(amount);
+        } else {
+            // quantity == 0 -> do nothing
         }
         return 0;
     }
 }
 
 inline double Inventory::getPrice(const std::string &productID) {
+    // locate the product being queried
     const auto index = container.find(productID);
     if (index == container.end()) {
-        return -1;
-    }
-    else {
-        const double price = index -> second.getPrice();
+        // product does not exist
+        return -1.0;
+    } else {
+        // product exists; return price
+        const double price = index->second.getPrice();
         return price;
     }
 }
@@ -181,84 +183,81 @@ inline void Inventory::clear() {
     container.clear();
 }
 
-
 inline void Inventory::save() {
-     std::fstream saveFile;
-     saveFile.open(savePath, std::ios::out);
-     int indexNumber = 0;
-     auto indexPointer = container.begin();
-     const auto end = container.end();
-     while (indexPointer != end) {
-         saveFile << "Product " << ++indexNumber << ":\n";
-         std::string output;
-         output += indexPointer->second.toString();
-         saveFile << output << '\n';
-         ++indexPointer;
-     }
-     saveFile.close();
+    // open file
+    std::fstream saveFile;
+    saveFile.open(savePath, std::ios::out);
+
+    // initialize values
+    int indexNumber = 0;
+    auto indexPointer = container.begin();
+    const auto end = container.end();
+
+    //for each product in container -> add to .txt file
+    while (indexPointer != end) {
+        saveFile << "Product " << ++indexNumber << ":\n";
+        std::string output;
+        output += indexPointer->second.toString();
+        saveFile << output << '\n';
+        ++indexPointer;
+    }
+    saveFile.close();
 }
 
 inline void Inventory::load() {
-     bool fileExists = Utilities::doesFileExist(savePath);
-     if (!fileExists) {
-         // nothing to load
-         return;
-     }
-     else {
-         /* Do nothing */
-     }
+    // Check if file exists to load from
+    bool fileExists = Utilities::doesFileExist(savePath);
+    if (!fileExists) {
+        // nothing to load
+        return;
+    } else {
+        /* Do nothing */
+    }
 
-     // Init
-     std::ifstream saveFile;
-     saveFile.open(savePath);
-     // char buffer [BUFFER_SIZE];
-     // std::regex pattern(" [^\\n]*\\n");
+    // Init
+    std::ifstream saveFile;
+    saveFile.open(savePath);
 
-     // Colors text Red lol
-     std::string errorColorMod = "\033[1;31m";
-     std::string defaultColorMod = "\033[1;39m";
+    // Colors text Red lol
+    std::string errorColorMod = "\033[1;31m";
+    std::string defaultColorMod = "\033[1;39m";
 
+    // For every item described in the .txt file
     while (true) {
+        // Initialize variables
         std::string line, nameString, priceString, quantityString;
 
-        std::getline (saveFile, line);
-        if ( line == "\0" ) {
+        //Check if there is another product
+        std::getline(saveFile, line);
+        if (line == "\0") {
             break;
         } else {
             /* Do nothing */
         }
-        std::getline (saveFile, line);
+        std::getline(saveFile, line); // describes ID, which is created in real-time
 
-        std::getline (saveFile, nameString);
-        std::getline (saveFile, priceString);
-        std::getline (saveFile, quantityString);
+        // Grab important data
+        std::getline(saveFile, nameString);
+        std::getline(saveFile, priceString);
+        std::getline(saveFile, quantityString);
 
-        nameString.erase(0,6);
-        priceString.erase(0,7);
-        quantityString.erase(0,10);
+        // Remove metadata from fields and attempt to recreate product
+        nameString.erase(0, 6);
+        priceString.erase(0, 7);
+        quantityString.erase(0, 10);
 
+        // Catch if file has been corrupted
         try {
-            this -> createProduct(nameString, stod(priceString), stoi(quantityString));
-        } catch ( std::invalid_argument &invalid_argument ) {
+            this->createProduct(nameString, stod(priceString), stoi(quantityString));
+        } catch (std::invalid_argument &invalid_argument) {
+            // One or more of the attribute does not fit into input range
             continue;
-        } catch ( std::out_of_range &out_of_range) {
+        } catch (std::out_of_range &out_of_range) {
+            // One or more of the attributes creates a integer/floating-point overflow
             continue;
         }
-
     }
-     saveFile.close();
+    saveFile.close();
 }
-
-
-
-
-// inline int Inventory::makePurchase(int productsPurchased, int productID[], int amounts[]) {
-//     return -999;
-// }
-//
-// inline int Inventory::redeemRewards() {
-//     return -999;
-// }
-
 
 #endif //INVENTORY_H
