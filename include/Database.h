@@ -21,7 +21,6 @@
 
 #include "Utilities.h"
 
-
 /**
 * @class Database
 * @brief A container object that manages and preserves information as key:value pairs in memory
@@ -112,8 +111,16 @@ public:
     */
     virtual void displayAll();
 
+    /**
+     * clears the container object
+     */
     virtual void clear();
 
+    /**
+     * Checks the container object to see if it has any contents
+     *
+     * @return if the container object is empty, returns true; if otherwise, false
+     */
     bool empty();
 
     /**
@@ -179,7 +186,7 @@ void Database<item>::displayOne(const std::string &ID) {
     auto index = container.find(ID);
     auto end = container.end();
     if (index != end) {
-        std::string output = index->second.toString();
+        const std::string output = index->second.toString();
         std::cout << output << '\n';
     } else {
         std::cout << "NO ENTRY EXISTS" << '\n';
@@ -212,11 +219,9 @@ bool Database<item>::empty() {
     return container.empty();
 }
 
-
-
 template<typename item>
 void Database<item>::save() {
-    bool fileExists = Utilities::doesFileExist(savePath);
+    const bool fileExists = Utilities::doesFileExist(savePath);
     std::fstream saveFile;
     if (fileExists) {
         std::remove(savePath.c_str());

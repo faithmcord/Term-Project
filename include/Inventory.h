@@ -79,7 +79,7 @@ public:
     /**
      * Will change the amount of product in inventory by adding or subtracting a stated amount
      *
-     * if the amount is positive, it will be added to inventory amount (simulating a restock);
+     * if the amount is positive, it will be added to inventory amount (simulating a restocking);
      * if the amount is negative, it will be subtracted from the inventory amount (simulating a purchase)
      *
      * @param productID identifying ID number of the product being edited
@@ -253,7 +253,7 @@ inline void Inventory::load() {
             // One or more of the attribute does not fit into input range
             continue;
         } catch (std::out_of_range &out_of_range) {
-            // One or more of the attributes creates a integer/floating-point overflow
+            // One or more of the attributes creates an integer/floating-point overflow
             continue;
         }
     }
