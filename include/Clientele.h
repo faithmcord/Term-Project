@@ -87,6 +87,8 @@ public:
      */
     int updateCustomerRewards(const std::string &custID, int amount);
 
+    std::string findUser(const std::string &username);
+
     void save() override;
 
     void load() override;
@@ -124,6 +126,18 @@ inline int Clientele::updateCustomerRewards(const std::string &custID, const int
         return 0;
     }
 }
+
+inline std::string Clientele::findUser(const std::string &username) {
+    const auto index = container.begin();
+    const auto end = container.end();
+    while (index != end) {
+        if (index -> second.getUsername() == username) {
+            return index -> first;
+        }
+    }
+    return "";
+}
+
 
 inline void Clientele::save() {
     std::fstream saveFile;

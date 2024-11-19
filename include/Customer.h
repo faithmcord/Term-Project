@@ -100,6 +100,9 @@ public:
         return userID; }
     int getRewardPoints() const {
         return rewardPoints; }
+    std::string getUsername() const {
+        return username;
+    }
     std::string toString() const {
         std::string customer =
         "Customer ID: " + userID + "/n" +

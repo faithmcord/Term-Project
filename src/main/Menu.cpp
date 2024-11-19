@@ -207,15 +207,17 @@ void shopping(Clientele &clientele, Inventory &inventory) {
     std::cin >> username;
 
     // Step 2: Validate if the customer exists
-    std::string customerID;
-    bool customerFound = false;
-    for (const auto &entry : clientele.getContainer()) {
-        if (entry.second.getUsername() == username) {
-            customerID = entry.first;
-            customerFound = true;
-            break;
-        }
-    }
+    // std::string customerID;
+    // bool customerFound = false;
+    // for (const auto &entry : clientele.getContainer()) {
+    //     if (entry.second.getUsername() == username) {
+    //         customerID = entry.first;
+    //         customerFound = true;
+    //         break;
+    //     }
+    // }
+    const std::string customerID = clientele.findUser(username);
+    const bool customerFound = !customerID.empty();
 
     if (!customerFound) {
         std::cout << "Error: Username not found. Returning to main menu...\n";
@@ -252,15 +254,17 @@ void redeemRewards(Clientele &clientele, Rewards &rewards) {
     std::cin >> username;
 
     // Step 2: Validate if the customer exists
-    std::string customerID;
-    bool customerFound = false;
-    for (const auto &entry : clientele.getContainer()) {
-        if (entry.second.getUsername() == username) {
-            customerID = entry.first;
-            customerFound = true;
-            break;
-        }
-    }
+    // std::string customerID;
+    // bool customerFound = false;
+    // for (const auto &entry : clientele.getContainer()) {
+    //     if (entry.second.getUsername() == username) {
+    //         customerID = entry.first;
+    //         customerFound = true;
+    //         break;
+    //     }
+    // }
+    const std::string customerID = clientele.findUser(username);
+    const bool customerFound = !customerID.empty();
 
     if (!customerFound) {
         std::cout << "Error: Username not found. Returning to main menu...\n";
