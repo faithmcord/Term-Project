@@ -171,7 +171,7 @@ bool Customer::isValidAge(int age) {
 }
 
 bool Customer::isValidCreditCard(const std::string& card) {
-    return std::regex_match(card, std::regex("^[1-9]\\d{3}-\\d{4}-\\d{4}$"));
+    return std::regex_match(card, std::regex("^[0-9]{4}-\\d{4}-\\d{4}$"));
 }
 
 void Customer::addRewardPoints(int points) {
