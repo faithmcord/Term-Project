@@ -142,6 +142,9 @@ inline std::string Clientele::findUser(const std::string &username) {
         if (index -> second.getUsername() == username) {
             return index -> first;
         }
+        else {
+            /* Do Nothing */
+        }
         ++index;
     }
     return "";
@@ -163,6 +166,9 @@ inline void Clientele::save() {
     if (!saveFile.is_open()) {
         const std::string message = "Failed to open save file: " + savePath;
         throw std::runtime_error(message);
+    }
+    else {
+        /* Do Nothing */
     }
     int indexNumber = 0;
     auto indexPointer = container.begin();

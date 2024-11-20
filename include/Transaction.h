@@ -286,7 +286,7 @@ int Transaction::makeTransaction( Clientele& clientele, Inventory& inventory, co
     if (quantity <= 0) {
         std::cout << "Invalid quantity.\n";
         return -1;
-    }else {
+    } else {
         /* Do nothing */
     }
 

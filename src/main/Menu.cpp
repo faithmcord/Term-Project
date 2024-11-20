@@ -110,6 +110,9 @@ void registerCustomer(Clientele &clientele) {
         std::cout << "Invalid age. Age must be between 18 and 100.\n";
         return;
     }
+    else {
+        /* Do nothing */
+    }
 
     std::cout << "Enter Credit Card Number (xxxx-xxxx-xxxx format): ";
     std::cin >> creditCardInfo;
@@ -132,10 +135,16 @@ void removeCustomer(Clientele &clientele) {
             std::cout << "Returning to the main menu...\n";
             break;
         }
+        else {
+            /* Do Nothing */
+        }
 
         if (clientele.getCustomerRewards(customerId) == -1) {
             std::cout << "Error: Invalid Customer ID. Please try again.\n";
             continue;
+        }
+        else {
+            /* Do Nothing */
         }
 
         std::cout << "Are you sure you want to remove Customer ID " << customerId << "? (y/n): ";
@@ -164,6 +173,7 @@ void addProduct(Inventory &inventory) {
         std::cin.ignore();
         std::getline(std::cin, productName);
         if (!productName.empty() && productName.length() <= 30) break;
+        else { /* Do Nothing */}
         std::cout << "Invalid input. Please try again.\n";
     }
 
@@ -171,6 +181,7 @@ void addProduct(Inventory &inventory) {
         std::cout << "Enter Product Price (positive number): ";
         std::cin >> price;
         if (!std::cin.fail() && price > 0) break;
+        else { /* Do Nothing */}
         std::cout << "Invalid input. Please try again.\n";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -180,6 +191,7 @@ void addProduct(Inventory &inventory) {
         std::cout << "Enter Initial Stock Quantity (non-negative): ";
         std::cin >> initialStock;
         if (!std::cin.fail() && initialStock >= 0) break;
+        else { /* Do Nothing */}
         std::cout << "Invalid input. Please try again.\n";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -220,21 +232,15 @@ void shopping(Clientele &clientele, Inventory &inventory) {
     std::cin >> username;
 
     // Step 2: Validate if the customer exists
-    // std::string customerID;
-    // bool customerFound = false;
-    // for (const auto &entry : clientele.getContainer()) {
-    //     if (entry.second.getUsername() == username) {
-    //         customerID = entry.first;
-    //         customerFound = true;
-    //         break;
-    //     }
-    // }
     const std::string customerID = clientele.findUser(username);
     const bool customerFound = !customerID.empty();
 
     if (!customerFound) {
         std::cout << "Error: Username not found. Returning to main menu...\n";
         return;
+    }
+    else {
+        /* Do Nothing */
     }
 
     // Step 3: Call makeTransaction to handle the actual shopping and reward point update
@@ -274,6 +280,9 @@ void redeemRewards(Clientele &clientele, Rewards &rewards) {
         std::cout << "Error: Username not found. Returning to main menu...\n";
         return;
     }
+    else {
+        /* Do Nothing */
+    }
 
     // Step 3: Call redeemRewards to handle the reward redemption logic
     int result = Transaction::redeemRewards(clientele, rewards, customerID);
@@ -306,8 +315,7 @@ void addReward (Rewards &rewards) {
     std::cout << "\n--- Add New Reward ---\n";
 
     std::string rewardName;
-    int price;
-    int initialStock;
+    int price, initialStock;
 
     while (true) {
         std::cout << "Enter a Reward Name (max 30 characters): ";
@@ -406,6 +414,9 @@ int main() {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Invalid input. Try again.\n";
             continue;
+        }
+        else {
+            /* Do Nothing */
         }
 
         handleMenuChoice(choice, clientele, inventory, rewards);
