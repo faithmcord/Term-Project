@@ -297,7 +297,7 @@ void configureRewards() {
     do {
         std::cout << "Number of dollars go into the conversion: ";
         std::cin >> dollarsIn;
-        std::cout << "Number of points to come out of the conversion ";
+        std::cout << "Number of points to come out of the conversion: ";
         std::cin >> pointsOut;
     } while (!Transaction::setRewardsConversion(dollarsIn,pointsOut));
 }
