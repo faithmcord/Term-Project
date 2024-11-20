@@ -18,10 +18,10 @@
 #include "Transaction.h"
 
 // CMAKE
-// #include "include/Clientele.h"
-// #include "include/Inventory.h"
-// #include "include/Utilities.h"
-// #include "include/Transaction.h"
+#include "include/Clientele.h"
+#include "include/Inventory.h"
+#include "include/Utilities.h"
+#include "include/Transaction.h"
 
 #include <iostream>
 #include <limits>
@@ -35,6 +35,10 @@ void shopping(Clientele &clientele, Inventory &inventory);
 void viewCustomer(Clientele &clientele);
 void redeemRewards(Clientele &clientele, Rewards &rewards);
 
+void configureRewards();
+void addReward (Rewards &rewards);
+void removeReward(Rewards &rewards);
+void rewardsSubMenu(Rewards &rewards);
 
 void displayMenu() {
     std::cout << "\n====== Customer Reward System Menu ======\n";
@@ -45,7 +49,8 @@ void displayMenu() {
     std::cout << "5. Shopping\n";
     std::cout << "6. View Customer by ID\n";
     std::cout << "7. Redeem Rewards\n";
-    std::cout << "8. Exit\n";
+    std::cout << "8. Configure Rewards\n";
+    std::cout << "9. Exit\n";
     std::cout << "=========================================\n";
     std::cout << "Enter your choice (1-8): ";
 }
@@ -74,6 +79,9 @@ void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory, Re
             redeemRewards(clientele, rewards);
             break;
         case 8:
+            rewardsSubMenu(rewards);
+            break;
+        case 9:
             std::cout << "\nExiting the program. Goodbye!\n";
             break;
         default:
@@ -190,12 +198,17 @@ void removeProduct(Inventory &inventory) {
     std::string productId;
     std::cout << "\nEnter Product ID to remove: ";
     std::cin >> productId;
-    try {
-        inventory.remove(productId);
+    // try {
+    const int success = inventory.remove(productId);
+    if (success) {
         std::cout << "Product removed successfully.\n";
-    } catch (const std::invalid_argument &e) {
-        std::cout << "Error: " << e.what() << "\n";
     }
+    else {
+        std::cout << "Could not find product\n";
+    }
+    // } catch (const std::invalid_argument &e) {
+    //     std::cout << "Error: " << e.what() << "\n";
+    // }
 }
 
 void shopping(Clientele &clientele, Inventory &inventory) {
@@ -245,6 +258,19 @@ void viewCustomer(Clientele &clientele) {
     clientele.displayOne(customerId);
 }
 
+void configureRewards() {
+    std::cout << "\n--- Configure Rewards ---";
+    std::cout << "Current Conversion Rate: " << Transaction::conversionToString << '\n';
+    double dollarsIn;
+    int pointsOut;
+    do {
+        std::cout << "Number of dollars go into the conversion: ";
+        std::cin >> dollarsIn;
+        std::cout << "Number of points to come out of the conversion ";
+        std::cin >> pointsOut;
+    } while (!Transaction::setRewardsConversion(dollarsIn,pointsOut));
+}
+
 void redeemRewards(Clientele &clientele, Rewards &rewards) {
     std::cout << "\n--- Redeem Rewards ---\n";
 
@@ -254,15 +280,6 @@ void redeemRewards(Clientele &clientele, Rewards &rewards) {
     std::cin >> username;
 
     // Step 2: Validate if the customer exists
-    // std::string customerID;
-    // bool customerFound = false;
-    // for (const auto &entry : clientele.getContainer()) {
-    //     if (entry.second.getUsername() == username) {
-    //         customerID = entry.first;
-    //         customerFound = true;
-    //         break;
-    //     }
-    // }
     const std::string customerID = clientele.findUser(username);
     const bool customerFound = !customerID.empty();
 
@@ -282,6 +299,87 @@ void redeemRewards(Clientele &clientele, Rewards &rewards) {
 
     // Step 4: Return to menu
     std::cout << "Returning to main menu...\n";
+}
+
+void addReward (Rewards &rewards) {
+    std::cout << "\n--- Add New Reward ---\n";
+
+    std::string rewardName;
+    int price;
+    int initialStock;
+
+    while (true) {
+        std::cout << "Enter a Reward Name (max 30 characters): ";
+        std::cin.ignore();
+        std::getline(std::cin, rewardName);
+        if (!rewardName.empty() && rewardName.length() <= 30) break;
+        else std::cout << "Invalid input. Please try again.\n";
+    }
+    while (true) {
+        std::cout << "Enter a Reward Price (positive number): ";
+        std::cin >> price;
+        if (!std::cin.fail() && price > 0) break;
+        else std::cout << "Invalid input. Please try again.\n";
+    }
+    while (true) {
+        std::cout << "Enter a Initial Stock Quantity (positive number): ";
+        std::cin >> initialStock;
+        if (!std::cin.fail() && initialStock >= 0) break;
+        else std::cout << "Invalid input. Please try again.\n";
+    }
+
+    try {
+        std::string rewardID = rewards.createReward(rewardName,price,initialStock);
+        std::cout << "Reward added succesffuly with ID: " << rewardID;
+        rewards.save();
+    } catch (const std::invalid_argument &e) {
+        std::cout << "ErrorL " << e.what() << "\n";
+    }
+}
+
+void removeReward(Rewards& rewards) {
+    std::string rewardID;
+    std::cout << "\n--- Remove Reward ---\n";
+    std::cout << "Enter Reward ID to remove: ";
+    std::cin >> rewardID;
+    const int success = rewards.remove(rewardID);
+    if (success) {
+        std::cout << "Reward removed successfully";
+    }
+    else {
+        std::cout << "Could not find product\n";
+    }
+}
+
+void rewardsSubMenu(Rewards &rewards) {
+    do {
+        std::cout << "\n============= Rewards Config ============\n";
+        std::cout << "1. Change Reward Conversion Rate\n";
+        std::cout << "2. Add Reward\n";
+        std::cout << "3. Remove Reward\n";
+        std::cout << "4. Return to Main Menu\n";
+        std::cout << "=========================================\n";
+        std::cout << "Enter your choice (1-8): ";
+
+        std::string input;
+        std::cin >> input;
+        switch (input) {
+            case 1:
+                configureRewards();
+                break;
+            case 2:
+                addReward(rewards);
+                break;
+            case 3:
+                removeReward(rewards);
+                break;
+            case 4:
+                return;
+            default:
+                std::cout << "\nInvalid choice. Please try again.\n";
+            break;
+    }
+    } while (true);
 }
 
 int main() {

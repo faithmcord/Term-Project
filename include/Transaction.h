@@ -149,6 +149,11 @@ public:
     template <typename Clientele, typename Rewards>
     static int redeemRewards( Clientele& clientele,  Rewards& rewards, const std::string &custID);
 
+    //Getters
+    static std::string conversionToString() {
+        std::string output = std::to_string(dollarsIn) + " Dollars -> " + std::to_string(pointsOut) + " Points";
+        return output;
+    }
   };
 
 // Set Static Variables
