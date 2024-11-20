@@ -151,7 +151,10 @@ public:
 
     //Getters
     static std::string conversionToString() {
-        std::string output = std::to_string(dollarsIn) + " Dollars -> " + std::to_string(pointsOut) + " Points";
+        std::string dollarsInString = std::to_string(dollarsIn);
+        unsigned long decimal = dollarsInString.find('.');
+        dollarsInString.erase(decimal+3, dollarsInString.length() - (decimal + 2));
+        std::string output = dollarsInString + " Dollars -> " + std::to_string(pointsOut) + " Points";
         return output;
     }
   };

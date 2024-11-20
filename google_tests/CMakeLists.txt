@@ -12,3 +12,7 @@ target_link_libraries(InventoryTests gtest gtest_main)
 # Create the ClienteleTests executable and link it with Google Test
 add_executable(ClienteleTests unit_tests/ClienteleTest.cpp)
 target_link_libraries(ClienteleTests gtest gtest_main)
+
+# Create the TransactionTest executable and link it with Google Test
+add_executable(TransactionTest unit_tests/TransactionTest.cpp)
+target_link_libraries(TransactionTest gtest gtest_main)

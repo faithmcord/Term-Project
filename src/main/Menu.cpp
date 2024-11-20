@@ -18,10 +18,10 @@
 #include "Transaction.h"
 
 // CMAKE
-#include "include/Clientele.h"
-#include "include/Inventory.h"
-#include "include/Utilities.h"
-#include "include/Transaction.h"
+// #include "include/Clientele.h"
+// #include "include/Inventory.h"
+// #include "include/Utilities.h"
+// #include "include/Transaction.h"
 
 #include <iostream>
 #include <limits>
@@ -258,19 +258,6 @@ void viewCustomer(Clientele &clientele) {
     clientele.displayOne(customerId);
 }
 
-void configureRewards() {
-    std::cout << "\n--- Configure Rewards ---";
-    std::cout << "Current Conversion Rate: " << Transaction::conversionToString << '\n';
-    double dollarsIn;
-    int pointsOut;
-    do {
-        std::cout << "Number of dollars go into the conversion: ";
-        std::cin >> dollarsIn;
-        std::cout << "Number of points to come out of the conversion ";
-        std::cin >> pointsOut;
-    } while (!Transaction::setRewardsConversion(dollarsIn,pointsOut));
-}
-
 void redeemRewards(Clientele &clientele, Rewards &rewards) {
     std::cout << "\n--- Redeem Rewards ---\n";
 
@@ -299,6 +286,20 @@ void redeemRewards(Clientele &clientele, Rewards &rewards) {
 
     // Step 4: Return to menu
     std::cout << "Returning to main menu...\n";
+}
+
+void configureRewards() {
+    std::cout << "\n--- Configure Rewards ---\n";
+    std::string conversionRate = Transaction::conversionToString();
+    std::cout << "Current Conversion Rate: " << conversionRate << '\n';
+    double dollarsIn;
+    int pointsOut;
+    do {
+        std::cout << "Number of dollars go into the conversion: ";
+        std::cin >> dollarsIn;
+        std::cout << "Number of points to come out of the conversion ";
+        std::cin >> pointsOut;
+    } while (!Transaction::setRewardsConversion(dollarsIn,pointsOut));
 }
 
 void addReward (Rewards &rewards) {
@@ -344,7 +345,7 @@ void removeReward(Rewards& rewards) {
     std::cin >> rewardID;
     const int success = rewards.remove(rewardID);
     if (success) {
-        std::cout << "Reward removed successfully";
+        std::cout << "Reward removed successfully\n";
     }
     else {
         std::cout << "Could not find product\n";
@@ -361,7 +362,7 @@ void rewardsSubMenu(Rewards &rewards) {
         std::cout << "=========================================\n";
         std::cout << "Enter your choice (1-8): ";
 
-        std::string input;
+        int input;
         std::cin >> input;
         switch (input) {
             case 1:

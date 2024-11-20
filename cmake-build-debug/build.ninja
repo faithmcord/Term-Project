@@ -208,6 +208,39 @@ build google_tests/ClienteleTests: CXX_EXECUTABLE_LINKER__ClienteleTests_Debug g
   TARGET_FILE = google_tests/ClienteleTests
   TARGET_PDB = ClienteleTests.dbg
 
+# =============================================================================
+# Object build statements for EXECUTABLE target TransactionTest
+
+
+#############################################
+# Order-only phony target for TransactionTest
+
+build cmake_object_order_depends_target_TransactionTest: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main
+
+build google_tests/CMakeFiles/TransactionTest.dir/unit_tests/TransactionTest.cpp.o: CXX_COMPILER__TransactionTest_unscanned_Debug /Users/cinnamon/Documents/Class/CSC455-Quality/Term-Project/google_tests/unit_tests/TransactionTest.cpp || cmake_object_order_depends_target_TransactionTest
+  DEP_FILE = google_tests/CMakeFiles/TransactionTest.dir/unit_tests/TransactionTest.cpp.o.d
+  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/cinnamon/Documents/Class/CSC455-Quality/Term-Project/. -isystem /Users/cinnamon/Documents/Class/CSC455-Quality/Term-Project/google_tests/lib/googletest/include -isystem /Users/cinnamon/Documents/Class/CSC455-Quality/Term-Project/google_tests/lib/googletest
+  OBJECT_DIR = google_tests/CMakeFiles/TransactionTest.dir
+  OBJECT_FILE_DIR = google_tests/CMakeFiles/TransactionTest.dir/unit_tests
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target TransactionTest
+
+
+#############################################
+# Link the executable google_tests/TransactionTest
+
+build google_tests/TransactionTest: CXX_EXECUTABLE_LINKER__TransactionTest_Debug google_tests/CMakeFiles/TransactionTest.dir/unit_tests/TransactionTest.cpp.o | lib/libgtest.a lib/libgtest_main.a lib/libgtest.a || lib/libgtest.a lib/libgtest_main.a
+  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk
+  LINK_LIBRARIES = lib/libgtest.a  lib/libgtest_main.a  lib/libgtest.a
+  OBJECT_DIR = google_tests/CMakeFiles/TransactionTest.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = google_tests/TransactionTest
+  TARGET_PDB = TransactionTest.dbg
+
 
 #############################################
 # Utility command for edit_cache
@@ -622,6 +655,8 @@ build ClienteleTests: phony google_tests/ClienteleTests
 
 build InventoryTests: phony google_tests/InventoryTests
 
+build TransactionTest: phony google_tests/TransactionTest
+
 build gmock: phony lib/libgmock.a
 
 build gmock_main: phony lib/libgmock_main.a
@@ -653,7 +688,7 @@ build all: phony Term_Project google_tests/all
 #############################################
 # Folder: /Users/cinnamon/Documents/Class/CSC455-Quality/Term-Project/cmake-build-debug/google_tests
 
-build google_tests/all: phony google_tests/InventoryTests google_tests/ClienteleTests google_tests/lib/all
+build google_tests/all: phony google_tests/InventoryTests google_tests/ClienteleTests google_tests/TransactionTest google_tests/lib/all
 
 # =============================================================================
 
