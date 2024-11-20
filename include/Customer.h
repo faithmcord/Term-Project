@@ -185,6 +185,8 @@ void Customer::addRewardPoints(int points) {
     if (points > 0)
     {
         rewardPoints += points;
+    } else {
+        /* Do nothing */
     }
 }
 

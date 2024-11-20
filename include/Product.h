@@ -145,6 +145,8 @@ void Product::addStock(int quantity) {
     if (isValidQuantity(quantity))
     {
         this->quantity += quantity;
+    } else {
+        /* Do nothing */
     }
 }
 
@@ -152,6 +154,8 @@ void Product::removeStock(int quantity) {
     if (quantity > 0 && this->quantity >= quantity)
     {
         this->quantity -= quantity;
+    } else {
+        /* Do nothing */
     }
 }
 

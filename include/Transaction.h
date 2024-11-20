@@ -266,6 +266,8 @@ int Transaction::makeTransaction( Clientele& clientele, Inventory& inventory, co
     if (!clientele.doesExist(custID)) {
         std::cout << "Client does not exist.\n";
         return -1;
+    } else {
+        /* Do nothing */
     }
 
     // Display all available products using the Database's displayAll function
@@ -284,12 +286,16 @@ int Transaction::makeTransaction( Clientele& clientele, Inventory& inventory, co
     if (quantity <= 0) {
         std::cout << "Invalid quantity.\n";
         return -1;
+    }else {
+        /* Do nothing */
     }
 
     // Check if there is enough stock for the requested quantity
     if (!inventory.isEnoughInInventory(productID, quantity)) {
         std::cout << "Insufficient stock for product ID " << productID << ".\n";
         return -1;
+    } else {
+        /* Do nothing */
     }
 
     // Update Stock
@@ -314,6 +320,8 @@ int Transaction::redeemRewards( Clientele& clientele,  Rewards& rewards, const s
     if (!clientele.doesExist(custID)) {
         std::cout << "Client does not exist.\n";
         return -1;
+    } else {
+        /* Do nothing */
     }
 
     // Display all available products using the Database's displayAll function
@@ -329,6 +337,8 @@ int Transaction::redeemRewards( Clientele& clientele,  Rewards& rewards, const s
     if (!rewards.doesExist(rewardID)) {
         std::cout << "Reward selection does not exist.\n";
         return -1;
+    } else {
+        /* Do nothing */
     }
 
     // Retrieve the product's cost in rewards points
@@ -336,6 +346,8 @@ int Transaction::redeemRewards( Clientele& clientele,  Rewards& rewards, const s
     if (rewardValue <= 0) {
         std::cout << "Failed to retrieve product cost.\n";
         return -1;
+    } else {
+        /* Do nothing */
     }
 
     // Get the customer's current rewards points
@@ -343,12 +355,16 @@ int Transaction::redeemRewards( Clientele& clientele,  Rewards& rewards, const s
     if (customerRewards < 0) {
         std::cout << "Failed to retrieve customer rewards points.\n";
         return -1;
+    } else {
+        /* Do nothing */
     }
 
     // Check if the customer has enough rewards points
     if (customerRewards < rewardValue) {
         std::cout << "You do not have enough rewards points to redeem this product.\n";
         return -1;
+    } else {
+        /* Do nothing */
     }
 
     // Deduct rewards points
@@ -356,6 +372,8 @@ int Transaction::redeemRewards( Clientele& clientele,  Rewards& rewards, const s
     if (clientele.updateCustomerRewards(custID, amount) != 0) {
         std::cout << "Failed to update customer rewards points.\n";
         return -1;
+    } else {
+        /* Do nothing */
     }
 
     // Save Transaction to txt file NEEDS to be in less than 3 lines to stay in requirements
