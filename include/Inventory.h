@@ -248,7 +248,7 @@ inline void Inventory::load() {
 
         // Catch if file has been corrupted
         try {
-            this->createProduct(nameString, stod(priceString), stoi(quantityString));
+            this->createProduct(nameString, std::stod(priceString), std::stoi(quantityString));
         } catch (std::invalid_argument &invalid_argument) {
             // One or more of the attribute does not fit into input range
             continue;

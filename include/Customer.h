@@ -105,13 +105,20 @@ public:
     }
     std::string toString() const {
         std::string customer =
-        "Customer ID: " + userID + "/n" +
-        "Username: " + username + "/n" +
-        "Name: " + firstName + " " + lastName + "/n" +
-        "Age: " + std::to_string(age) + "/n" +
-        "Credit Card Number: " + creditCard + "/n" +
+        "Customer ID: " + userID + "\n" +
+        "Username: " + username + "\n" +
+        "Name: " + firstName + " " + lastName + "\n" +
+        "Age: " + std::to_string(age) + "\n" +
+        "Credit Card Number: " + creditCard + "\n" +
         "Reward Points: " + std::to_string(rewardPoints);
         return customer;
+    }
+
+    // Setters
+    static void clear() {
+        usernames.clear();
+        creditCards.clear();
+        userCount = 0;
     }
 };
 

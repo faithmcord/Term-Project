@@ -38,7 +38,7 @@ public:
      *
      * @param loadFile file that previous state of object was captured in
      */
-    using Database::Database;
+    explicit Clientele(const std::string &loadFile);
 
     /**
      * @brief Creates a new customer and stores it into the dictionary
@@ -88,6 +88,8 @@ public:
     int updateCustomerRewards(const std::string &custID, int amount);
 
     std::string findUser(const std::string &username);
+
+    void clear() override;
 
     void save() override;
 
@@ -145,10 +147,23 @@ inline std::string Clientele::findUser(const std::string &username) {
     return "";
 }
 
+inline Clientele::Clientele(const std::string &loadFile): Database<Customer>(loadFile) {
+    savePath = loadFile;
+}
+
+inline void Clientele::clear() {
+    Customer::clear();
+    container.clear();
+}
+
 
 inline void Clientele::save() {
     std::fstream saveFile;
     saveFile.open(savePath, std::ios::out);
+    if (!saveFile.is_open()) {
+        const std::string message = "Failed to open save file: " + savePath;
+        throw std::runtime_error(message);
+    }
     int indexNumber = 0;
     auto indexPointer = container.begin();
     const auto end = container.end();
@@ -198,11 +213,11 @@ inline void Clientele::load() {
         userNameString.erase(0, 10);
         fullNameString.erase(0, 6);
         unsigned long split = fullNameString.find(' ');
-        firstNameString = fullNameString.substr(0, split - 1);
+        firstNameString = fullNameString.substr(0, split);
         lastNameString = fullNameString.substr(split + 1, std::string::npos);
         ageString.erase(0, 5);
         creditCardNumberString.erase(0, 20);
-        rewardPointsString.erase(0, 0);
+        rewardPointsString.erase(0, 15);
 
 
         try {

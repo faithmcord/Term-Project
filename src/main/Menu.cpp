@@ -12,16 +12,16 @@
 ***********************/
 
 // MAKE
-// #include "Clientele.h"
-// #include "Inventory.h"
-// #include "Utilities.h"
-// #include "Transaction.h"
+#include "Clientele.h"
+#include "Inventory.h"
+#include "Utilities.h"
+#include "Transaction.h"
 
 // CMAKE
-#include "include/Clientele.h"
-#include "include/Inventory.h"
-#include "include/Utilities.h"
-#include "include/Transaction.h"
+// #include "include/Clientele.h"
+// #include "include/Inventory.h"
+// #include "include/Utilities.h"
+// #include "include/Transaction.h"
 
 #include <iostream>
 #include <limits>

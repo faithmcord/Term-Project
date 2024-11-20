@@ -218,17 +218,25 @@ inline bool Transaction::loadConfig(const std::string &configPath) {
         /* Do nothing */
     }
 
-    std::ifstream file;
-    file.open(configPath);
-    std::string buffer;
-    std::getline(file, buffer);
-    dollarsIn = std::stod(buffer);
-    std::getline(file, buffer);
-    pointsOut = std::stoi(buffer);
-    std::getline(file, buffer);
-    transactionCount = std::stoi(buffer);
-    file.close();
-    return validateConversionRate();
+    try {
+        std::ifstream file;
+        file.open(configPath);
+        std::string buffer;
+        std::getline(file, buffer);
+        dollarsIn = std::stod(buffer);
+        std::getline(file, buffer);
+        pointsOut = std::stoi(buffer);
+        std::getline(file, buffer);
+        transactionCount = std::stoi(buffer);
+        file.close();
+        return validateConversionRate();
+    } catch (std::invalid_argument &invalid_argument) {
+        validateConversionRate();
+        return false;
+    } catch (std::out_of_range &out_of_range) {
+        validateConversionRate();
+        return false;
+    }
 }
 
 inline void Transaction::saveConfig(const std::string &configPath) {
