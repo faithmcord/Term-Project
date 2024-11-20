@@ -52,7 +52,7 @@ void displayMenu() {
     std::cout << "8. Configure Rewards\n";
     std::cout << "9. Exit\n";
     std::cout << "=========================================\n";
-    std::cout << "Enter your choice (1-8): ";
+    std::cout << "Enter your choice (1-9): ";
 }
 
 void handleMenuChoice(int choice, Clientele &clientele, Inventory &inventory, Rewards &rewards) {
@@ -344,7 +344,7 @@ void removeReward(Rewards& rewards) {
     std::cout << "Enter Reward ID to remove: ";
     std::cin >> rewardID;
     const int success = rewards.remove(rewardID);
-    if (success) {
+    if (success == 0) {
         std::cout << "Reward removed successfully\n";
     }
     else {
@@ -353,14 +353,14 @@ void removeReward(Rewards& rewards) {
 }
 
 void rewardsSubMenu(Rewards &rewards) {
-    do {
+    // do {
         std::cout << "\n============= Rewards Config ============\n";
         std::cout << "1. Change Reward Conversion Rate\n";
         std::cout << "2. Add Reward\n";
         std::cout << "3. Remove Reward\n";
         std::cout << "4. Return to Main Menu\n";
         std::cout << "=========================================\n";
-        std::cout << "Enter your choice (1-8): ";
+        std::cout << "Enter your choice (1-4): ";
 
         int input;
         std::cin >> input;
@@ -379,8 +379,8 @@ void rewardsSubMenu(Rewards &rewards) {
             default:
                 std::cout << "\nInvalid choice. Please try again.\n";
             break;
-    }
-    } while (true);
+        }
+    // } while (true);
 }
 
 int main() {
@@ -409,7 +409,7 @@ int main() {
         }
 
         handleMenuChoice(choice, clientele, inventory, rewards);
-    } while (choice != 8);
+    } while (choice != 9);
 
     // save state for next use
     inventory.save();
