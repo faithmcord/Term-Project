@@ -286,7 +286,7 @@ void redeemRewards(Clientele &clientele, Rewards &rewards) {
 
     // Step 3: Call redeemRewards to handle the reward redemption logic
     int result = Transaction::redeemRewards(clientele, rewards, customerID);
-
+    // Transaction::redeemRewards()
     if (result == 0) {
         std::cout << "Reward redemption successful!\n";
     } else {
